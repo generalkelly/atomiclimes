@@ -1,11 +1,37 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>de.smartmeter</groupId>
-  <artifactId>parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>smartmeter-parent</name>
-  <modules>
-  	<module>logic</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.smartmeter</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>smartmeter-parent</name>
+	<modules>
+		<module>logic</module>
+		<module>agent</module>
+	</modules>
+
+	<properties>
+		<spring.boot.version>2.0.6.RELEASE</spring.boot.version>
+		<apache.plc4j.version>0.1.0</apache.plc4j.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.plc4x</groupId>
+				<artifactId>plc4j-protocol-s7</artifactId>
+				<version>${apache.plc4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
 </project>
