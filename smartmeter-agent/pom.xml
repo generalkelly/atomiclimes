@@ -5,6 +5,5 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>agent</artifactId>
-  <name>smartmeter-agent</name>
+  <artifactId>smartmeter-agent</artifactId>
 </project>

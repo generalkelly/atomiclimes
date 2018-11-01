@@ -8,8 +8,8 @@
 	<packaging>pom</packaging>
 	<name>smartmeter-parent</name>
 	<modules>
-		<module>logic</module>
-		<module>agent</module>
+		<module>smartmeter-logic</module>
+		<module>smartmeter-agent</module>
 		<module>smartmeter-gui</module>
 	</modules>
 
