@@ -1,2 +1,4 @@
-/.project
-/.directory
+/**/.classpath
+/**/.project
+/**/.directory
+/**/target

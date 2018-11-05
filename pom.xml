@@ -11,6 +11,7 @@
 		<module>smartmeter-logic</module>
 		<module>smartmeter-agent</module>
 		<module>smartmeter-gui</module>
+		<module>smartmeter-kafka-image</module>
 	</modules>
 
 	<properties>
