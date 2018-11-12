@@ -12,12 +12,38 @@
 		<module>smartmeter-agent</module>
 		<module>smartmeter-gui</module>
 		<module>smartmeter-kafka-image</module>
+		<module>smartmeter-common-parent</module>
 	</modules>
 
 	<properties>
-		<spring.boot.version>2.0.6.RELEASE</spring.boot.version>
-		<apache.plc4j.version>0.1.0</apache.plc4j.version>
+		<spring.boot.version>2.0.1.RELEASE</spring.boot.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<url>https://nexus.mpohland.de/repository/maven-public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus</id>
+			<url>https://nexus.mpohland.de/repository/maven-public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<dependencyManagement>
 		<dependencies>
@@ -26,13 +52,6 @@
 				<artifactId>spring-boot-starter</artifactId>
 				<version>${spring.boot.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.apache.plc4x</groupId>
-				<artifactId>plc4j-protocol-s7</artifactId>
-				<version>${apache.plc4j.version}</version>
-				<scope>runtime</scope>
-			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 
