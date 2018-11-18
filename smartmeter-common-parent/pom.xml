@@ -14,11 +14,13 @@
 		<module>smartmeter-batch</module>
 		<module>smartmeter-common-kafka-connector</module>
 	</modules>
+
 	<properties>
 		<moquette.version>0.12</moquette.version>
 		<kafka.version>2.0.0</kafka.version>
-		<apache.plc4j.version>0.1.0</apache.plc4j.version>
+		<apache.plc4j.version>0.2.0-SNAPSHOT</apache.plc4j.version>
 	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -35,7 +37,7 @@
 				<groupId>org.apache.plc4x</groupId>
 				<artifactId>plc4j-protocol-s7</artifactId>
 				<version>${apache.plc4j.version}</version>
-				<scope>runtime</scope>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
