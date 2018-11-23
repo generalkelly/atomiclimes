@@ -13,6 +13,8 @@
 	<modules>
 		<module>smartmeter-batch</module>
 		<module>smartmeter-common-kafka-connector</module>
+		<module>smartmeter-validation</module>
+		<module>smartmeter-common-dao</module>
 	</modules>
 
 	<properties>
@@ -23,6 +25,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>${spring.boot.version}</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>io.moquette</groupId>
 				<artifactId>moquette-broker</artifactId>
