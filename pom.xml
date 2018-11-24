@@ -10,9 +10,10 @@
 	<modules>
 		<module>smartmeter-logic</module>
 		<module>smartmeter-agent</module>
-		<module>smartmeter-gui</module>
+		
 		<module>smartmeter-kafka-image</module>
 		<module>smartmeter-common-parent</module>
+		<module>smarmeter-web-parent</module>
 	</modules>
 
 	<properties>

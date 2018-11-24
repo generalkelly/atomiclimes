@@ -5,5 +5,11 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>smartmeter-gui</artifactId>
+  <artifactId>smarmeter-web-parent</artifactId>
+  <name>smartmeter-web-parent</name>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>smartmeter-web-gui</module>
+  	<module>smartmeter-web-productplanning-starter</module>
+  </modules>
 </project>
