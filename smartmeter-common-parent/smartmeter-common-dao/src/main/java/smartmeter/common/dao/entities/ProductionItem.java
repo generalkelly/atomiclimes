@@ -1,5 +1,6 @@
 package smartmeter.common.dao.entities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,11 +27,12 @@ public class ProductionItem {
 
 	@Column(name = "type")
 	private String name;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Production_Item_Constraints", joinColumns = { @JoinColumn(name = "productionItemId") }, inverseJoinColumns = {
-			@JoinColumn(name = "productionConstraintId") })
-	private List<ProductionConstraint> constraints;
+	@JoinTable(name = "Production_Item_Constraints", joinColumns = {
+			@JoinColumn(name = "productionItemId") }, inverseJoinColumns = {
+					@JoinColumn(name = "productionConstraintId") })
+	private List<ProductionConstraint> constraints = new LinkedList<>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productionItem")
 	private List<PlannedProduction> plannedProductions;
@@ -67,5 +69,4 @@ public class ProductionItem {
 		this.name = name;
 	}
 
-	
 }
