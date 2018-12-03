@@ -1,15 +1,49 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>de.smartmeter</groupId>
-    <artifactId>parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>smarmeter-web-parent</artifactId>
-  <name>smartmeter-web-parent</name>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>smartmeter-web-gui</module>
-  	<module>smartmeter-web-productplanning-starter</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.smartmeter</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>smarmeter-web-parent</artifactId>
+	<name>smartmeter-web-parent</name>
+	<packaging>pom</packaging>
+	<modules>
+		<module>smartmeter-web-gui</module>
+		<module>smartmeter-web-productplanning-starter</module>
+	</modules>
+
+	<properties>
+		<org.thymeleaf.version>3.0.11.RELEASE</org.thymeleaf.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>${spring.boot.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- Thymeleaf -->
+			<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
+			<dependency>
+				<groupId>org.thymeleaf</groupId>
+				<artifactId>thymeleaf</artifactId>
+				<version>${org.thymeleaf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.thymeleaf</groupId>
+				<artifactId>thymeleaf-spring5</artifactId>
+				<version>${org.thymeleaf.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

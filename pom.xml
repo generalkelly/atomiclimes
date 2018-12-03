@@ -10,7 +10,7 @@
 	<modules>
 		<module>smartmeter-logic</module>
 		<module>smartmeter-agent</module>
-		
+
 		<module>smartmeter-kafka-image</module>
 		<module>smartmeter-common-parent</module>
 		<module>smarmeter-web-parent</module>
@@ -54,6 +54,22 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter</artifactId>
 				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-autoconfigure</artifactId>
+				<version>${spring.boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-configuration-processor</artifactId>
+				<version>${spring.boot.version}</version>
+				<optional>true</optional>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

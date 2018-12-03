@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<header th:insert="fragments/general.html :: header"> </header>
+	<div>
+		<div th:each="plannedProduction : ${plannedProductions}">
+			<div th:text="${plannedProduction.productionItem.name}"></div>
+			<div th:text="${plannedProduction.plannedProductionTime}" />
+			<div
+				th:each="constraint : ${plannedProduction.productionItem.constraints}">
+				<div th:text="${constraint.name}"></div>
+			</div>
+			<form th:action="@{plannedProduction/deleteItem}" method="post"
+				th:object="${plannedProduction}">
+				<input type="hidden" th:name="id" th:value="*{id}" />
+				<button type="submit" value="Submit" class="btn btn-danger">Delete</button>
+			</form>
+		</div>
+		<div th:replace="fragments/general.html :: footer"></div>
+</body>
+</html>
