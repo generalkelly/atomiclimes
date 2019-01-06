@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import smartmeter.common.dao.repositories.PlannedProductionRepository;
+import smartmeter.common.dao.repositories.ProductionItemRepository;
 import smartmeter.web.productplanning.controller.ProductPlanningRestController;
 
 @Configuration
@@ -17,16 +18,20 @@ public class ProductPlanningAutoConfiguration {
 
 	private ProductPlanningProperties properties;
 	private PlannedProductionRepository plannedProductionRepository;
+	private ProductionItemRepository productionItemRepository;
 
 	public ProductPlanningAutoConfiguration(ProductPlanningProperties properties,
-			PlannedProductionRepository plannedProductionRepository) {
+			PlannedProductionRepository plannedProductionRepository, ProductionItemRepository productionItemRepository) {
 		this.properties = properties;
 		this.plannedProductionRepository = plannedProductionRepository;
+		this.productionItemRepository = productionItemRepository;
+		
 	}
 
 	@Bean
 	ProductPlanningRestController controller() {
-		return new ProductPlanningRestController(this.properties, this.plannedProductionRepository);
+		return new ProductPlanningRestController(this.properties, this.plannedProductionRepository,
+				this.productionItemRepository);
 	}
 
 }

@@ -1,0 +1,105 @@
+.calendarHeader {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #3ad8ab;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	z-index: 1;
+	width: 100%;
+	height: 80px;
+	font-size: x-large;
+	margin-bottom: 25px;
+}
+
+.day {
+	display: inline-flex;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+	background-color: white;
+	width: 70px;
+	height:70px;
+	font-size: large;
+	justify-content: center;
+	align-items: center;
+	z-index: 2;
+}
+
+.lastMonth {
+	color: #a5a5a5;
+}
+
+.nextMonth {
+	color: #a5a5a5;
+}
+
+.calendarHeader .backwards {
+	color: #a5a5a5;
+	float: left;
+}
+
+.calendarHeader .forward {
+	color: #a5a5a5;
+	float: right;
+}
+
+.calendarHeader .monthAndYear {
+	margin: auto;
+	width: 200px;
+	text-align: center;
+	color: #0b2f24cc;
+}
+
+.month {
+	height: 490px;
+}
+
+.free {
+	display: inline-flex;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+	background-color: #d3d3d366;
+	width: 70px;
+	height:70px;
+	font-size: large;
+	justify-content: center;
+	align-items: center;
+	z-index: 2;
+}
+
+.week {
+	z-index: 2;
+}
+
+.daysOfWeek {
+	text-align: center;
+	background-color: white;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.weekDay {
+	display: inline-flex;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+	background-color: white;
+	width: 70px;
+	height: 30px;
+	font-size: large;
+	justify-content: center;
+	align-items: center;
+	z-index: 2;
+}
+
+.dateChooser {
+	display: inline-block;
+	position: inherit;
+	left: 50%;
+	transform: translate(-50%, 0);
+	background-color: #ffffffff;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	z-index: 2;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+

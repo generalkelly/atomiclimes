@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html :: headerfiles" />
+<body>
+	<header th:insert="fragments/general.html :: header"> </header>
+
+	<div>
+		<form th:action="@{/plannedProduction/addItem}" method="post"
+			th:object="${plannedProduction}">
+			<select th:field="*{productionItem.name}">
+				<option th:each="productionItem: ${productionItems}"
+					th:value="${productionItem.name}" th:text="${productionItem.name}"></option>
+			</select>
+			<p>
+				Planned Production <input type="datetime" id="datepicker"
+					th:field="*{plannedProductionTime}" />
+			</p>
+
+			<button type="submit" value="Submit" class="btn btn-danger">Add</button>
+		</form>
+	</div>
+
+	<div th:replace="fragments/general.html :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+body {
+	margin: 0;
+	background-color: #475366;
+}
+
+header {
+	background-color: #3053a5;
+	height: 100pt;
+	margin: 0;
+	border: none;
+	line-height: 0pt;
+}
+
+aside {
+	background-color: white;
+	width: 150pt;
+	height: 100%;
+}
+
+button {
+	border-color: red;
+	border-radius: 5pt 5pt 5pt 5pt;
+}
+
+.productionItems {
+	background-color: white;
+	margin-left: 100pt;
+	margin-right: 100pt;
+	margin-top: 100pt;
+	margin-bottom: 30pt;
+	border-radius: 25px 25px 25px 25px;
+	overflow: hidden;
+}
+

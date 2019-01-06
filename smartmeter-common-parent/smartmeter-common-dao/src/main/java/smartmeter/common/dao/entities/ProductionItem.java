@@ -20,11 +20,12 @@ import javax.persistence.Table;
 @Table(name = "Production_Items")
 public class ProductionItem {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "id")
+//	private Long id;
 
+	@Id
 	@Column(name = "type")
 	private String name;
 
@@ -37,13 +38,13 @@ public class ProductionItem {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productionItem")
 	private List<PlannedProduction> plannedProductions;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	public List<ProductionConstraint> getConstraints() {
 		return constraints;

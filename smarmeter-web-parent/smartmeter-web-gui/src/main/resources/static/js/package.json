@@ -1,0 +1,16 @@
+{
+  "name": "datetimeselector",
+  "version": "1.0.0",
+  "description": "a simple selector for date and time in iso 8601",
+  "main": "index.js",
+  "dependencies": {
+    "jquery-datetimepicker": "^2.5.20",
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mirko Pohland",
+  "license": "ISC"
+}

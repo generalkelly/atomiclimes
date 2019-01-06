@@ -2,6 +2,7 @@ package smartmeter.common.dao.entities;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "Planned_Productions")
@@ -37,6 +40,7 @@ public class PlannedProduction {
 	@Column(name = "updateTimestamp")
 	private OffsetDateTime updateTimestamp;
 
+	@DateTimeFormat(iso = ISO.DATE_TIME)
 	@Column(name = "scheduledProductionTime")
 	private OffsetDateTime plannedProductionTime;
 

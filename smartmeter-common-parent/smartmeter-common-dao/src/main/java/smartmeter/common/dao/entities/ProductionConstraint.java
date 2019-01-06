@@ -16,11 +16,12 @@ import javax.persistence.Table;
 @Table(name = "Production_Contraints")
 public class ProductionConstraint {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "id")
+//	private Long id;
 
+	@Id
 	@Column(name = "processName")
 	private String name;
 
@@ -30,13 +31,13 @@ public class ProductionConstraint {
 	@ManyToMany(mappedBy = "constraints")
 	private List<ProductionItem> productionItems = new LinkedList<>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	public String getName() {
 		return name;
