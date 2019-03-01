@@ -1,24 +1,72 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/general.html :: headerfiles" />
+<head th:replace="fragments/general.html :: headerfiles">
+<link rel="stylesheet" th:href="@{/css/main.css}" />
+<link rel="stylesheet"
+	th:href="@{/js/smartMeterProductionPlanning/dist/time.css}" />
+</head>
 <body>
 	<header th:insert="fragments/general.html :: header"> </header>
 
-	<div>
-		<form th:action="@{/plannedProduction/addItem}" method="post"
-			th:object="${plannedProduction}">
-			<select th:field="*{productionItem.name}">
-				<option th:each="productionItem: ${productionItems}"
-					th:value="${productionItem.name}" th:text="${productionItem.name}"></option>
-			</select>
-			<p>
-				Planned Production <input type="datetime" id="datepicker"
-					th:field="*{plannedProductionTime}" />
-			</p>
+	<!-- 	<div> -->
+	<!-- 		<form th:action="@{/plannedProduction/addItem}" method="post" -->
+	<!-- 			th:object="${plannedProduction}"> -->
+	<!-- 			<select th:field="*{productionItem.name}"> -->
+	<!-- 				<option th:each="productionItem: ${productionItems}" -->
+	<!-- 					th:value="${productionItem.name}" th:text="${productionItem.name}"></option> -->
+	<!-- 			</select> -->
+	<!-- 			<p> -->
+	<!-- 				Planned Production <input type="datetime" id="datepicker" -->
+	<!-- 					th:field="*{plannedProductionTime}" /> -->
+	<!-- 			</p> -->
 
-			<button type="submit" value="Submit" class="btn btn-danger">Add</button>
-		</form>
+	<!-- 			<button type="submit" value="Submit" class="btn btn-danger">Add</button> -->
+	<!-- 		</form> -->
+	<!-- 	</div> -->
+
+
+	<div class="productionTimeSettings">
+
+		<div class="plannedProduction">
+			<div th:each="productionItem: ${productionItems}"
+				th:value="${productionItem.name}" th:text="${productionItem.name}"></div>
+		</div>
+		<div class="plannedProduction">
+			<div class="dateChooser"></div>
+		</div>
+		<div class="plannedProduction">
+			<div class="timeChooser">
+				<div class="timer">
+					<div class="button" id="hour_up">
+						<i class="up"></i>
+					</div>
+					<p>
+						<input type="text" id="hours" value="hh">
+					</p>
+					<div class="button" id="hour_down">
+						<i class="down"></i>
+					</div>
+				</div>
+				<div class="timer">
+					<div class="button" id="minute_up">
+						<i class="up"></i>
+					</div>
+					<p>
+						<input type="text" id="minutes" value="mm">
+					</p>
+					<div class="button" id="minute_down">
+						<i class="down"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="plannedProduction">
+			<div class="submitButton"></div>
+		</div>
 	</div>
+
+	<script type="text/javascript"
+		th:src="@{/js/smartMeterProductionPlanning/dist/time.js}"></script>
 
 	<div th:replace="fragments/general.html :: footer"></div>
 </body>

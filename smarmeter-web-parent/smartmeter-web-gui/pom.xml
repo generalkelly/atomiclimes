@@ -16,6 +16,10 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>de.smartmeter</groupId>
 			<artifactId>smartmeter-web-productplanning-starter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -39,6 +43,16 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -72,7 +86,7 @@
 								<argument>run</argument>
 								<argument>build</argument>
 							</arguments>
-							<workingDirectory>${basedir}/src/javascript</workingDirectory>
+							<workingDirectory>${basedir}/src/main/resources/static/js/smartMeterProductionPlanning</workingDirectory>
 						</configuration>
 					</execution>
 				</executions>

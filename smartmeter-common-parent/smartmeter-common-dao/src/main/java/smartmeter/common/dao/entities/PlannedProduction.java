@@ -2,7 +2,6 @@ package smartmeter.common.dao.entities;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +17,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import smartmeter.common.helper.serializer.DurationSerializer;
 
 @Entity
 @Table(name = "Planned_Productions")
@@ -91,6 +94,7 @@ public class PlannedProduction {
 		return estimatedProductionDuration;
 	}
 
+	@JsonDeserialize(using = DurationSerializer.class)
 	public void setEstimatedProductionDuration(Duration estimatedProductionDuration) {
 		this.estimatedProductionDuration = estimatedProductionDuration;
 	}

@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -48,8 +47,10 @@ public class ProductPlanningRestController {
 	}
 
 	@RequestMapping(value = "/plannedProduction/addItem", method = RequestMethod.POST)
-	public String addItem(@ModelAttribute("plannedProduction") PlannedProduction plannedProduction,
-			@ModelAttribute("productionItem") ProductionItem productionItem) {
+	public String addItem(@RequestBody PlannedProduction plannedProduction)
+//	,
+//			@ModelAttribute("productionItem") ProductionItem productionItem)
+{
 		plannedProductionRepository.saveAndFlush(plannedProduction);
 		return "redirect:/plannedProduction";
 	}

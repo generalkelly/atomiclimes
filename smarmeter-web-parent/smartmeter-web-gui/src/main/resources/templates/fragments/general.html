@@ -3,36 +3,19 @@
 <head th:fragment="headerfiles">
 <meta charset="UTF-8" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
-<!-- <link rel="stylesheet" -->
-<!-- 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
-<!-- <script type="text/javascript" -->
-<!-- 	th:src="@{/js/jquery-ui-1.12.1.custom/external/jquery/jquery.js}"></script> -->
-<!-- <script type="text/javascript" -->
-<!-- 	th:src="@{/js/jquery-ui-1.12.1.custom/jquery-ui.js}"></script> -->
 <link rel="stylesheet" type="text/css"
-	th:href="@{/js/node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css}">
-<script type="text/javascript"
-	th:src="@{/js/node_modules/jquery/dist/jquery.js}"></script>
-<script type="text/javascript"
-	th:src="@{/js/node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.js}"></script>
-<script type="text/javascript">
-	// 	$(function() {
-	// 		$("#datepicker").datepicker({
-	// 			dateFormat : "dd.mm.yy"
-	// 		});
-	// 	});
-	$(function() {
-		$('#datepicker').datetimepicker({
-			timepicker : true,
-// 			format : 'Y-m-d\\TH:i:s',
-			format : 'Y-m-d\\TH:m:s',
-			timeOffset : ''
-			onChangeDateTime : function(dp, $input) {
-				alert($input.val())
-			}
-		});
-	});
-</script>
+	th:href="@{/js/smartMeterProductionPlanning/dist/time.css}" />
+
+
+
+<!-- <link rel="stylesheet" type="text/css" -->
+<!-- 	th:href="@{/js/node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css}"> -->
+<!-- <script type="text/javascript" -->
+<!-- 	th:src="@{/js/node_modules/jquery/dist/jquery.js}"></script> -->
+<!-- <script type="text/javascript" -->
+<!-- 	th:src="@{/js/node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.js}"></script> -->
+
+
 </head>
 <body>
 	<div th:fragment="header">

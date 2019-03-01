@@ -1,6 +1,5 @@
 package smartmeter.common.dao.entities;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,38 +20,29 @@ import javax.persistence.Table;
 @Table(name = "Production_Items")
 public class ProductionItem {
 
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "id")
-//	private Long id;
-
 	@Id
-	@Column(name = "type")
-	private String name;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "productName", referencedColumnName = "productName")
+	private Product product;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Production_Item_Constraints", joinColumns = {
-			@JoinColumn(name = "productionItemId") }, inverseJoinColumns = {
-					@JoinColumn(name = "productionConstraintId") })
-	private List<ProductionConstraint> constraints = new LinkedList<>();
+	@JoinTable(name = "Production_Item_Packaging", joinColumns = {
+			@JoinColumn(name = "productionItemId") }, inverseJoinColumns = { @JoinColumn(name = "packagingId") })
+	private List<Packaging> packaging;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productionItem")
 	private List<PlannedProduction> plannedProductions;
 
-//	public Long getId() {
-//		return id;
-//	}
-//
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
-
-	public List<ProductionConstraint> getConstraints() {
-		return constraints;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setConstraints(List<ProductionConstraint> constraints) {
-		this.constraints = constraints;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public List<PlannedProduction> getPlannedProductions() {
@@ -60,14 +51,6 @@ public class ProductionItem {
 
 	public void setPlannedProductions(List<PlannedProduction> plannedProductions) {
 		this.plannedProductions = plannedProductions;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 }
