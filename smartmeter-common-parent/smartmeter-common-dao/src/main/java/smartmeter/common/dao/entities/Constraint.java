@@ -4,16 +4,11 @@ import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "Contraints")
@@ -30,7 +25,7 @@ public class Constraint {
 	private Duration processDuration;
 
 	@ManyToMany(mappedBy = "constraints")
-	private List<Product> products = new LinkedList<>();
+	private List<PlannedProduction> plannedProductions = new LinkedList<>();
 
 //	public Long getId() {
 //		return id;
@@ -56,12 +51,12 @@ public class Constraint {
 		this.processDuration = processDuration;
 	}
 
-	public List<Product> getProducts() {
-		return products;
+	public List<PlannedProduction> getPlannedProductions() {
+		return plannedProductions;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setPlannedProductions(List<PlannedProduction> plannedProductions) {
+		this.plannedProductions = plannedProductions;
 	}
 
 }

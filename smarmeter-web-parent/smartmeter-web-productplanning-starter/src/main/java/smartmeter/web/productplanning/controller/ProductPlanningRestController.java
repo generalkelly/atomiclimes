@@ -51,6 +51,7 @@ public class ProductPlanningRestController {
 //	,
 //			@ModelAttribute("productionItem") ProductionItem productionItem)
 {
+		productionItemRepository.saveAndFlush(plannedProduction.getProductionItem());
 		plannedProductionRepository.saveAndFlush(plannedProduction);
 		return "redirect:/plannedProduction";
 	}

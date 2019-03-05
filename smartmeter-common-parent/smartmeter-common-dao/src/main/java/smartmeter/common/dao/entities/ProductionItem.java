@@ -28,6 +28,7 @@ public class ProductionItem {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "productName", referencedColumnName = "productName")
 	private Product product;
+	
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "Production_Item_Packaging", joinColumns = {
@@ -43,6 +44,14 @@ public class ProductionItem {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public List<Packaging> getPackaging() {
+		return packaging;
+	}
+
+	public void setPackaging(List<Packaging> packaging) {
+		this.packaging = packaging;
 	}
 
 	public List<PlannedProduction> getPlannedProductions() {

@@ -6,13 +6,13 @@
 	<aside th:replace="fragments/general.html :: menu-left"></aside>
 	<div class="productionItems">
 		<div th:each="plannedProduction : ${plannedProductions}">
-			<div th:text="${plannedProduction.productionItem.name}"></div>
+			<div th:text="${plannedProduction.productionItem.product.name}"></div>
 			<div th:text="${plannedProduction.plannedProductionTime}"></div>
 			<div
-				th:each="constraint : ${plannedProduction.productionItem.constraints}">
+				th:each="constraint : ${plannedProduction.constraints}">
 				<div th:text="${constraint.name}"></div>
 			</div>
-			<form th:action="@{plannedProduction/deleteItem}" method="post"
+			<form th:action="@{deleteItem}" method="post"
 				th:object="${plannedProduction}">
 				<input type="hidden" th:name="id" th:value="*{id}" />
 				<button type="submit" value="Submit" class="btn btn-danger">Löschen</button>
