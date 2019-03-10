@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+
+<body>
+	<header wicket:id="headerPanel"></header>
+
+	<div class="productionTimeSettings">
+
+		<div class="plannedProduction">
+			<div class="productionItems">
+				<div class="productionItem" wicket:id="productionItems">
+					<div class="product" wicket:id="product"></div>
+					<div class="productOfOrder1" wicket:id="packagingOfOrder1"></div>
+					<div class="productOfOrder2" wicket:id="packagingOfOrder2"></div>
+					<div class="productOfOrder3" wicket:id="packagingOfOrder3"></div>
+				</div>
+			</div>
+		</div>
+		<div class="plannedProduction">
+			<div class="dateChooser"></div>
+		</div>
+		<div class="plannedProduction">
+			<div class="timeChooser">
+				<div class="timer">
+					<div class="button" id="hour_up">
+						<i class="up"></i>
+					</div>
+					<p>
+						<input type="text" id="hours" value="hh">
+					</p>
+					<div class="button" id="hour_down">
+						<i class="down"></i>
+					</div>
+				</div>
+				<div class="timer">
+					<div class="button" id="minute_up">
+						<i class="up"></i>
+					</div>
+					<p>
+						<input type="text" id="minutes" value="mm">
+					</p>
+					<div class="button" id="minute_down">
+						<i class="down"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="plannedProduction">
+			<div class="submitButton"></div>
+		</div>
+	</div>
+</body>
+</html>

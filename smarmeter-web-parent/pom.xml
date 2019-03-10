@@ -13,6 +13,7 @@
 	<modules>
 		<module>smartmeter-web-gui</module>
 		<module>smartmeter-web-productplanning-starter</module>
+		<module>smartmeter-web-wicket</module>
 	</modules>
 
 	<properties>

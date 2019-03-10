@@ -1,5 +1,6 @@
 package smartmeter.common.dao.entities;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.LinkedList;
@@ -28,7 +29,12 @@ import smartmeter.common.helper.serializer.DurationSerializer;
 
 @Entity
 @Table(name = "Planned_Productions")
-public class PlannedProduction {
+public class PlannedProduction implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package smartmeter.common.dao.entities;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +16,12 @@ import smartmeter.common.dao.enums.PackagingUnit;
 
 @Entity
 @Table(name = "Packaging")
-public class Packaging {
+public class Packaging implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "type")
