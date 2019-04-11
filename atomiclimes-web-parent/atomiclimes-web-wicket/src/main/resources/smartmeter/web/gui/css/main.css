@@ -1,0 +1,48 @@
+.slick-slider{
+    position: absolute;
+}
+
+:root {
+	--smartmeter-color: #50c78f; 
+	--smartmeter-color: #a8db71;
+}
+
+body {
+	margin: 0;
+	background-color: #656565;
+}
+
+header {
+	background-color: var(--smartmeter-color);
+	height: 100pt;
+	margin: 0;
+	border: none;
+	line-height: 0pt;
+}
+
+.limesLogo{
+height: 40%;
+padding-top: 25px;
+padding-left: 25px;
+}
+
+#username {
+	line-height: 0pt;
+	align-content: left;
+	left: initial;
+	padding-top: 20px;
+	padding-left: 10px;
+	color: #fff;
+	font-size: large;
+}
+
+aside {
+	background-color: white;
+	width: 150pt;
+	height: 100%;
+}
+
+button {
+	border-color: red;
+	border-radius: 5pt 5pt 5pt 5pt;
+}
