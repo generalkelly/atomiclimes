@@ -2,22 +2,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.smartmeter</groupId>
+	<groupId>de.atomiclimes</groupId>
 	<artifactId>parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>smartmeter-parent</name>
+	<name>atomiclimes-parent</name>
 	<modules>
-		<module>smartmeter-logic</module>
-		<module>smartmeter-agent</module>
+		<module>atomiclimes-logic</module>
+		<module>atomiclimes-agent</module>
 
-		<module>smartmeter-kafka-image</module>
-		<module>smartmeter-common-parent</module>
-		<module>smarmeter-web-parent</module>
+		<module>atomiclimes-kafka-image</module>
+		<module>atomiclimes-common-parent</module>
+		<module>atomiclimes-web-parent</module>
+		<module>atomiclimes-security</module>
 	</modules>
 
 	<properties>
 		<spring.boot.version>2.1.0.RELEASE</spring.boot.version>
+		<jackson.version>2.9.8</jackson.version>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
@@ -71,8 +73,21 @@
 				<version>${spring.boot.version}</version>
 				<optional>true</optional>
 			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<distributionManagement>
 		<snapshotRepository>
