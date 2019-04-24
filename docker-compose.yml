@@ -1,0 +1,44 @@
+version: '3'
+
+#networks:
+#  atomiclimes:
+#    external:
+#      name: atomiclimes
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-smartmeter
+    restart: on-failure
+    ports:
+      - 3306:3306
+#    networks:
+#      - atomiclimes
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      
+  atomiclimes-security-server:
+    image: atomiclimes-security-server:0.0.1-SNAPSHOT
+    container_name: atomiclimes-security-server
+    restart: on-failure
+    ports:
+      - 7070:7070
+#    networks:
+#      - atomiclimes
+      
+  atomiclimes-web-wicket:
+    image: atomiclimes-web-wicket:0.0.1-SNAPSHOT
+    container_name: atomiclimes-web-wicket
+    restart: on-failure
+    ports:
+      - 8080:8080
+#    networks:
+#      - atomiclimes
+    depends_on:
+      - mysql
+    links:
+      - mysql
+      - atomiclimes-security-server
