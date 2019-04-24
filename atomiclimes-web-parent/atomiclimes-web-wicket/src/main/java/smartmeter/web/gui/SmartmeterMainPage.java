@@ -17,11 +17,13 @@ import smartmeter.web.gui.panels.HeaderPanel;
 
 public class SmartmeterMainPage extends WebPage {
 
+	
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@SpringBean
 	private ProductionItemRepository productionItemRepository;
 

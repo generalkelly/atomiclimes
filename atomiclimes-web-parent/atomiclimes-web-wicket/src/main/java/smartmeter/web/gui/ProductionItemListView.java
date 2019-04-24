@@ -33,19 +33,8 @@ public class ProductionItemListView extends ListView<ProductionItem> {
 		while (packagingIterator.hasNext()) {
 			packagingIterator.next();
 		}
-		
 		String productionItemJSON = this.smartmeterJacksonHelper.serialize(productionItem);
-		System.out.println(productionItemJSON);
-
 		item.add(new Label("product", productionItemJSON));
-
-//		String[] packagingOrderTypes = { "1", "2", "3" };
-
-//		for (String packagingOrder : packagingOrderTypes) {
-//			String packagingName = "";
-
-//			item.add(new Label("packagingOfOrder" + packagingOrder, packagingName));
-//		}
 	}
 
 }

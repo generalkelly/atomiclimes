@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>AtomicLimes</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+</head>
+<body onload="document.f.username.focus();">
+	<div class="vertically-centered-container">
+		<div class="horizontally-centered-container">
+			<img class="atomiclimes-logo" th:src="@{/img/atomiclimes-logo.png}" />
+		</div>
+		<div class=login-form>
+			<form th:action="@{/login}" name="f" method="post">
+				<fieldset>
+
+					<div class="horizontally-centered-container">
+						<p class="login-field">
+							<label for="username">Username:</label> <input type="text"
+								id="username" name="username" />
+						</p>
+					</div>
+					<div class="horizontally-centered-container">
+						<p class="login-field">
+							<label for="password">Password:</label> <input type="password"
+								id="password" name="password" />
+						</p>
+					</div>
+					<div class="horizontally-centered-container">
+						<p>
+							<input class="submit-button" name="submit" type="submit"
+								value="Submit" />
+						</p>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

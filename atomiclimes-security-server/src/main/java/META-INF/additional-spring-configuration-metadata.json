@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "jwt.certificate.store.file",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.certificate.store.file'"
+  },
+  {
+    "name": "jwt.certificate.store.password",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.certificate.store.password'"
+  },
+  {
+    "name": "jwt.certificate.key.alias",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.certificate.key.alias'"
+  },
+  {
+    "name": "jwt.certificate.key.password",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.certificate.key.password'"
+  }
+]}
