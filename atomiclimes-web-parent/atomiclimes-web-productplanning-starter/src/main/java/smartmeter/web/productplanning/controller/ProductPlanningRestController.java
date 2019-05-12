@@ -18,14 +18,12 @@ import smartmeter.web.productplanning.ProductPlanningProperties;
 @Controller
 public class ProductPlanningRestController {
 
-	private ProductPlanningProperties properties;
 	private PlannedProductionRepository plannedProductionRepository;
 	private ProductionItemRepository productionItemRepository;
 
 	public ProductPlanningRestController(ProductPlanningProperties properties,
 			PlannedProductionRepository plannedProductionRepository,
 			ProductionItemRepository productionItemRepository) {
-		this.properties = properties;
 		this.plannedProductionRepository = plannedProductionRepository;
 		this.productionItemRepository = productionItemRepository;
 	}

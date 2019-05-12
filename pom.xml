@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -8,13 +9,12 @@
 	<packaging>pom</packaging>
 	<name>atomiclimes-parent</name>
 	<modules>
-		<module>atomiclimes-logic</module>
 		<module>atomiclimes-agent</module>
-		<module>atomiclimes-kafka-image</module>
 		<module>atomiclimes-common-parent</module>
-		<module>atomiclimes-web-parent</module>
+		<module>atomiclimes-logic</module>
+		<module>atomiclimes-kafka-image</module>
 		<module>atomiclimes-security-server</module>
-		<module>atomiclimes-apache-directory-image</module>
+		<module>atomiclimes-web-parent</module>
 	</modules>
 
 	<properties>

@@ -11,10 +11,9 @@
 	<name>atomiclimes-common-parent</name>
 	<packaging>pom</packaging>
 	<modules>
-		<module>atomiclimes-common-kafka-connector</module>
-		<module>atomiclimes-validation</module>
 		<module>atomiclimes-common-dao</module>
 		<module>atomiclimes-common-helper</module>
+		<module>atomiclimes-common-kafka-connector</module>
 		<module>atomiclimes-security-client-starter</module>
 	</modules>
 

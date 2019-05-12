@@ -11,7 +11,6 @@
 	<name>atomiclimes-web-parent</name>
 	<packaging>pom</packaging>
 	<modules>
-		<module>atomiclimes-web-gui</module>
 		<module>atomiclimes-web-productplanning-starter</module>
 		<module>atomiclimes-web-wicket</module>
 	</modules>

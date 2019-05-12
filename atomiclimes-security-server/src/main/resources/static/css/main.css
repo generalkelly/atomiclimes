@@ -1,23 +1,30 @@
+html {
+	height: 100%;
+}
+
 body {
 	margin: 0;
 	background-color: #656565;
 	outline: none;
+	height: 100%;
 }
 
 .horizontally-centered-container {
 	width: 50%;
 	margin: auto;
 	text-align: center;
+	height: 100%;
 }
 
 .vertically-centered-container {
-	transform: translateY(30%);
+	height: 35%
 }
 
 .login-form fieldset {
 	border-style: hidden;
 	width: 50%;
 	margin: auto;
+	margin-top: 50px;
 }
 
 .login-form input {
@@ -26,8 +33,15 @@ body {
 	border-radius: 5px 5px 5px 5px;
 }
 
+.login-form button {
+	border-style: none;
+	height: 50px;
+	border-radius: 5px 5px 5px 5px;
+}
+
 .login-field {
 	display: inline-flex;
+	margin-top: 7%;
 }
 
 .login-field label {
@@ -45,6 +59,12 @@ body {
 	width: 50%;
 }
 
+.feather-login-Button {
+	height: 80px;
+	width: auto;
+	stroke-width: 0.5px;
+}
+
 .login-form .submit-button {
 	background-color: #a8db71;
 	height: 80px;
@@ -53,6 +73,11 @@ body {
 	font-size: 40px;
 	font-weight: 200;
 	margin: auto;
+	margin-top: 50px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	color: #0b2f24cc;
 }
 
 label {
@@ -62,10 +87,35 @@ label {
 	color: white;
 }
 
-img {
-		/*! margin: auto; */
-		/*! width: 25%; */
-		/*! -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5)); */
+.atomiclimes-logo {
+	top: 25%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: auto;
+	-webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+	position: relative;
 	filter: drop-shadow(0px 0px 100px #e8f2ff);
+	display: block;
+	height: 100%;
+	width: 50%;
+	overflow: auto;
+}
+
+.fadeIn {
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.fadeOut {
+	display: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
