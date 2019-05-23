@@ -7,8 +7,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import smartmeter.common.dao.entities.Packaging;
-import smartmeter.common.dao.entities.ProductionItem;
+import io.atomiclimes.common.dao.entities.Packaging;
+import io.atomiclimes.common.dao.entities.ProductionItem;
 import smartmeter.common.helper.jackson.SmartmeterJacksonHelper;
 
 public class ProductionItemListView extends ListView<ProductionItem> {

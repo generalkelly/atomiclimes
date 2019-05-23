@@ -1,6 +1,7 @@
-package smartmeter.common.dao.entities;
+package io.atomiclimes.common.dao.entities;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import smartmeter.common.dao.enums.PackagingUnit;
+import io.atomiclimes.common.dao.enums.PackagingUnit;
 
 @Entity
 @Table(name = "Packaging")
-public class Packaging implements Serializable{
+public class Packaging implements Serializable {
 
 	/**
 	 * 
@@ -36,9 +37,12 @@ public class Packaging implements Serializable{
 	@Column(name = "unit")
 	private PackagingUnit unit;
 
+	@Column(name = "duration")
+	private Duration duration;
+
 	@Column(name = "packagingOrder")
 	private Integer packagingOrder;
-	
+
 	@ManyToMany(mappedBy = "packaging")
 	private List<ProductionItem> productionItems = new LinkedList<>();
 
@@ -64,6 +68,14 @@ public class Packaging implements Serializable{
 
 	public void setUnit(PackagingUnit unit) {
 		this.unit = unit;
+	}
+
+	public Duration getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Duration duration) {
+		this.duration = duration;
 	}
 
 	@JsonIgnore

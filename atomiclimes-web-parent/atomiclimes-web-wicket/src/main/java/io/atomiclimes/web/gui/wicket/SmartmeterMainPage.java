@@ -13,9 +13,9 @@ import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import de.agilecoders.wicket.webjars.request.resource.WebjarsJavaScriptResourceReference;
+import io.atomiclimes.common.dao.entities.ProductionItem;
+import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
 import io.atomiclimes.web.gui.panels.HeaderPanel;
-import smartmeter.common.dao.entities.ProductionItem;
-import smartmeter.common.dao.repositories.ProductionItemRepository;
 
 public class SmartmeterMainPage extends WebPage {
 

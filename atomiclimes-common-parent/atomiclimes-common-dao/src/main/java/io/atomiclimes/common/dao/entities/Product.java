@@ -1,4 +1,4 @@
-package smartmeter.common.dao.entities;
+package io.atomiclimes.common.dao.entities;
 
 import java.io.Serializable;
 import java.util.LinkedList;

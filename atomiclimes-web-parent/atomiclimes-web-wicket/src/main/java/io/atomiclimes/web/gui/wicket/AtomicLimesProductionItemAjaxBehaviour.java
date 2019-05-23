@@ -11,12 +11,17 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.util.string.StringValue;
 
+
 public class AtomicLimesProductionItemAjaxBehaviour extends AbstractDefaultAjaxBehavior {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	
+//	@SpringBean
+//	private AtomicLimesPlannedProductionCalculator planned
 
 	@Override
 	protected void respond(AjaxRequestTarget target) {

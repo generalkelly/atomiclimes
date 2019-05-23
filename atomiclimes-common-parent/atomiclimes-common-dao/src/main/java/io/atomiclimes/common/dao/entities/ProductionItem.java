@@ -1,4 +1,4 @@
-package smartmeter.common.dao.entities;
+package io.atomiclimes.common.dao.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 @Entity
 @Table(name = "Production_Items")
@@ -77,6 +76,19 @@ public class ProductionItem implements Serializable {
 
 	public void setPlannedProductions(List<PlannedProduction> plannedProductions) {
 		this.plannedProductions = plannedProductions;
+	}
+
+	public Packaging getPackagingOfOrder(int order) {
+		if (packaging != null && packaging.isEmpty() == false) {
+			for (Packaging p : this.packaging) {
+				if (p.getPackagingOrder() == order) {
+					return p;
+				}
+			}
+			return null;
+		} else {
+			return null;
+		}
 	}
 
 }

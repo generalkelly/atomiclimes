@@ -1,10 +1,8 @@
-package smartmeter.common.dao.entities;
+package io.atomiclimes.common.dao.entities;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -23,13 +19,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import smartmeter.common.helper.serializer.DurationSerializer;
+import io.atomiclimes.common.dao.enums.ProductionStageType;
 
 @Entity
-@Table(name = "Planned_Productions")
-public class PlannedProduction implements Serializable{
+@Table(name = "Planned_Nonproductive_Stage")
+public class PlannedNonproductiveStage implements Serializable, ProductionStage {
 
 	/**
 	 * 
@@ -41,15 +35,13 @@ public class PlannedProduction implements Serializable{
 	@Column(name = "id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "productionItemId")
-	private ProductionItem productionItem;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "nonProductionItemId")
+	private NonProductionItem nonProductionItem;
 
-	@ManyToMany
-	@JoinTable(name = "PlannedProduction_Constraints", joinColumns = {
-			@JoinColumn(name = "id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "name", referencedColumnName = "name") })
-	private List<Constraint> constraints = new LinkedList<>();
+	@ManyToOne
+	@JoinColumn(name = "plannedProductionId")
+	private PlannedProduction plannedProduction;
 
 	@CreationTimestamp
 	@Column(name = "creationTimestamp")
@@ -66,6 +58,9 @@ public class PlannedProduction implements Serializable{
 	@Column(name = "estimatedProductionDuration")
 	private Duration estimatedProductionDuration;
 
+	private ProductionStageType productionStageType = ProductionStageType.NON_PRODUCTIVE;
+
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -74,20 +69,20 @@ public class PlannedProduction implements Serializable{
 		this.id = id;
 	}
 
-	public ProductionItem getProductionItem() {
-		return productionItem;
+	public NonProductionItem getNonProductionItem() {
+		return nonProductionItem;
 	}
 
-	public void setProductionItem(ProductionItem productionItem) {
-		this.productionItem = productionItem;
+	public void setNonProductionItem(NonProductionItem nonProductionItem) {
+		this.nonProductionItem = nonProductionItem;
 	}
 
-	public List<Constraint> getConstraints() {
-		return constraints;
+	public PlannedProduction getPlannedProduction() {
+		return plannedProduction;
 	}
 
-	public void setConstraints(List<Constraint> constraints) {
-		this.constraints = constraints;
+	public void setPlannedProduction(PlannedProduction plannedProduction) {
+		this.plannedProduction = plannedProduction;
 	}
 
 	public OffsetDateTime getCreationTimestamp() {
@@ -106,21 +101,32 @@ public class PlannedProduction implements Serializable{
 		this.updateTimestamp = updateTimestamp;
 	}
 
+	@Override
 	public OffsetDateTime getPlannedProductionTime() {
 		return plannedProductionTime;
 	}
 
+	@Override
 	public void setPlannedProductionTime(OffsetDateTime plannedProductionTime) {
 		this.plannedProductionTime = plannedProductionTime;
 	}
 
+	@Override
 	public Duration getEstimatedProductionDuration() {
+		if (estimatedProductionDuration == null) {
+			new ProcessDurationCalculator().calculate(this);
+		}
 		return estimatedProductionDuration;
 	}
 
-	@JsonDeserialize(using = DurationSerializer.class)
+	@Override
 	public void setEstimatedProductionDuration(Duration estimatedProductionDuration) {
 		this.estimatedProductionDuration = estimatedProductionDuration;
+	}
+
+	@Override
+	public ProductionStageType getProductionStageType() {
+		return this.productionStageType;
 	}
 
 }
