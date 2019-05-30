@@ -13,15 +13,19 @@ import org.apache.wicket.util.crypt.CharEncoding;
 import org.springframework.context.ApplicationContext;
 
 import de.agilecoders.wicket.webjars.WicketWebjars;
+import io.atomiclimes.web.gui.wicket.pages.AtomicLimesAdministrationPage;
+import io.atomiclimes.web.gui.wicket.pages.AtomicLimesMainPage;
+import io.atomiclimes.web.gui.wicket.pages.AtomicLimesPlannedProductionPage;
+import io.atomiclimes.web.gui.wicket.pages.AtomicLimesProductAdministrationPage;
 
-public class SmartmeterWebApplication extends AuthenticatedWebApplication {
+public class AtomicLimesWebApplication extends AuthenticatedWebApplication {
 
 	private ApplicationContext applicationContext;
 
-	public SmartmeterWebApplication(ApplicationContext applicationContext) {
+	public AtomicLimesWebApplication(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
-	
+
 	@Override
 	public RuntimeConfigurationType getConfigurationType() {
 		return RuntimeConfigurationType.DEPLOYMENT;
@@ -29,7 +33,7 @@ public class SmartmeterWebApplication extends AuthenticatedWebApplication {
 
 	@Override
 	public Class<? extends Page> getHomePage() {
-		return SmartmeterMainPage.class;
+		return AtomicLimesMainPage.class;
 	}
 
 	@Override
@@ -38,17 +42,18 @@ public class SmartmeterWebApplication extends AuthenticatedWebApplication {
 
 		getRequestCycleSettings().setResponseRequestEncoding(CharEncoding.UTF_8);
 		getMarkupSettings().setDefaultMarkupEncoding(CharEncoding.UTF_8);
-
 		getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext));
-		mountPage("/MainPage", SmartmeterMainPage.class);
-
 		getResourceSettings().setCssCompressor(new CssUrlReplacer());
-	
 		setHeaderResponseDecorator(response -> {
 			return new ResourceAggregator(new JavaScriptFilteredIntoFooterHeaderResponse(response, "footer-container"));
 		});
-		
+
 		WicketWebjars.install(this);
+
+		mountPage("/home", AtomicLimesMainPage.class);
+		mountPage("/plannedProductions", AtomicLimesPlannedProductionPage.class);
+		mountPage("/admin", AtomicLimesAdministrationPage.class);
+		mountPage("admin/products", AtomicLimesProductAdministrationPage.class);
 
 	}
 
@@ -59,7 +64,7 @@ public class SmartmeterWebApplication extends AuthenticatedWebApplication {
 
 	@Override
 	protected Class<? extends WebPage> getSignInPageClass() {
-		return SmartmeterMainPage.class;
+		return AtomicLimesMainPage.class;
 	}
 
 }

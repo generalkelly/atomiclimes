@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
-import io.atomiclimes.web.gui.wicket.SmartmeterWebApplication;
+import io.atomiclimes.web.gui.wicket.AtomicLimesWebApplication;
 
 @Configuration
 @EnableOAuth2Sso
@@ -42,7 +42,7 @@ public class AtomicLimesWebGuiConfiguration extends WebSecurityConfigurerAdapter
 
 	@Bean
 	public WebApplication smartmeterWebApplication(ApplicationContext applicationContext) {
-		return new SmartmeterWebApplication(applicationContext);
+		return new AtomicLimesWebApplication(applicationContext);
 	}
 	
 	@Bean

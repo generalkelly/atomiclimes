@@ -13,7 +13,7 @@ public class HeaderPanel extends Panel {
 
 	public HeaderPanel(String id) {
 		super(id);
-		this.add(new Label("username", SecurityContextHolder.getContext().getAuthentication().getName()));
+		this.add(new Label("username", " "+SecurityContextHolder.getContext().getAuthentication().getName()));
 	}
 
 }

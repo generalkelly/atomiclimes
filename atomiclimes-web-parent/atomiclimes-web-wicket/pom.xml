@@ -100,15 +100,17 @@
 			<artifactId>js-cookie</artifactId>
 			<version>2.2.0</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.webjars</groupId> -->
-		<!-- <artifactId>webjars-locator</artifactId> -->
-		<!-- <version>0.36</version> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>de.agilecoders.wicket.webjars</groupId>
 			<artifactId>wicket-webjars</artifactId>
 			<version>2.0.14</version>
+		</dependency>
+	<!-- atomiclimes webjars -->
+		<dependency>
+			<groupId>de.atomiclimes</groupId>
+			<artifactId>atomiclimes-product-planning-webjar</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
