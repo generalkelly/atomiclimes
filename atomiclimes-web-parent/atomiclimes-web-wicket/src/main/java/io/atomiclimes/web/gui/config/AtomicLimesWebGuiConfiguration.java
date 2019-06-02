@@ -31,8 +31,8 @@ public class AtomicLimesWebGuiConfiguration extends WebSecurityConfigurerAdapter
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.antMatcher("/**").authorizeRequests().antMatchers("/login**").permitAll().anyRequest().authenticated()
-				.and().formLogin().disable().logout().logoutSuccessUrl("/").permitAll().and().csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+				.and().formLogin().disable().logout().logoutSuccessUrl("/").permitAll().and().csrf().disable();
+//				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 
 	@Override
@@ -40,33 +40,33 @@ public class AtomicLimesWebGuiConfiguration extends WebSecurityConfigurerAdapter
 		web.ignoring().antMatchers("/webjars/**");
 	}
 
-	@Bean
-	public WebApplication smartmeterWebApplication(ApplicationContext applicationContext) {
-		return new AtomicLimesWebApplication(applicationContext);
-	}
-	
-	@Bean
-	ServletContextInitializer servletContextInitializer() {
-		return new SmartmeterServletContextInitializer();
-	}
+//	@Bean
+//	public WebApplication smartmeterWebApplication(ApplicationContext applicationContext) {
+//		return new AtomicLimesWebApplication(applicationContext);
+//	}
+//
+//	@Bean
+//	ServletContextInitializer servletContextInitializer() {
+//		return new SmartmeterServletContextInitializer();
+//	}
 
-	@Bean
-	public SimpleUrlHandlerMapping customFaviconHandlerMapping() {
-		SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
-		mapping.setOrder(Integer.MIN_VALUE);
-		mapping.setUrlMap(Collections.singletonMap("/favicon.ico", faviconRequestHandler()));
-		return mapping;
-	}
+//	@Bean
+//	public SimpleUrlHandlerMapping customFaviconHandlerMapping() {
+//		SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+//		mapping.setOrder(Integer.MIN_VALUE);
+//		mapping.setUrlMap(Collections.singletonMap("/favicon.ico", faviconRequestHandler()));
+//		return mapping;
+//	}
 
-	@Bean
-	protected ResourceHttpRequestHandler faviconRequestHandler() {
-		ResourceHttpRequestHandler requestHandler = new ResourceHttpRequestHandler();
-		ClassPathResource classPathResource = new ClassPathResource("static/img");
-		List<Resource> locations = Arrays.asList(classPathResource);
-		requestHandler.setLocations(locations);
-		return requestHandler;
-	}
-	
+//	@Bean
+//	protected ResourceHttpRequestHandler faviconRequestHandler() {
+//		ResourceHttpRequestHandler requestHandler = new ResourceHttpRequestHandler();
+//		ClassPathResource classPathResource = new ClassPathResource("static/img");
+//		List<Resource> locations = Arrays.asList(classPathResource);
+//		requestHandler.setLocations(locations);
+//		return requestHandler;
+//	}
+
 	@Bean
 	protected WebMvcConfigurer webMvcConfigurer() {
 		return new AtomicLimesWebMvcConfigurer();

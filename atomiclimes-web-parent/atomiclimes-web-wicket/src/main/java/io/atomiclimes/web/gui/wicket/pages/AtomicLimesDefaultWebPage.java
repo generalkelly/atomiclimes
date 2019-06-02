@@ -5,6 +5,9 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.model.IModel;
+
+import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 
 import de.agilecoders.wicket.webjars.request.resource.WebjarsJavaScriptResourceReference;
 import io.atomiclimes.web.gui.panels.HeaderPanel;
@@ -32,6 +35,8 @@ public class AtomicLimesDefaultWebPage extends WebPage {
 		super.renderHead(response);
 		response.render(JavaScriptHeaderItem.forReference(new WebjarsJavaScriptResourceReference(
 				"/atomiclimes-planned-production/0.1/src/AtomiclimesProductionPlanning.js")));
+		response.render(JavaScriptHeaderItem.forReference(new WebjarsJavaScriptResourceReference(
+				"/atomiclimes-buttons/0.1/src/AtomicLimesButtons.js")));
 	}
 
 }

@@ -3,7 +3,6 @@ package io.atomiclimes.web.gui.wicket;
 import org.apache.wicket.Page;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
-import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.head.ResourceAggregator;
 import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
@@ -12,13 +11,18 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.crypt.CharEncoding;
 import org.springframework.context.ApplicationContext;
 
+import com.giffing.wicket.spring.boot.context.extensions.ApplicationInitExtension;
+import com.giffing.wicket.spring.boot.starter.app.WicketBootSecuredWebApplication;
+
 import de.agilecoders.wicket.webjars.WicketWebjars;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesAdministrationPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesMainPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesPlannedProductionPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesProductAdministrationPage;
+import io.atomiclimes.web.gui.wicket.pages.AtomicLimesProductPage;
 
-public class AtomicLimesWebApplication extends AuthenticatedWebApplication {
+@ApplicationInitExtension
+public class AtomicLimesWebApplication extends WicketBootSecuredWebApplication {
 
 	private ApplicationContext applicationContext;
 
@@ -54,6 +58,7 @@ public class AtomicLimesWebApplication extends AuthenticatedWebApplication {
 		mountPage("/plannedProductions", AtomicLimesPlannedProductionPage.class);
 		mountPage("/admin", AtomicLimesAdministrationPage.class);
 		mountPage("admin/products", AtomicLimesProductAdministrationPage.class);
+//		mountPage("admin/products/product", AtomicLimesProductPage.class);
 
 	}
 
