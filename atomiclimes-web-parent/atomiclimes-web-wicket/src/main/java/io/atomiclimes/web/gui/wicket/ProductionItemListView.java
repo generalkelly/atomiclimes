@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import io.atomiclimes.common.dao.entities.Packaging;
 import io.atomiclimes.common.dao.entities.ProductionItem;
-import smartmeter.common.helper.jackson.SmartmeterJacksonHelper;
+import io.atomiclimes.helper.jackson.SmartmeterJacksonHelper;
 
 public class ProductionItemListView extends ListView<ProductionItem> {
 

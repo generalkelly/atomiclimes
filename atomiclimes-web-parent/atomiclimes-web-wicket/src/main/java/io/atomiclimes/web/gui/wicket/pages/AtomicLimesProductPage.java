@@ -31,11 +31,14 @@ public class AtomicLimesProductPage extends AtomicLimesDefaultWebPage {
 
 	public AtomicLimesProductPage(IModel<Product> productModel) {
 
-		Form<Product> form = new Form<Product>("form");
+		Form<Product> form = new Form<>("form");
 		form.add(new ProductPanel("product", productModel));
 		this.add(form);
 		form.add(new Button("save") {
 
+			private static final long serialVersionUID = 1L;
+
+			@Override
 			public void onSubmit() {
 				productRepository.save(productModel.getObject());
 				setResponsePage(AtomicLimesProductAdministrationPage.class);

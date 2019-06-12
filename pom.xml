@@ -29,6 +29,7 @@
 		<org.openl.version>5.22.1</org.openl.version>
 		<org.mockito.version>2.27.0</org.mockito.version>
 		<com.h2database.version>1.4.199</com.h2database.version>
+		<org.apache.wicket.version>8.4.0</org.apache.wicket.version>
 	</properties>
 
 	<repositories>
@@ -143,6 +144,11 @@
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>${com.h2database.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-core</artifactId>
+				<version>${org.apache.wicket.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

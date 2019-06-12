@@ -1,4 +1,4 @@
-package io.atomiclimes.common.dao.enums;
+package io.atomiclimes.common.helper.enums;
 
 public enum PackagingUnit {
 

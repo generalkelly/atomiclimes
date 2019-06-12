@@ -5,8 +5,8 @@ import java.time.OffsetDateTime;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import io.atomiclimes.common.dao.enums.ProductionStageType;
-import smartmeter.common.helper.serializer.DurationSerializer;
+import io.atomiclimes.common.helper.enums.ProductionStageType;
+import io.atomiclimes.common.helper.serializer.DurationSerializer;
 
 public interface ProductionStage {
 

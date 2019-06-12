@@ -2,7 +2,6 @@ package io.atomiclimes.web.gui.wicket.pages;
 
 import java.util.List;
 
-import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -25,11 +24,6 @@ public class AtomicLimesProductAdministrationPage extends AtomicLimesDefaultWebP
 	public AtomicLimesProductAdministrationPage() {
 		this.add(new ProductListView(getProducts()));
 		this.add(new BookmarkablePageLink<>("addProductPage", AtomicLimesProductPage.class));
-	}
-
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		super.renderHead(response);
 	}
 
 	private class ProductListView extends ListView<Product> {

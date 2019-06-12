@@ -17,8 +17,8 @@ public class ProductPanel extends Panel {
 
 	public ProductPanel(String id, IModel<Product> productModel) {
 		super(id, productModel);
-		IModel<Product> compound = new CompoundPropertyModel<Product>(productModel);
-		Form<Product> form = new Form<Product>("form", compound);
+		IModel<Product> compound = new CompoundPropertyModel<>(productModel);
+		Form<Product> form = new Form<>("form", compound);
 		this.add(form);
 		form.add(new TextField<>("name"));
 	}

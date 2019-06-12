@@ -4,7 +4,8 @@ import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 
-import io.atomiclimes.common.dao.enums.PackagingUnit;
+import io.atomiclimes.common.helper.enums.PackagingUnit;
+
 
 public class ProcessDurationCalculator {
 

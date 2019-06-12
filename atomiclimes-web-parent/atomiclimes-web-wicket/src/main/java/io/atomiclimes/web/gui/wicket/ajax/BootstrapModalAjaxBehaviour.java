@@ -12,10 +12,8 @@ import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 
 public class BootstrapModalAjaxBehaviour extends AbstractDefaultAjaxBehavior {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private String ajaxFunctionName;
 	List<CallbackParameter> callbackParametersList = new LinkedList<>();
 

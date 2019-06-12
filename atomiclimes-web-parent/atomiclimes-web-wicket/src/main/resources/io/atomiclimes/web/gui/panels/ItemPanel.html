@@ -2,10 +2,9 @@
 <body>
 	<wicket:panel>
 		<form wicket:id="form">
-			<label>Product Name:</label> <input wicket:id="name" type="text"
-				class="form-control" placeholder="Enter Product Name" required>
-			<div class="valid-feedback">Ok</div>
-			<div class="invalid-feedback">Please fill out this field.</div>
+			<div wicket:id="textFields">
+				<input wicket:id="field"></input>
+			</div>
 		</form>
 	</wicket:panel>
 </body>

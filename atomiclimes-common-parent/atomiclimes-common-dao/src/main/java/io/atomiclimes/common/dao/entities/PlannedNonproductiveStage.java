@@ -19,7 +19,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import io.atomiclimes.common.dao.enums.ProductionStageType;
+import io.atomiclimes.common.helper.enums.ProductionStageType;
+
 
 @Entity
 @Table(name = "Planned_Nonproductive_Stage")

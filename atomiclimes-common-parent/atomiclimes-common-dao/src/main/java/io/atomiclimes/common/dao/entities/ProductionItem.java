@@ -79,7 +79,7 @@ public class ProductionItem implements Serializable {
 	}
 
 	public Packaging getPackagingOfOrder(int order) {
-		if (packaging != null && packaging.isEmpty() == false) {
+		if (packaging != null && !packaging.isEmpty()) {
 			for (Packaging p : this.packaging) {
 				if (p.getPackagingOrder() == order) {
 					return p;

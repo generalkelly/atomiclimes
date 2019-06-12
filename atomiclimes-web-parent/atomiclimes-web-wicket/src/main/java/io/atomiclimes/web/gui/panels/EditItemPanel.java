@@ -13,8 +13,8 @@ public abstract class EditItemPanel<T> extends Panel {
 
 	public EditItemPanel(String id, IModel<T> model, JpaRepository<?, ?> repository) {
 		super(id, model);
-		IModel<T> compound = new CompoundPropertyModel<T>(model);
-		Form<T> form = new Form<T>("form", compound);
+		IModel<T> compound = new CompoundPropertyModel<>(model);
+		Form<T> form = new Form<>("form", compound);
 		form.add(new Button("edit") {
 
 			private static final long serialVersionUID = 1L;

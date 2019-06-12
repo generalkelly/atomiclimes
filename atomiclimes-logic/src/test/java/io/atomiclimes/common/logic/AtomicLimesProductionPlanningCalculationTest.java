@@ -16,17 +16,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.atomiclimes.common.dao.entities.NonProductionItem;
-import io.atomiclimes.common.dao.entities.Packaging;
 import io.atomiclimes.common.dao.entities.PlannedNonproductiveStage;
 import io.atomiclimes.common.dao.entities.PlannedProduction;
 import io.atomiclimes.common.dao.entities.Product;
 import io.atomiclimes.common.dao.entities.ProductionItem;
 import io.atomiclimes.common.dao.entities.ProductionStage;
-import io.atomiclimes.common.dao.enums.PackagingUnit;
-import io.atomiclimes.common.dao.enums.ProductionStageType;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
+import io.atomiclimes.common.helper.enums.PackagingUnit;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

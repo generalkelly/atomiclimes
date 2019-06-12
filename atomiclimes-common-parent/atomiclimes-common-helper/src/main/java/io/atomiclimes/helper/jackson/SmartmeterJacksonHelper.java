@@ -1,4 +1,4 @@
-package smartmeter.common.helper.jackson;
+package io.atomiclimes.helper.jackson;
 
 import java.io.IOException;
 import java.io.Serializable;

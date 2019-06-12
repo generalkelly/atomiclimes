@@ -15,10 +15,16 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.atomiclimes.common.dao.enums.PackagingUnit;
+import io.atomiclimes.common.helper.annotations.AtomicLimesItemForm;
+import io.atomiclimes.common.helper.annotations.AtomicLimesItemFormField;
+import io.atomiclimes.common.helper.enums.AtomicLimesFormInputType;
+import io.atomiclimes.common.helper.enums.PackagingUnit;
+import io.atomiclimes.common.helper.wicket.converter.impl.AtomicLimesDurationInSecondsConverter;
+import io.atomiclimes.common.helper.wicket.converter.impl.AtomicLimesUnitConverter;
 
 @Entity
 @Table(name = "Packaging")
+@AtomicLimesItemForm("Packaging Form")
 public class Packaging implements Serializable {
 
 	/**
@@ -28,19 +34,24 @@ public class Packaging implements Serializable {
 
 	@Id
 	@Column(name = "type")
+	@AtomicLimesItemFormField(fieldName = "Packaging Type")
 	private String name;
 
 	@Column(name = "capacity")
-	private double capacity;
+	@AtomicLimesItemFormField(fieldName = "Capacity")
+	private Double capacity;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "unit")
+	@AtomicLimesItemFormField(fieldName = "Unit", using = AtomicLimesUnitConverter.class, fieldType = AtomicLimesFormInputType.DROPDOWN_CHOICE)
 	private PackagingUnit unit;
 
 	@Column(name = "duration")
+	@AtomicLimesItemFormField(fieldName = "Packaging Duration", using = AtomicLimesDurationInSecondsConverter.class)
 	private Duration duration;
 
 	@Column(name = "packagingOrder")
+	@AtomicLimesItemFormField(fieldName = "Packaging Order")
 	private Integer packagingOrder;
 
 	@ManyToMany(mappedBy = "packaging")
@@ -54,11 +65,11 @@ public class Packaging implements Serializable {
 		this.name = name;
 	}
 
-	public double getCapacity() {
+	public Double getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(double capacity) {
+	public void setCapacity(Double capacity) {
 		this.capacity = capacity;
 	}
 
