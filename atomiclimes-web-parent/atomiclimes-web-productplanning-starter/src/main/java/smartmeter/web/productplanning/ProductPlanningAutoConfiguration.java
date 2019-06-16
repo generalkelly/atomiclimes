@@ -2,17 +2,15 @@ package smartmeter.web.productplanning;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import smartmeter.common.dao.repositories.PlannedProductionRepository;
-import smartmeter.common.dao.repositories.ProductionItemRepository;
-import smartmeter.web.productplanning.controller.ProductPlanningRestController;
+import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
+import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
 
 @Configuration
-@EnableJpaRepositories(basePackages = { "smartmeter.common.dao.repositories" })
-@EntityScan(basePackages = "smartmeter.common.dao.entities")
+@EnableJpaRepositories(basePackages = { "io.atomiclimes.common.dao.repositories" })
+@EntityScan(basePackages = "io.atomiclimes.common.dao.entities")
 @EnableConfigurationProperties(ProductPlanningProperties.class)
 public class ProductPlanningAutoConfiguration {
 
@@ -28,10 +26,5 @@ public class ProductPlanningAutoConfiguration {
 		
 	}
 
-	@Bean
-	ProductPlanningRestController controller() {
-		return new ProductPlanningRestController(this.properties, this.plannedProductionRepository,
-				this.productionItemRepository);
-	}
 
 }

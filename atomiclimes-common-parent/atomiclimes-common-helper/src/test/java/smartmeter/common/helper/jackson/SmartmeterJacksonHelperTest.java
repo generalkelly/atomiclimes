@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import io.atomiclimes.helper.jackson.SmartmeterJacksonHelper;
+
 public class SmartmeterJacksonHelperTest {
 
 	private static final String JSON_STRING = "{\"firstString\":\"firstString\",\"secondString\":\"secondString\"}";

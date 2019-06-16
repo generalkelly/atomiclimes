@@ -13,6 +13,7 @@
 	<modules>
 		<module>atomiclimes-web-productplanning-starter</module>
 		<module>atomiclimes-web-wicket</module>
+		<module>atomiclimes-webjars</module>
 	</modules>
 
 	<properties>

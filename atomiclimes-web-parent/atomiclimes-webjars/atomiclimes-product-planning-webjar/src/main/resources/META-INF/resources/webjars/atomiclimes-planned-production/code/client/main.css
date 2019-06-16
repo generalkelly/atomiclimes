@@ -1,0 +1,48 @@
+.bg-al-white{
+	background-color: white;
+}
+
+.border-al-round{
+	border-radius: 5px;
+}
+
+.container-al{
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-top: 15px;
+}
+
+.slick-slider{
+    position: absolute;
+}
+
+.bg-dark-al{
+	background-color: #3f4245 !important;
+}
+
+body {
+	margin: 0;
+	background-color: #656565;
+}
+
+.limesLogo{
+	margin-top: 15px;
+	margin-bottom: 15px;
+	height: 100px;
+}
+
+.bg-al{
+	background-color:  #a8db71;
+}
+
+#username {
+	margin-left: 15px;
+	margin-top: 10px;
+	padding-top: 20px;
+	font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+	font-size: 25px;
+	font-weight: 300;
+	color: #fdffe6;
+	display: inline-flex;
+	float: inline-end;
+}

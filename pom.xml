@@ -26,6 +26,10 @@
 		<spring-cloud-security.version>2.1.0.RELEASE</spring-cloud-security.version>
 		<org.thymeleaf.version>3.0.11.RELEASE</org.thymeleaf.version>
 		<org.thymeleaf.extras.version>3.0.2.RELEASE</org.thymeleaf.extras.version>
+		<org.openl.version>5.22.1</org.openl.version>
+		<org.mockito.version>2.27.0</org.mockito.version>
+		<com.h2database.version>1.4.199</com.h2database.version>
+		<org.apache.wicket.version>8.4.0</org.apache.wicket.version>
 	</properties>
 
 	<repositories>
@@ -126,6 +130,26 @@
 				<artifactId>jackson-databind</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.common</groupId>
+				<artifactId>google-collect</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${org.mockito.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${com.h2database.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.wicket</groupId>
+				<artifactId>wicket-core</artifactId>
+				<version>${org.apache.wicket.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -133,6 +157,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
