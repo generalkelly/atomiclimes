@@ -1,9 +1,12 @@
 package io.atomiclimes.common.helper.annotations.processor;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemForm;
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemFormField;
@@ -33,8 +36,8 @@ public class AtomicLimesItemFormProcessor<I> {
 		}
 	}
 
-	public ItemPanel<I, Object> getItemPanel(String id) {
-		ItemPanel<I, Object> panel = new ItemPanel<>(id, this.model);
+	public ItemPanel<I> getItemPanel(String id) {
+		ItemPanel<I> panel = new ItemPanel<>(id, this.model);
 		Class<?> clazz = this.model.getObject().getClass();
 		Field[] fields = clazz.getDeclaredFields();
 
@@ -43,17 +46,23 @@ public class AtomicLimesItemFormProcessor<I> {
 				AtomicLimesItemFormField formFieldAnnotation = field.getAnnotation(AtomicLimesItemFormField.class);
 				String formFieldName = formFieldAnnotation.fieldName();
 				String fieldName = field.getName();
+				
 				AtomicLimesFormInputType fieldType = formFieldAnnotation.fieldType();
 
 				AtomicLimesConverter<?> converter = getConverter(formFieldAnnotation);
 
 				if (fieldType == AtomicLimesFormInputType.TEXTFIELD) {
 					panel.addTextField(this.model.getObject(), fieldName, formFieldName, converter);
+				} else if (fieldType == AtomicLimesFormInputType.DROPDOWN_CHOICE) {
+					Class<?> typeOfCurrentField = field.getType();
+					if (typeOfCurrentField.isEnum()) {
+						List<Object> enumList = Arrays.asList(typeOfCurrentField.getEnumConstants());
+						panel.addDropdownChoice(this.model.getObject(), fieldName, formFieldName, enumList, converter);
+					}
 				}
 
 			}
 		}
-
 		return panel;
 	}
 

@@ -1,5 +1,6 @@
 package io.atomiclimes.web.gui.wicket.pages;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -27,7 +28,9 @@ public class AtomicLimesPackagingAdministrationPage extends AtomicLimesDefaultWe
 	private PackagingRepository packagingRepository;
 
 	public AtomicLimesPackagingAdministrationPage() {
-		this.add(new PackagingListView(getPackagingTypes()));
+		List<Packaging> packagingTypesList = new LinkedList<>();
+		getPackagingTypes().forEach(packagingTypesList::add);
+		this.add(new PackagingListView(packagingTypesList));
 		this.add(new BookmarkablePageLink<>("addPackagingPage", AtomicLimesPackagingPage.class));
 	}
 
@@ -54,6 +57,11 @@ public class AtomicLimesPackagingAdministrationPage extends AtomicLimesDefaultWe
 				protected void edit() {
 					PageParameters parameters = new PageParameters();
 					parameters.add("name", packaging.getName());
+					parameters.add("capacity", packaging.getCapacity());
+					parameters.add("unit", packaging.getUnit());
+					parameters.add("duration", packaging.getDuration().toSeconds());
+					parameters.add("packagingOrder", packaging.getPackagingOrder());
+
 					setResponsePage(AtomicLimesPackagingPage.class, parameters);
 				}
 
@@ -68,7 +76,7 @@ public class AtomicLimesPackagingAdministrationPage extends AtomicLimesDefaultWe
 
 	}
 
-	private List<Packaging> getPackagingTypes() {
+	private Iterable<Packaging> getPackagingTypes() {
 		return this.packagingRepository.findAll();
 	}
 

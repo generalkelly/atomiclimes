@@ -6,12 +6,13 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 public abstract class EditItemPanel<T> extends Panel {
 
 	private static final long serialVersionUID = 1L;
 
-	public EditItemPanel(String id, IModel<T> model, JpaRepository<?, ?> repository) {
+	public EditItemPanel(String id, IModel<T> model, CrudRepository<?, ?> repository) {
 		super(id, model);
 		IModel<T> compound = new CompoundPropertyModel<>(model);
 		Form<T> form = new Form<>("form", compound);

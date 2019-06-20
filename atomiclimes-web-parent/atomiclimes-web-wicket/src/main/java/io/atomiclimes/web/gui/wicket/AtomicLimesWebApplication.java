@@ -19,7 +19,6 @@ import io.atomiclimes.web.gui.wicket.pages.AtomicLimesAdministrationPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesMainPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesPlannedProductionPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesProductAdministrationPage;
-import io.atomiclimes.web.gui.wicket.pages.AtomicLimesProductPage;
 
 @ApplicationInitExtension
 public class AtomicLimesWebApplication extends WicketBootSecuredWebApplication {
