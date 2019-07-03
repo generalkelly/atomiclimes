@@ -44,6 +44,14 @@ public class ItemPanel<T> extends Panel {
 
 	}
 
+	public void addMultipleChoice(Object modelObject, String fieldName, String formFieldName, List<Object> choices,
+			AtomicLimesConverter<?> converter) {
+		MultipleChoicePanel<Object, Object> multipleChoicePanel = new MultipleChoicePanel<>(
+				new PropertyModel<Object>(modelObject, fieldName));
+		multipleChoicePanel.addField((Serializable) modelObject, fieldName, formFieldName, converter, choices);
+		this.formFields.add(multipleChoicePanel);
+	}
+
 	private class FormFieldListView extends ListView<Panel> {
 
 		private static final long serialVersionUID = 1L;

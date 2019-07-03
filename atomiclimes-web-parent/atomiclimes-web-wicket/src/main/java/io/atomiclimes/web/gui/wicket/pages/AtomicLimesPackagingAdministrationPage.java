@@ -49,20 +49,13 @@ public class AtomicLimesPackagingAdministrationPage extends AtomicLimesDefaultWe
 		protected void populateItem(ListItem<Packaging> item) {
 			Packaging packaging = item.getModelObject();
 			item.add(new Label("name", packaging.getName()));
-			item.add(new EditItemPanel<Packaging>("editItem", Model.of(packaging), packagingRepository) {
+			item.add(new EditItemPanel<Packaging>("editItem", Model.of(packaging)) {
 
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				protected void edit() {
-					PageParameters parameters = new PageParameters();
-					parameters.add("name", packaging.getName());
-					parameters.add("capacity", packaging.getCapacity());
-					parameters.add("unit", packaging.getUnit());
-					parameters.add("duration", packaging.getDuration().toSeconds());
-					parameters.add("packagingOrder", packaging.getPackagingOrder());
-
-					setResponsePage(AtomicLimesPackagingPage.class, parameters);
+					setResponsePage(AtomicLimesPackagingPage.class, generatePageParametersFromPackaging(packaging));
 				}
 
 				@Override
@@ -78,6 +71,16 @@ public class AtomicLimesPackagingAdministrationPage extends AtomicLimesDefaultWe
 
 	private Iterable<Packaging> getPackagingTypes() {
 		return this.packagingRepository.findAll();
+	}
+
+	private PageParameters generatePageParametersFromPackaging(Packaging packaging) {
+		PageParameters parameters = new PageParameters();
+		parameters.add("name", packaging.getName());
+		parameters.add("capacity", packaging.getCapacity());
+		parameters.add("unit", packaging.getUnit());
+		parameters.add("duration", packaging.getDuration().toSeconds());
+		parameters.add("packagingOrder", packaging.getPackagingOrder());
+		return parameters;
 	}
 
 }

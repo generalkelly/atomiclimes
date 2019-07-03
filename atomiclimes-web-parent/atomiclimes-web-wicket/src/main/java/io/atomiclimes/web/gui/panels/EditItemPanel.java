@@ -12,7 +12,7 @@ public abstract class EditItemPanel<T> extends Panel {
 
 	private static final long serialVersionUID = 1L;
 
-	public EditItemPanel(String id, IModel<T> model, CrudRepository<?, ?> repository) {
+	public EditItemPanel(String id, IModel<T> model) {
 		super(id, model);
 		IModel<T> compound = new CompoundPropertyModel<>(model);
 		Form<T> form = new Form<>("form", compound);

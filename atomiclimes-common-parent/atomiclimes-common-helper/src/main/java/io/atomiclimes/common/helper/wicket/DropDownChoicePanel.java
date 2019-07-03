@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
@@ -49,7 +50,31 @@ public class DropDownChoicePanel<T, C> extends Panel {
 
 	private FormComponent<T> generateField() {
 		DropDownChoice<T> dropdownChoices = new DropDownChoice<T>("dropDownChoice",
-				new PropertyModel<>(modelObject, fieldName), choices) {
+				new PropertyModel<>(modelObject, fieldName), choices, new IChoiceRenderer<T>() {
+
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Object getDisplayValue(T object) {
+						return object.toString();
+					}
+
+					@Override
+					public String getIdValue(T object, int index) {
+						return object.toString();
+					}
+
+					@Override
+					public T getObject(String id, IModel<? extends List<? extends T>> choices) {
+						List<? extends T> choicesList = choices.getObject();
+						for (T choice : choicesList) {
+							if (choice.toString().equals(id)) {
+								return choice;
+							}
+						}
+						return null;
+					}
+				}) {
 
 			private static final long serialVersionUID = 1L;
 

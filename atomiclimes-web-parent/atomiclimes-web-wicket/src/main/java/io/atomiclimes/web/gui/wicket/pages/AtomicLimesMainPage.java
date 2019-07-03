@@ -1,13 +1,9 @@
 package io.atomiclimes.web.gui.wicket.pages;
 
-import java.util.List;
-
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import io.atomiclimes.common.dao.entities.ProductionItem;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
-import io.atomiclimes.web.gui.wicket.ProductionItemListView;
 
 public class AtomicLimesMainPage extends AtomicLimesDefaultWebPage {
 
@@ -20,12 +16,12 @@ public class AtomicLimesMainPage extends AtomicLimesDefaultWebPage {
 	private ProductionItemRepository productionItemRepository;
 
 	public AtomicLimesMainPage() {
-		this.add(new ProductionItemListView("productionItems", getProductionItems()));
+//		this.add(new ProductionItemListView("productionItems", getProductionItems()));
 	}
 
-	private List<ProductionItem> getProductionItems() {
-		return productionItemRepository.findAll();
-	}
+//	private List<ProductionItem> getProductionItems() {
+//		return productionItemRepository.findAll();
+//	}
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
