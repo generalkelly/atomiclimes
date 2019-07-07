@@ -32,7 +32,6 @@ public class AtomicLimesProductionPlanningCalculation {
 	private KieRepository kieRepository;
 	private ReleaseId krDefaultReleaseId;
 	private KieContainer kieContainer;
-	private KieSession kieSession;
 	private PlannedProductionRepository plannedProductionRepository;
 	private NonProductionItemRepository nonProductionItemRepository;
 
@@ -121,12 +120,12 @@ public class AtomicLimesProductionPlanningCalculation {
 
 	private void runRulesEngine(final List<String> linkingNonProductiveStageTypes,
 			ProductionItem preceedingProductionItem, ProductionItem newProductionItem) {
-		this.kieSession = kieContainer.newKieSession();
-		this.kieSession.insert(preceedingProductionItem);
-		this.kieSession.setGlobal("nonProductiveStages", linkingNonProductiveStageTypes);
-		this.kieSession.setGlobal("newProductionItem", newProductionItem);
-		this.kieSession.fireAllRules();
-		this.kieSession.dispose();
+		KieSession kieSession = kieContainer.newKieSession();
+		kieSession.insert(preceedingProductionItem);
+		kieSession.setGlobal("nonProductiveStages", linkingNonProductiveStageTypes);
+		kieSession.setGlobal("newProductionItem", newProductionItem);
+		kieSession.fireAllRules();
+		kieSession.dispose();
 	}
 
 	private List<PlannedNonproductiveStage> extractNonProductiveStages(final List<String> nonProductiveStageTypes) {

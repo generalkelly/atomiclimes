@@ -19,9 +19,16 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.atomiclimes.common.helper.annotations.AtomicLimesItemForm;
+import io.atomiclimes.common.helper.annotations.AtomicLimesItemFormField;
+import io.atomiclimes.common.helper.enums.AtomicLimesFormInputType;
+
 @Entity
 @Table(name = "Production_Items")
+@AtomicLimesItemForm(value = "Production Item Form")
 public class ProductionItem implements Serializable {
+
+	private static final String SEMICOLON_DELIMITER = "; ";
 
 	/**
 	 * 
@@ -33,13 +40,15 @@ public class ProductionItem implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "productName", referencedColumnName = "productName")
+	@AtomicLimesItemFormField(fieldName = "Product", fieldType = AtomicLimesFormInputType.DROPDOWN_CHOICE)
 	private Product product;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(name = "Production_Item_Packaging", joinColumns = {
 			@JoinColumn(name = "productionItemId") }, inverseJoinColumns = { @JoinColumn(name = "packagingId") })
+	@AtomicLimesItemFormField(fieldName = "Packaging", fieldType = AtomicLimesFormInputType.MULTIPLE_CHOICE)
 	private List<Packaging> packaging;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productionItem")
@@ -89,6 +98,22 @@ public class ProductionItem implements Serializable {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		if (this.product != null) {
+			sb.append(this.product.getName());
+		}
+		if (packaging != null && !packaging.isEmpty()) {
+			packaging.stream().forEach(pack -> {
+				sb.append(SEMICOLON_DELIMITER);
+				sb.append(pack.getName());
+			});
+		}
+		return sb.toString();
 	}
 
 }

@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>de.atomiclimes</groupId>
-		<artifactId>parent</artifactId>
+		<groupId>io.atomiclimes</groupId>
+		<artifactId>atomiclimes-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>smarmeter-web-parent</artifactId>
+	<artifactId>atomiclimes-web-parent</artifactId>
 	<name>atomiclimes-web-parent</name>
 	<packaging>pom</packaging>
 	<modules>

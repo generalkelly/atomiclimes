@@ -15,11 +15,8 @@ import com.giffing.wicket.spring.boot.context.extensions.ApplicationInitExtensio
 import com.giffing.wicket.spring.boot.starter.app.WicketBootSecuredWebApplication;
 
 import de.agilecoders.wicket.webjars.WicketWebjars;
-import io.atomiclimes.web.gui.wicket.pages.AtomicLimesAdministrationPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesMainPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesPlannedProductionPage;
-import io.atomiclimes.web.gui.wicket.pages.AtomicLimesProductAdministrationPage;
-import io.atomiclimes.web.gui.wicket.pages.AtomicLimesProductPage;
 
 @ApplicationInitExtension
 public class AtomicLimesWebApplication extends WicketBootSecuredWebApplication {
@@ -56,10 +53,6 @@ public class AtomicLimesWebApplication extends WicketBootSecuredWebApplication {
 
 		mountPage("/home", AtomicLimesMainPage.class);
 		mountPage("/plannedProductions", AtomicLimesPlannedProductionPage.class);
-		mountPage("/admin", AtomicLimesAdministrationPage.class);
-		mountPage("admin/products", AtomicLimesProductAdministrationPage.class);
-//		mountPage("admin/products/product", AtomicLimesProductPage.class);
-
 	}
 
 	@Override

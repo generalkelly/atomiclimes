@@ -23,6 +23,7 @@ import io.atomiclimes.common.dao.entities.ProductionItem;
 import io.atomiclimes.common.dao.entities.ProductionStage;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
+import io.atomiclimes.common.dao.repositories.ProductRepository;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
 import io.atomiclimes.common.helper.enums.PackagingUnit;
 
@@ -40,6 +41,8 @@ public class AtomicLimesProductionPlanningCalculationTest {
 	private PlannedProductionRepository plannedProductionRepository;
 	@Autowired
 	private NonProductionItemRepository nonProductionItemRepository;
+	@Autowired
+	private ProductRepository productRepository;
 
 	private PlannedProduction preceedingPlannedProduction;
 	private PlannedProduction newPlannedProduction;
@@ -61,11 +64,11 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		bar.setDuration(Duration.ofMinutes(30));
 		nonProductionItemRepository.save(bar);
 
-		ProductionItem fooItem = createProduct("foo");
+		ProductionItem fooItem = createProductionItem("foo");
 
-		ProductionItem barItem = createProduct("bar");
+		ProductionItem barItem = createProductionItem("bar");
 
-		ProductionItem bazItem = createProduct("baz");
+		ProductionItem bazItem = createProductionItem("baz");
 
 		lastPlannedProductionOfPreviousDays = new PlannedProduction();
 		lastPlannedProductionOfPreviousDays.setPlannedProductionTime(OffsetDateTime.now().minusDays(1));
@@ -116,13 +119,13 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		plannedProductionRepository.save(subsequentPlannedProduction);
 	}
 
-	private ProductionItem createProduct(String name) {
+	private ProductionItem createProductionItem(String name) {
 		Product product = new Product();
 		product.setName(name);
 		ProductionItem productionItem = new ProductionItem();
 		productionItem.setProduct(product);
-		productionItemRepository.save(productionItem);
-		return productionItem;
+		productRepository.save(product);
+		return productionItemRepository.save(productionItem);
 	}
 
 	@Test

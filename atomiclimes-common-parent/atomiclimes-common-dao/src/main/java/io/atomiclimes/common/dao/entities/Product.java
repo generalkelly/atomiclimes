@@ -7,16 +7,18 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.atomiclimes.common.helper.annotations.AtomicLimesItemForm;
+import io.atomiclimes.common.helper.annotations.AtomicLimesItemFormField;
+
 @Entity
 @Table(name = "Product")
+@AtomicLimesItemForm("Product Form")
 public class Product implements Serializable {
 
 	/**
@@ -26,6 +28,7 @@ public class Product implements Serializable {
 
 	@Id
 	@Column(name = "productName")
+	@AtomicLimesItemFormField(fieldName = "Product Name")
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY)
@@ -46,6 +49,11 @@ public class Product implements Serializable {
 
 	public void setProductionItems(List<ProductionItem> productionItems) {
 		this.productionItems = productionItems;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 
 }

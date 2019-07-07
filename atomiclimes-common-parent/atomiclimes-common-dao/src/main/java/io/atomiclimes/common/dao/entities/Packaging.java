@@ -106,5 +106,9 @@ public class Packaging implements Serializable {
 	public void setProductionItems(List<ProductionItem> productionItems) {
 		this.productionItems = productionItems;
 	}
+	
+	public String toString() {
+		return getName();
+	}
 
 }
