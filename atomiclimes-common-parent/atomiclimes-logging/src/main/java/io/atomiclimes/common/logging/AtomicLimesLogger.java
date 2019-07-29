@@ -78,6 +78,15 @@ public class AtomicLimesLogger {
 	}
 
 	/**
+	 * @param message string which should be logged
+	 */
+	public void info(String message) {
+		if (logger.isInfoEnabled()) {
+			logger.info(message);
+		}
+	}
+
+	/**
 	 * This method will only log if the system is in info mode
 	 * 
 	 * @param message instance of {@link AtomicLimesLogMessage} the message which
@@ -113,6 +122,15 @@ public class AtomicLimesLogger {
 	public void error(AtomicLimesLogMessage message) {
 		if (logger.isErrorEnabled()) {
 			logger.error(message.getMessage());
+		}
+	}
+
+	/**
+	 * @param message string which should be logged
+	 */
+	public void error(String message) {
+		if (logger.isErrorEnabled()) {
+			logger.error(message);
 		}
 	}
 

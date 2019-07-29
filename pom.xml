@@ -15,6 +15,7 @@
 		<module>atomiclimes-kafka-image</module>
 		<module>atomiclimes-security-server</module>
 		<module>atomiclimes-web-parent</module>
+		<module>atomiclimes-master</module>
 	</modules>
 
 	<properties>
@@ -70,6 +71,13 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring.cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-parent</artifactId>
 				<version>${spring.cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>

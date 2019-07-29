@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import io.atomiclimes.common.dao.entities.Packaging;
 import io.atomiclimes.common.dao.entities.ProductionItem;
-import io.atomiclimes.helper.jackson.SmartmeterJacksonHelper;
+import io.atomiclimes.helper.jackson.AtomicLimesJacksonHelper;
 
 public class ProductionItemListView extends ListView<ProductionItem> {
 
@@ -17,11 +17,11 @@ public class ProductionItemListView extends ListView<ProductionItem> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private SmartmeterJacksonHelper smartmeterJacksonHelper;
+	private AtomicLimesJacksonHelper smartmeterJacksonHelper;
 
 	public ProductionItemListView(String id, List<ProductionItem> list) {
 		super(id, list);
-		this.smartmeterJacksonHelper = new SmartmeterJacksonHelper(ProductionItem.class);
+		this.smartmeterJacksonHelper = new AtomicLimesJacksonHelper(ProductionItem.class);
 	}
 
 	@Override

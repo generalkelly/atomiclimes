@@ -78,7 +78,7 @@ public class AtomicLimesPackagingAdministrationPage extends AtomicLimesDefaultWe
 		parameters.add("name", packaging.getName());
 		parameters.add("capacity", packaging.getCapacity());
 		parameters.add("unit", packaging.getUnit());
-		parameters.add("duration", packaging.getDuration().toSeconds());
+		parameters.add("duration", packaging.getDuration().toMillis()/1000);
 		parameters.add("packagingOrder", packaging.getPackagingOrder());
 		return parameters;
 	}

@@ -5,16 +5,16 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.atomiclimes.helper.jackson.SmartmeterJacksonHelper;
+import io.atomiclimes.helper.jackson.AtomicLimesJacksonHelper;
 
 public class SmartmeterJacksonHelperTest {
 
 	private static final String JSON_STRING = "{\"firstString\":\"firstString\",\"secondString\":\"secondString\"}";
-	private SmartmeterJacksonHelper smartmeterJacksonHelper;
+	private AtomicLimesJacksonHelper smartmeterJacksonHelper;
 
 	@Before
 	public void setup() {
-		this.smartmeterJacksonHelper = new SmartmeterJacksonHelper(TestClass.class);
+		this.smartmeterJacksonHelper = new AtomicLimesJacksonHelper(TestClass.class);
 
 	}
 
