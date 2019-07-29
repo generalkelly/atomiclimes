@@ -1,13 +1,13 @@
-package io.atomiclimes.agent;
+package io.atomiclimes.master;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AtomicLimesAgent {
-
+public class AtomicLimesMasterApplication {
+	
 	public static void main(String[] args) {
-		SpringApplication.run(AtomicLimesAgent.class, args);
+		SpringApplication.run(AtomicLimesMasterApplication.class, args);
 	}
 
 }

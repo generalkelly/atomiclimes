@@ -1,0 +1,72 @@
+{"properties": [
+  {
+    "name": "io.atomiclimes.agent.hello",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.hello'"
+  },
+  {
+    "name": "io.atomiclimes.agent.test.rack",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.test.rack'"
+  },
+  {
+    "name": "io.atomiclimes.agent.test.slot",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.test.slot'"
+  },
+  {
+    "name": "io.atomiclimes.agent.test.url",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.test.url'"
+  },
+  {
+    "name": "io.atomiclimes.agent.s7-connection.url",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.s7-connection.url'"
+  },
+  {
+    "name": "io.atomiclimes.agent.s7-connection.rack",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.s7-connection.rack'"
+  },
+  {
+    "name": "io.atomiclimes.agent.s7-connection.slot",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.s7-connection.slot'"
+  },
+  {
+    "name": "io.atomiclimes.agent.s7-connection.field-map.value-1",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.s7-connection.field-map.value-1'"
+  },
+  {
+    "name": "io.atomiclimes.agent.s7-connection.field-map.value-2",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.s7-connection.field-map.value-2'"
+  },
+  {
+    "name": "io.atomiclimes.agent.s7-connection.field-map.value-3",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.s7-connection.field-map.value-3'"
+  },
+  {
+    "name": "io.atomiclimes.agent.s7-connection.field-map.value-4",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.s7-connection.field-map.value-4'"
+  },
+  {
+    "name": ".atomiclimes.agent.s7-connection.url",
+    "type": "java.lang.String",
+    "description": "A description for '.atomiclimes.agent.s7-connection.url'"
+  },
+  {
+    "name": ".atomiclimes.agent.s7-connection.url",
+    "type": "java.lang.String",
+    "description": "A description for '.atomiclimes.agent.s7-connection.url'"
+  },
+  {
+    "name": ".atomiclimes.agent.s7-connection.url",
+    "type": "java.lang.String",
+    "description": "A description for '.atomiclimes.agent.s7-connection.url'"
+  }
+]}

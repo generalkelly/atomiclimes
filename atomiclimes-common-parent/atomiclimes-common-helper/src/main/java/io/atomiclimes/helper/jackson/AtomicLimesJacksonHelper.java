@@ -6,7 +6,7 @@ import java.io.Serializable;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class SmartmeterJacksonHelper implements Serializable {
+public class AtomicLimesJacksonHelper implements Serializable {
 
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class SmartmeterJacksonHelper implements Serializable {
 	ObjectMapper objectMapper = new ObjectMapper();
 	private Class<?> classType;
 
-	public SmartmeterJacksonHelper(Class<?> classType) {
+	public AtomicLimesJacksonHelper(Class<?> classType) {
 		this.classType = classType;
 	}
 

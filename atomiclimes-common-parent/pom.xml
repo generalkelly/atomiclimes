@@ -13,9 +13,11 @@
 	<modules>
 		<module>atomiclimes-common-dao</module>
 		<module>atomiclimes-common-helper</module>
-		<module>atomiclimes-common-kafka-connector</module>
 		<module>atomiclimes-security-client-starter</module>
 		<module>atomiclimes-logging</module>
+		<module>atomiclimes-common-exception</module>
+		<module>atomiclimes-moka7</module>
+		<module>atomiclimes-common-communication</module>
 	</modules>
 
 	<properties>
