@@ -16,7 +16,6 @@
 		<module>atomiclimes-security-client-starter</module>
 		<module>atomiclimes-logging</module>
 		<module>atomiclimes-common-exception</module>
-		<module>atomiclimes-moka7</module>
 		<module>atomiclimes-common-communication</module>
 	</modules>
 
