@@ -16,6 +16,7 @@
 		<module>atomiclimes-security-server</module>
 		<module>atomiclimes-web-parent</module>
 		<module>atomiclimes-master</module>
+		<module>atomiclimes-data</module>
 	</modules>
 
 	<properties>
