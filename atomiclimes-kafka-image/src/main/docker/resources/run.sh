@@ -1,5 +1,7 @@
 #!/bin/bash
 #STARTING ZOOKEEPER
+echo "Configuring environment for kafka"
+./run_kafka_config.sh
 echo "Starting Zookeeper..."
 ./kafka/bin/zookeeper-server-start.sh ./kafka/config/zookeeper.properties &
 echo "Starting Kafka..."
