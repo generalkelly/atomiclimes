@@ -9,13 +9,11 @@
 	<packaging>pom</packaging>
 	<name>atomiclimes-parent</name>
 	<modules>
-		<module>atomiclimes-agent</module>
 		<module>atomiclimes-common-parent</module>
 		<module>atomiclimes-logic</module>
-		<module>atomiclimes-kafka-image</module>
 		<module>atomiclimes-security-server</module>
 		<module>atomiclimes-web-parent</module>
-		<module>atomiclimes-master</module>
+		<module>atomiclimes-data</module>
 	</modules>
 
 	<properties>
