@@ -6,6 +6,8 @@ import java.util.Map;
 public class KafkaConfiguration {
 
 	private String bootstrapServer;
+	private String zookeeperConnect;
+	private String groupId;
 	private String topicName;
 	private Map<String, Object> kafkaProperties = new HashMap<>();
 
@@ -27,6 +29,22 @@ public class KafkaConfiguration {
 		this.bootstrapServer = bootstrapServer;
 	}
 
+	public String getZookeeperConnect() {
+		return zookeeperConnect;
+	}
+
+	public void setZookeeperConnect(String zookeeperConnect) {
+		this.zookeeperConnect = zookeeperConnect;
+	}
+
+	public String getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
 	public String getTopicName() {
 		return topicName;
 	}
@@ -46,8 +64,12 @@ public class KafkaConfiguration {
 	public Map<String, Object> createKafkaConfiguration() {
 		Map<String, Object> kafkaConfigurationMap = new HashMap<>();
 		kafkaConfigurationMap.put("bootstrap.servers", getBootstrapServer());
+		kafkaConfigurationMap.put("zookeeper.connect", getZookeeperConnect());
+		kafkaConfigurationMap.put("group.id", getGroupId());
+		kafkaConfigurationMap.put("client.id", "bla");
 		kafkaConfigurationMap.putAll(this.kafkaProperties);
 		return kafkaConfigurationMap;
 	}
+
 
 }

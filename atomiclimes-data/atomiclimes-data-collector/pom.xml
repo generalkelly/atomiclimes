@@ -4,15 +4,25 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.atomiclimes</groupId>
-		<artifactId>atomiclimes-parent</artifactId>
+		<artifactId>atomiclimes-data</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>atomiclimes-agent</artifactId>
-
+	<artifactId>atomiclimes-data-collector</artifactId>
+	<name>atomiclimes-data-collector</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -28,22 +38,6 @@
 			<groupId>io.atomiclimes</groupId>
 			<artifactId>atomiclimes-common-exception</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.plc4x</groupId> -->
-		<!-- <artifactId>plc4j-protocol-s7</artifactId> -->
-		<!-- <version>0.4.0</version> -->
-		<!-- <scope>runtime</scope> -->
-		<!-- </dependency> -->
-		<dependency>
-			<groupId>org.apache.plc4x</groupId>
-			<artifactId>plc4j-api</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.plc4x</groupId>
-			<artifactId>plc4j-driver-s7</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.atomiclimes</groupId>
@@ -71,9 +65,8 @@
 			<version>1.2.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.plc4x</groupId>
-			<artifactId>plc4j-apache-edgent</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<groupId>org.influxdb</groupId>
+			<artifactId>influxdb-java</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.atomiclimes</groupId>

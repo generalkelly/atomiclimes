@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.atomiclimes</groupId>
-		<artifactId>atomiclimes-parent</artifactId>
+		<artifactId>atomiclimes-data</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>atomiclimes-master</artifactId>
