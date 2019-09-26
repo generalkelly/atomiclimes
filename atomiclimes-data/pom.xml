@@ -15,5 +15,7 @@
 		<module>atomiclimes-kafka-image</module>
 		<module>atomiclimes-master</module>
 		<module>atomiclimes-data-collector</module>
+		<module>atomiclimes-data-service-framework</module>
+		<module>atomiclimes-client</module>
 	</modules>
 </project>

@@ -9,10 +9,11 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import io.atomiclimes.common.logging.AtomicLimesLogger;
-import io.atomiclimes.communication.AtomicLimesAgent;
 import io.atomiclimes.data.collector.connections.AtomicLimesDataTransporter;
 import io.atomiclimes.data.collector.connections.AtomicLimesInfluxDBConnector;
 import io.atomiclimes.data.collector.connections.AtomicLimesKafkaConnector;
+import io.atomiclimes.data.collector.logging.AtomicLimesDataCollectorLogMessage;
+import io.atomiclimes.data.service.dto.AtomicLimesClient;
 
 public class AtomicLimesDataTransporterRegistry {
 
@@ -25,7 +26,7 @@ public class AtomicLimesDataTransporterRegistry {
 		this.properties = properties;
 	}
 
-	public void addTransporters(Map<String, AtomicLimesAgent> newAgents) {
+	public void addTransporters(Map<String, AtomicLimesClient> newAgents) {
 		Map<String, Future<?>> transporterFuturesMap = newAgents.entrySet().stream().collect(Collectors
 				.toMap(Map.Entry::getKey, entry -> this.executorService.submit(generateTransporter(entry.getKey()))));
 		registryMap.putAll(transporterFuturesMap);
@@ -34,11 +35,10 @@ public class AtomicLimesDataTransporterRegistry {
 			try {
 				entry.getValue().get();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOG.info(AtomicLimesDataCollectorLogMessage.TRANSPORTER_ERROR_LOG_MESSAGE);
+				LOG.debug(AtomicLimesDataCollectorLogMessage.TRANSPORTER_ERROR_LOG_MESSAGE, e);
 			}
 		});
 
@@ -54,7 +54,7 @@ public class AtomicLimesDataTransporterRegistry {
 		return new AtomicLimesDataTransporter(atomicLimesKafkaConnector, atomicLimesInfluxDBConnector, LOG);
 	}
 
-	private boolean killTransporter(String upperCaseAgentName) {
+	public boolean killTransporter(String upperCaseAgentName) {
 		return this.registryMap.get(upperCaseAgentName).cancel(true);
 	}
 

@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.atomiclimes.common.logging.AtomicLimesLogger;
 import io.atomiclimes.data.collector.listener.AtomicLimesaDataCollectorStartupListener;
 
 @Configuration

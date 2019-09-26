@@ -1,7 +1,0 @@
-[2018-11-05 10:31:12,331] INFO Reading configuration from: config/zookeeper.properties (org.apache.zookeeper.server.quorum.QuorumPeerConfig)
-[2018-11-05 10:31:12,334] INFO autopurge.snapRetainCount set to 3 (org.apache.zookeeper.server.DatadirCleanupManager)
-[2018-11-05 10:31:12,334] INFO autopurge.purgeInterval set to 0 (org.apache.zookeeper.server.DatadirCleanupManager)
-[2018-11-05 10:31:12,334] INFO Purge task is not scheduled. (org.apache.zookeeper.server.DatadirCleanupManager)
-[2018-11-05 10:31:12,334] WARN Either no config or no quorum defined in config, running  in standalone mode (org.apache.zookeeper.server.quorum.QuorumPeerMain)
-[2018-11-05 10:31:12,357] INFO Reading configuration from: config/zookeeper.properties (org.apache.zookeeper.server.quorum.QuorumPeerConfig)
-[2018-11-05 10:31:12,358] INFO Starting server (org.apache.zookeeper.server.ZooKeeperServerMain)
