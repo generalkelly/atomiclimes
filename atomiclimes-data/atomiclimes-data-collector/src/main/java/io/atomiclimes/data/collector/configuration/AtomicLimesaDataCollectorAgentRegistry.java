@@ -11,15 +11,15 @@ import org.springframework.web.client.RestTemplate;
 
 import io.atomiclimes.common.helper.maputils.MapComparator;
 import io.atomiclimes.common.logging.AtomicLimesLogger;
-import io.atomiclimes.communication.AtomicLimesAgent;
 import io.atomiclimes.data.collector.listener.events.AlteredAgentsEvent;
 import io.atomiclimes.data.collector.listener.events.DeprecatedAgentsEvent;
 import io.atomiclimes.data.collector.listener.events.NewAgentsEvent;
+import io.atomiclimes.data.service.dto.AtomicLimesClient;
 
 public class AtomicLimesaDataCollectorAgentRegistry {
 
 	private AtomicLimesDataCollectorProperties properties;
-	private Map<String, AtomicLimesAgent> agentMap = new HashMap<>();
+	private Map<String, AtomicLimesClient> agentMap = new HashMap<>();
 	private ApplicationEventPublisher applicationEventPublisher;
 	private static final AtomicLimesLogger LOG = new AtomicLimesLogger(AtomicLimesaDataCollectorAgentRegistry.class);
 
@@ -32,10 +32,10 @@ public class AtomicLimesaDataCollectorAgentRegistry {
 	public void poll() {
 		ScheduledExecutorService pollingExecutor = Executors.newScheduledThreadPool(1);
 		Runnable pollAgentList = () -> {
-			Map<String, AtomicLimesAgent> agentMapFromMaster = this.retrieveAgentMap();
-			Map<String, AtomicLimesAgent> newAgents = MapComparator.leftDiff(agentMapFromMaster, agentMap);
-			Map<String, AtomicLimesAgent> deprecatedAgents = MapComparator.leftDiff(agentMap, agentMapFromMaster);
-			Map<String, AtomicLimesAgent> alteredAgents = MapComparator.diffValuesWithCommonKeys(agentMap,
+			Map<String, AtomicLimesClient> agentMapFromMaster = this.retrieveAgentMap();
+			Map<String, AtomicLimesClient> newAgents = MapComparator.leftDiff(agentMapFromMaster, agentMap);
+			Map<String, AtomicLimesClient> deprecatedAgents = MapComparator.leftDiff(agentMap, agentMapFromMaster);
+			Map<String, AtomicLimesClient> alteredAgents = MapComparator.diffValuesWithCommonKeys(agentMap,
 					agentMapFromMaster);
 
 			this.agentMap = agentMapFromMaster;
@@ -57,11 +57,11 @@ public class AtomicLimesaDataCollectorAgentRegistry {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Map<String, AtomicLimesAgent> retrieveAgentMap() {
+	private Map<String, AtomicLimesClient> retrieveAgentMap() {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		LOG.info("asking for agentList");
-		return (Map<String, AtomicLimesAgent>) restTemplate.getForObject(properties.getAgentListUrl(), Map.class);
+		return (Map<String, AtomicLimesClient>) restTemplate.getForObject(properties.getAgentListUrl(), Map.class);
 	}
 
 }

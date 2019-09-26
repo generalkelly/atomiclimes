@@ -68,5 +68,15 @@
     "name": ".atomiclimes.agent.s7-connection.url",
     "type": "java.lang.String",
     "description": "A description for '.atomiclimes.agent.s7-connection.url'"
+  },
+  {
+    "name": "io.atomiclimes.agent.authorized-client-types",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.authorized-client-types'"
+  },
+  {
+    "name": "io.atomiclimes.agent.master-url",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.agent.master-url'"
   }
 ]}

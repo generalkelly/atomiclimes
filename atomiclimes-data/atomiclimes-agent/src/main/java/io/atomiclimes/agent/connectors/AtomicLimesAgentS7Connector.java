@@ -23,15 +23,18 @@ import com.google.gson.JsonObject;
 
 import io.atomiclimes.agent.configuration.AtomicLimesAgentProperties;
 import io.atomiclimes.agent.configuration.AtomicLimesAgentProperties.S7Connection;
+import io.atomiclimes.client.connectors.AtomicLimesClientConnector;
 import io.atomiclimes.common.logging.AtomicLimesLogger;
-import io.atomiclimes.communication.AtomicLimesRegistrationResponse;
-import io.atomiclimes.communication.KafkaConfiguration;
+import io.atomiclimes.data.service.dto.AtomicLimesRegistrationResponse;
 import io.netty.util.IllegalReferenceCountException;
 
-public class AtomicLimesAgentS7Connector implements AtomicLimesAgentConnector {
+public class AtomicLimesAgentS7Connector implements AtomicLimesClientConnector {
 
 	private PlcConnection plcConnection;
 	private AtomicLimesAgentProperties properties;
+	private PlcConnectionAdapter plcConnectionAdapter;
+	private Builder builder;
+	private PlcReadRequest readRequest;
 	private static final AtomicLimesLogger LOG = new AtomicLimesLogger(AtomicLimesAgentS7Connector.class);
 
 	public AtomicLimesAgentS7Connector(AtomicLimesAgentProperties properties) {
@@ -57,6 +60,14 @@ public class AtomicLimesAgentS7Connector implements AtomicLimesAgentConnector {
 				Thread.currentThread().interrupt();
 			}
 		}
+		this.plcConnectionAdapter = new PlcConnectionAdapter(plcConnection);
+		try {
+			this.builder = plcConnectionAdapter.readRequestBuilder();
+		} catch (PlcException e) {
+			LOG.error(AtomicLimesAgentMessages.PLC_EXCEPTION_LOG_MESSAGE, e);
+		}
+		addFieldMapItemsToBuilder(builder, this.properties.getS7Connection().getFieldMap());
+		this.readRequest = builder.build();
 	}
 
 	@Override
@@ -64,30 +75,24 @@ public class AtomicLimesAgentS7Connector implements AtomicLimesAgentConnector {
 
 		DirectProvider dp = new DirectProvider();
 		Topology topology = dp.newTopology("kafka-bridge");
+		Supplier<PlcReadResponse> supplier = () -> {
+			if (!plcConnection.isConnected()) {
+				this.connect();
+			}
+			Supplier<PlcReadResponse> batchSupplier = PlcFunctions.batchSupplier(plcConnectionAdapter, readRequest);
+			return batchSupplier.get();
+		};
 
-		PlcConnectionAdapter plcConnectionAdapter = new PlcConnectionAdapter(plcConnection);
+		TStream<PlcReadResponse> source = topology.poll(supplier, this.properties.getPollingInterval(),
+				TimeUnit.MILLISECONDS);
 
-		PlcReadRequest.Builder builder;
-		try {
-			builder = plcConnectionAdapter.readRequestBuilder();
-			addFieldMapItemsToBuilder(builder, this.properties.getS7Connection().getFieldMap());
-			PlcReadRequest readRequest = builder.build();
-			Supplier<PlcReadResponse> supplier = PlcFunctions.batchSupplier(plcConnectionAdapter, readRequest);
-			TStream<PlcReadResponse> source = topology.poll(supplier, this.properties.getPollingInterval(),
-					TimeUnit.MILLISECONDS);
+		TStream<String> jsonString = source.map(this::createJsonStringFromPlcResponseValues);
 
-			TStream<String> jsonString = source.map(this::createJsonStringFromPlcResponseValues);
+		Map<String, Object> kafkaConfiguration = registrationResponse.getKafkaConfiguration();
+		KafkaProducer kafkaProducer = new KafkaProducer(topology, () -> kafkaConfiguration);
+		kafkaProducer.publish(jsonString, kafkaConfiguration.get("topic.name").toString());
 
-			KafkaConfiguration kafkaConfiguration = registrationResponse.getKafkaConfiguration();
-			Map<String, Object> kafkaConfig = kafkaConfiguration.createKafkaConfiguration();
-			KafkaProducer kafkaProducer = new KafkaProducer(topology, () -> kafkaConfig);
-			kafkaProducer.publish(jsonString, kafkaConfiguration.getTopicName());
-
-			dp.submit(topology);
-		} catch (PlcException e) {
-			LOG.error(AtomicLimesAgentMessages.PLC_EXCEPTION_LOG_MESSAGE, e);
-		}
-
+		dp.submit(topology);
 	}
 
 	private String createJsonStringFromPlcResponseValues(PlcReadResponse value) {

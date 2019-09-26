@@ -4,19 +4,19 @@ import java.util.Map;
 
 import org.springframework.context.ApplicationEvent;
 
-import io.atomiclimes.communication.AtomicLimesAgent;
+import io.atomiclimes.data.service.dto.AtomicLimesClient;
 
 public class AlteredAgentsEvent extends ApplicationEvent {
 
 	private static final long serialVersionUID = 1L;
-	private Map<String, AtomicLimesAgent> alteredAgents;
+	private Map<String, AtomicLimesClient> alteredAgents;
 
-	public AlteredAgentsEvent(Object source, Map<String, AtomicLimesAgent> alteredAgents) {
+	public AlteredAgentsEvent(Object source, Map<String, AtomicLimesClient> alteredAgents) {
 		super(source);
 		this.alteredAgents = alteredAgents;
 	}
 
-	public Map<String, AtomicLimesAgent> getAlteredAgents() {
+	public Map<String, AtomicLimesClient> getAlteredAgents() {
 		return alteredAgents;
 	}
 
