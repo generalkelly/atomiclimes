@@ -1,48 +1,285 @@
-.bg-al-white{
-	background-color: white;
-}
-
-.border-al-round{
-	border-radius: 5px;
-}
-
-.container-al{
-	padding-top: 15px;
-	padding-bottom: 15px;
-	margin-top: 15px;
-}
-
-.slick-slider{
-    position: absolute;
-}
-
-.bg-dark-al{
-	background-color: #3f4245 !important;
-}
-
 body {
-	margin: 0;
-	background-color: #656565;
+  margin: 0;
+  background-color: #656565;
 }
 
-.limesLogo{
-	margin-top: 15px;
-	margin-bottom: 15px;
-	height: 100px;
+#drawing {
+  position: inherit;
 }
 
-.bg-al{
-	background-color:  #a8db71;
+.atomicLimesSelectContainer {
+  height: 200px;
+  /* TODO: make the height dependent from screensize on javascript side */
+}
+
+.atomicLimesOption[select="true"] {
+  background-color: #46c307;
+  color: white;
+}
+
+.productionItemToSelect {
+  border-bottom: 1px solid #80808029;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.atomicLimesOption[select="false"] {
+  background-color: white;
+  color: black;
+}
+
+.optionProductName {
+  padding-left: 10px
+}
+
+.bg-al-white {
+  background-color: white;
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+/* .border-al-round{ */
+/* 	border-radius: 5px; */
+/* } */
+.container-al {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: 15px;
+}
+
+/* .slick-slider{ */
+/*     position: absolute; */
+/* } */
+.bg-dark-al {
+  background-color: #3f4245 !important;
+}
+
+.limesLogo {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 100px;
+}
+
+.bg-al {
+  background-color: #a8db71;
 }
 
 #username {
-	margin-left: 15px;
-	margin-top: 10px;
-	padding-top: 20px;
-	font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
-	font-size: 25px;
-	font-weight: 300;
-	color: #fdffe6;
-	display: inline-flex;
-	float: inline-end;
+  margin-left: 15px;
+  margin-top: 10px;
+  padding-top: 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 25px;
+  font-weight: 300;
+  color: #fdffe6;
+  display: inline-flex;
+  float: inline-end;
+}
+
+.modal {
+  position: absolute;
+}
+
+.modal-body {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 0px 0px 0px 0px;
+  overflow: hidden;
+}
+
+ul {
+  list-style-type: none;
+  margin-top: 0;
+  margin-bottom: 0px;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  /* border: 1px solid rgba(0, 0, 0, .2); */
+  border-radius: 6px;
+  outline: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  list-style-type: none;
+}
+
+.modal.fade {
+  -webkit-transition: opacity .3s linear, top .3s ease-out;
+  -moz-transition: opacity .3s linear, top .3s ease-out;
+  -ms-transition: opacity .3s linear, top .3s ease-out;
+  -o-transition: opacity .3s linear, top .3s ease-out;
+  transition: opacity .3s linear, top .3s ease-out;
+  top: -25%;
+}
+
+.modal-dialog {
+  /* top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%); */
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+}
+
+.modal-backdrop {
+  position: absolute !important;
+  background-color: #1b1b25;
+}
+
+.atomicLimesContainer {
+  border-radius: 5px 5px 5px 5px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 60px;
+  font-weight: 200;
+  display: inline-block;
+}
+
+.atomicLimesMenuBar {
+  height: 100px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cancelButton {
+  stroke: red;
+  height: 40px;
+  width: 40px;
+  position: relative;
+}
+
+.cancelButton canvas {
+  display: block;
+  width: inherit;
+  height: inherit;
+  visibility: hidden;
+}
+
+.cancelButton svg {
+  stroke: inherit;
+  height: 100%;
+  width: 100%;
+  stroke-width: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.saveButton {
+  stroke: #46c307;
+  height: 40px;
+  width: 40px;
+  position: relative;
+}
+
+.saveButton canvas {
+  display: block;
+  width: inherit;
+  height: inherit;
+  visibility: hidden;
+}
+
+.saveButton svg {
+  stroke: inherit;
+  height: 100%;
+  width: 100%;
+  stroke-width: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.changeDay {
+  stroke: black;
+  height: 60px;
+  width: 60px;
+  position: relative;
+}
+
+.changeDay canvas {
+  display: block;
+  width: inherit;
+  height: inherit;
+  visibility: hidden;
+}
+
+.changeDay svg {
+  stroke: inherit;
+  height: 100%;
+  width: 100%;
+  stroke-width: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.plannedProductionContentContainer {
+  overflow: auto;
+  height: 500px;
+  padding-top: 20px;
+  padding-left: 10px;
+}
+
+/* .nicescroll-rails {
+  background-color: rgb(51, 122, 183);
+}
+
+.nicescroll-cursors {
+  border: none !important;
+  background-color: blue;
+  border-radius: 0 !important;
+} */
+.addItemButton {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px 20px 20px 20px;
+  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.2), 0px 0px 5px 0 rgba(0, 0, 0, 0.29);
+  background-color: white;
+}
+
+.addItemButton canvas {
+  display: block;
+  width: inherit;
+  height: inherit;
+  visibility: hidden;
+}
+
+.addItemButton svg {
+  stroke: #0fbb88;
+  height: 100%;
+  width: 100%;
+  stroke-width: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

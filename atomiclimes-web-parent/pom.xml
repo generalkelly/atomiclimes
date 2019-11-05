@@ -12,9 +12,11 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>atomiclimes-web-productplanning-starter</module>
-		<module>atomiclimes-web-wicket</module>
+		<module>atomiclimes-web-production-gui</module>
 		<module>atomiclimes-webjars</module>
 		<module>atomiclimes-web-data</module>
+		<module>atomiclimes-web-gui-starter</module>
+		<module>atomiclimes-web-wicket-common</module>
 	</modules>
 
 	<properties>

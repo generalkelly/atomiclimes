@@ -5,9 +5,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const outputDirectory = '0.1/src';
 
 module.exports = {
-    entry: {
-	AtomiclimesProductionPlanning: ['babel-polyfill', './code/client/index.js']
-    },
+  entry: {
+    AtomiclimesProductionPlanning: ['babel-polyfill', './code/client/index.js']
+  },
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: '[name].js'
@@ -46,4 +46,4 @@ module.exports = {
       template: './public/index.html'
     })
   ]
-};
+}

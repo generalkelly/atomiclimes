@@ -2,6 +2,7 @@ package io.atomiclimes.common.dao.entities;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,6 +57,10 @@ public class PlannedProduction implements Serializable, ProductionStage {
 	@UpdateTimestamp
 	@Column(name = "updateTimestamp")
 	private OffsetDateTime updateTimestamp;
+
+	@DateTimeFormat(iso = ISO.DATE)
+	@Column(name = "scheduledProductionDate")
+	private LocalDate plannedProductionDate;
 
 	@DateTimeFormat(iso = ISO.DATE_TIME)
 	@Column(name = "scheduledProductionTime")
@@ -115,6 +120,14 @@ public class PlannedProduction implements Serializable, ProductionStage {
 
 	public void setUpdateTimestamp(OffsetDateTime updateTimestamp) {
 		this.updateTimestamp = updateTimestamp;
+	}
+
+	public LocalDate getPlannedProductionDate() {
+		return plannedProductionDate;
+	}
+
+	public void setPlannedProductionDate(LocalDate plannedProductionDate) {
+		this.plannedProductionDate = plannedProductionDate;
 	}
 
 	@Override

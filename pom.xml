@@ -180,6 +180,37 @@
 	</distributionManagement>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>io.fabric8</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>0.26.0</version>
+					<executions>
+						<execution>
+							<id>build</id>
+							<phase>install</phase>
+<!-- 							<configuration> -->
+<!-- 								<images> -->
+<!-- 									<image> -->
+<!-- 										<name>${project.name}:${project.version}</name> -->
+<!-- 										<build> -->
+<!-- 											<dockerFile>./Dockerfile</dockerFile> -->
+<!-- 											<assembly> -->
+<!-- 												<descriptorRef>artifact</descriptorRef> -->
+<!-- 											</assembly> -->
+<!-- 										</build> -->
+<!-- 									</image> -->
+<!-- 								</images> -->
+<!-- 							</configuration> -->
+							<goals>
+								<goal>build</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
