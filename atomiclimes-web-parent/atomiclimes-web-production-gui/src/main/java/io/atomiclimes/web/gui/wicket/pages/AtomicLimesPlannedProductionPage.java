@@ -1,6 +1,8 @@
 package io.atomiclimes.web.gui.wicket.pages;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxChannel;
@@ -8,25 +10,24 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
-import org.apache.wicket.request.IRequestParameters;
-import org.apache.wicket.request.Request;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.TextRequestHandler;
-import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.util.string.StringValue;
 
-import com.github.openjson.JSONArray;
 import com.github.openjson.JSONObject;
 
-import antlr.collections.List;
+import io.atomiclimes.common.dao.entities.PlannedProduction;
 import io.atomiclimes.common.dao.entities.ProductionItem;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
+import io.atomiclimes.common.dao.repositories.ProductRepository;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
 import io.atomiclimes.helper.jackson.AtomicLimesJacksonHelper;
 import io.atomiclimes.web.gui.wicket.ajax.BootstrapModalAjaxBehaviour;
 
 public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage {
+
+	private static final String RESPONSE_TYPE = "application/json";
+	private static final String RESPONSE_ENCODING = "UTF-8";
 
 	/**
 	 * 
@@ -37,6 +38,8 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 	private ProductionItemRepository productionItemRepository;
 	@SpringBean
 	private PlannedProductionRepository plannedProductionRepository;
+	@SpringBean
+	private ProductRepository productRepository;
 
 	public AtomicLimesPlannedProductionPage() {
 
@@ -47,15 +50,26 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
 
-				System.out
-						.println(getRequest().getRequestParameters().getParameterValue("preceedingPlannedProduction"));
+				String jsonRequest = getRequest().getRequestParameters().getParameterValue("addedPlannedProduction")
+						.toString();
 
-				AtomicLimesJacksonHelper jacksonHelper = new AtomicLimesJacksonHelper(Iterable.class);
-				Iterable<ProductionItem> plannedProductions = productionItemRepository.findAll();
-				String jsonResponse = jacksonHelper.serialize(plannedProductions);
+				AtomicLimesJacksonHelper plannedProductionJacksonHelper = new AtomicLimesJacksonHelper(
+						PlannedProduction.class);
+				PlannedProduction addedPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
+						.deserialize(jsonRequest);
+
+				plannedProductionRepository.save(addedPlannedProduction);
+
+				Optional<Set<PlannedProduction>> plannedProductions = plannedProductionRepository
+						.findPlannedProductionByDate(addedPlannedProduction.getPlannedProductionDate());
+				String jsonResponse = new JSONObject().toString();
+				if (plannedProductions.isPresent()) {
+					System.out.println(plannedProductions.get());
+					jsonResponse = plannedProductionJacksonHelper.serialize(plannedProductions.get());
+				}
 
 				requestCycle.scheduleRequestHandlerAfterCurrent(
-						new TextRequestHandler("application/json", "UTF-8", jsonResponse));
+						new TextRequestHandler(RESPONSE_TYPE, RESPONSE_ENCODING, jsonResponse));
 			}
 
 		};
@@ -64,14 +78,28 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 		plannedProductionToCalculate.addCallbackParameter("subsequentPlannedProduction");
 
 		BootstrapModalAjaxBehaviour getProductionPlanningByDate = new BootstrapModalAjaxBehaviour(
-				"getProductionPlanningFor") {
+				"getProductionPlanningByDate") {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void respond(AjaxRequestTarget target) {
+				RequestCycle requestCycle = RequestCycle.get();
 				String dateString = getRequest().getRequestParameters().getParameterValue("date").toString();
-				plannedProductionRepository.findPlannedProductionByDate(OffsetDateTime.parse(dateString).toLocalDate());
+				System.out.println("request date: " + dateString);
+				Optional<Set<PlannedProduction>> plannedProduction = plannedProductionRepository
+						.findPlannedProductionByDate(LocalDate.parse(dateString));
+				String jsonResponse = new JSONObject().toString();
+				if (plannedProduction.isPresent()) {
+					AtomicLimesJacksonHelper jacksonHelper = new AtomicLimesJacksonHelper(Iterable.class);
+					jsonResponse = jacksonHelper.serialize(plannedProduction.get());
+					System.out.println("response date: ");
+					plannedProduction.get().stream()
+							.forEach(p -> System.out.println(p.getPlannedProductionDate().toString()));
+				}
+				requestCycle.scheduleRequestHandlerAfterCurrent(
+						new TextRequestHandler(RESPONSE_TYPE, RESPONSE_ENCODING, jsonResponse));
+
 			}
 		};
 
@@ -104,7 +132,7 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 				String jsonResponse = jacksonHelper.serialize(productionItems);
 
 				requestCycle.scheduleRequestHandlerAfterCurrent(
-						new TextRequestHandler("application/json", "UTF-8", jsonResponse));
+						new TextRequestHandler(RESPONSE_TYPE, RESPONSE_ENCODING, jsonResponse));
 			}
 
 		};

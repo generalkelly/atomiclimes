@@ -1,8 +1,10 @@
 package io.atomiclimes.common.logic;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -56,7 +58,7 @@ public class AtomicLimesProductionPlanningCalculation {
 		Optional<PlannedProduction> preceeding = Optional.ofNullable(preceedingPlannedProduction);
 		Optional<PlannedProduction> subsequent = Optional.ofNullable(subsequentPlannedProduction);
 
-		List<PlannedNonproductiveStage> preceedingPlannedNonProductiveStages = new LinkedList<>();
+		Set<PlannedNonproductiveStage> preceedingPlannedNonProductiveStages = new HashSet<>();
 		if (preceeding.isPresent()) {
 			preceedingPlannedNonProductiveStages = preceeding.get().getSubsequentPlannedNonproductiveStages();
 		} else {
@@ -92,10 +94,10 @@ public class AtomicLimesProductionPlanningCalculation {
 
 		runRulesEngine(subsequentPlannedNonProductiveStageTypes, newProductionItem, subsequentProductionItem);
 
-		final List<PlannedNonproductiveStage> preceedingPlannedNonProductiveStagesFromRulesEngine = extractNonProductiveStages(
+		final Set<PlannedNonproductiveStage> preceedingPlannedNonProductiveStagesFromRulesEngine = extractNonProductiveStages(
 				preceedingPlannedNonProductiveStageTypes);
 
-		final List<PlannedNonproductiveStage> subsequentPlannedNonProductiveStagesFromRulesEngine = extractNonProductiveStages(
+		final Set<PlannedNonproductiveStage> subsequentPlannedNonProductiveStagesFromRulesEngine = extractNonProductiveStages(
 				subsequentPlannedNonProductiveStageTypes);
 
 		removeOverlappingNonProductiveStages(preceedingPlannedNonProductiveStages,
@@ -128,8 +130,8 @@ public class AtomicLimesProductionPlanningCalculation {
 		kieSession.dispose();
 	}
 
-	private List<PlannedNonproductiveStage> extractNonProductiveStages(final List<String> nonProductiveStageTypes) {
-		final List<PlannedNonproductiveStage> plannedNonproductiveStages = new LinkedList<>();
+	private Set<PlannedNonproductiveStage> extractNonProductiveStages(final List<String> nonProductiveStageTypes) {
+		final Set<PlannedNonproductiveStage> plannedNonproductiveStages = new HashSet<>();
 		for (String preceedingPlannedNonProductiveStageType : nonProductiveStageTypes) {
 			NonProductionItem nonProductionItem = this.nonProductionItemRepository
 					.findByName(preceedingPlannedNonProductiveStageType);
@@ -141,8 +143,8 @@ public class AtomicLimesProductionPlanningCalculation {
 	}
 
 	private void removeOverlappingNonProductiveStages(
-			List<PlannedNonproductiveStage> preceedingPlannedNonProductiveStages,
-			List<PlannedNonproductiveStage> preceedingPlannedNonProductiveStagesFromRulesEngine) {
+			Set<PlannedNonproductiveStage> preceedingPlannedNonProductiveStages,
+			Set<PlannedNonproductiveStage> preceedingPlannedNonProductiveStagesFromRulesEngine) {
 		if (!preceedingPlannedNonProductiveStages.isEmpty()) {
 			for (PlannedNonproductiveStage nonproductiveStage : preceedingPlannedNonProductiveStages) {
 				for (PlannedNonproductiveStage nonproductiveStageFromRulesEngine : preceedingPlannedNonProductiveStagesFromRulesEngine) {

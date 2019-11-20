@@ -1,0 +1,35 @@
+{
+  "productionItem": {
+    "id": 2,
+    "product": {
+      "name": "Eistee, Blaubeere"
+    },
+    "packaging": [{
+      "name": "Flasche 0.3L",
+      "capacity": 0.3,
+      "unit": "LITERS",
+      "duration": {
+        "seconds": 2,
+        "units": ["SECONDS", "NANOS"],
+        "nano": 0,
+        "negative": false,
+        "zero": false
+      }
+    }, {
+      "name": "Kasten, 10er, grün",
+      "capacity": 10,
+      "unit": "UNITS",
+      "duration": {
+        "seconds": 2,
+        "units": ["SECONDS", "NANOS"],
+        "nano": 0,
+        "negative": false,
+        "zero": false
+      }
+    }]
+  },
+  "plannedProductionDate": "2019-11-19",
+  "plannedProductionTime": null,
+  "quantity": 55,
+  "unit": "hl"
+}

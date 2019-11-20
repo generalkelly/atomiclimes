@@ -17,7 +17,7 @@ public interface PlannedProductionRepository extends CrudRepository<PlannedProdu
 
 	static final String FIND_SUBSEQUENT_PLANNED_PRODUCTION_QUERY = "SELECT p FROM PlannedProduction p WHERE p.plannedProductionTime > :plannedProductionTime and p.plannedProductionTime = (SELECT MIN(p.plannedProductionTime) FROM PlannedProduction p WHERE p.plannedProductionTime > :plannedProductionTime)";
 	static final String FIND_PRECEEDING_PLANNED_PRODUCTION_QUERY = "SELECT p FROM PlannedProduction p WHERE p.plannedProductionTime < :plannedProductionTime and p.plannedProductionTime = (SELECT MAX(p.plannedProductionTime) FROM PlannedProduction p WHERE p.plannedProductionTime < :plannedProductionTime)";
-	static final String FIND_PLANNED_PRODUCTION_BY_DATE_QUERY = "SELECT p FROM PlannedProduction p WHERE p.plannedProductionTime between :date and :date+1";
+	static final String FIND_PLANNED_PRODUCTION_BY_DATE_QUERY = "SELECT p FROM PlannedProduction p WHERE p.plannedProductionDate = :date";
 
 	@Query(value = FIND_PRECEEDING_PLANNED_PRODUCTION_QUERY)
 	Optional<PlannedProduction> findPreceedingPlannedProductionOf(

@@ -1,0 +1,70 @@
+.timeChooser {
+  display: inline-flex;
+  width: 100%;
+}
+
+#hours {
+  /* box-shadow: 4px 0px 8px 0 rgba(0, 0, 0, 0.2), -4px 0px 8px 0 rgba(0, 0, 0, 0.19); */
+  z-index: 2;
+}
+
+#minutes {
+  /* box-shadow: 4px 0px 8px 0 rgba(0, 0, 0, 0.2), -4px 0px 8px 0 rgba(0, 0, 0, 0.19); */
+  z-index: 2;
+}
+
+.inputField {
+  font-size: 100px;
+  font-weight: 200;
+  color: #0b2f24cc;
+  text-align: center;
+}
+
+.timer {
+  width: 100%;
+}
+
+.timer .button {
+  text-align: center;
+  width: 100%;
+  height: 80px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 200;
+  stroke-width: 0.8px;
+  color: #0b2f24cc;
+}
+
+div#minute_up {
+  border-radius: 20px 20px 0px 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 20px;
+  z-index: 1;
+  position: relative;
+}
+
+div#minute_down {
+  border-radius: 0px 0px 20px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 20px;
+  z-index: 1;
+  position: relative;
+}
+
+div#hour_up {
+  border-radius: 20px 20px 0px 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 20px;
+  z-index: 1;
+  position: relative;
+}
+
+div#hour_down {
+  border-radius: 0px 0px 20px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 20px;
+  z-index: 1;
+  position: relative;
+}

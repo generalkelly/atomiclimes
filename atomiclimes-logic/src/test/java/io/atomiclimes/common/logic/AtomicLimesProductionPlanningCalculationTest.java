@@ -2,8 +2,9 @@ package io.atomiclimes.common.logic;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -75,7 +76,7 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		lastPlannedProductionOfPreviousDays.setProductionItem(barItem);
 		lastPlannedProductionOfPreviousDays.setQuantity(10);
 		lastPlannedProductionOfPreviousDays.setUnit(PackagingUnit.HECTO_LITERS);
-		List<PlannedNonproductiveStage> subsequentPlannedNonproductiveStages = new LinkedList<>();
+		Set<PlannedNonproductiveStage> subsequentPlannedNonproductiveStages = new HashSet<>();
 		PlannedNonproductiveStage nonProductiveStageFoo = new PlannedNonproductiveStage();
 		nonProductiveStageFoo.setPlannedProductionTime(OffsetDateTime.now().minusDays(1).plusMinutes(10));
 		nonProductiveStageFoo.setNonProductionItem(foo);

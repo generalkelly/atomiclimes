@@ -1,0 +1,21 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql5-16e85647f3a-6a9cf0e5951b4638": {
+			"provider": "mysql",
+			"driver": "mysql5",
+			"name": "MySQL - test",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"database": "test",
+				"url": "jdbc:mysql://localhost:3306/test",
+				"home": "/usr",
+				"type": "dev",
+				"handlers": {}
+			}
+		}
+	}
+}

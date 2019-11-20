@@ -14,7 +14,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.atomiclimes.common.dao.entities.json.JSONDurationToStringConverter;
+import io.atomiclimes.common.dao.entities.json.JSONStringToDurationConverter;
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemForm;
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemFormField;
 import io.atomiclimes.common.helper.enums.AtomicLimesFormInputType;
@@ -48,6 +52,8 @@ public class Packaging implements Serializable {
 
 	@Column(name = "duration")
 	@AtomicLimesItemFormField(fieldName = "Packaging Duration", using = AtomicLimesDurationInSecondsConverter.class)
+	@JsonSerialize(converter = JSONDurationToStringConverter.class)
+	@JsonDeserialize(converter = JSONStringToDurationConverter.class)
 	private Duration duration;
 
 	@Column(name = "packagingOrder")
@@ -106,7 +112,7 @@ public class Packaging implements Serializable {
 	public void setProductionItems(List<ProductionItem> productionItems) {
 		this.productionItems = productionItems;
 	}
-	
+
 	public String toString() {
 		return getName();
 	}

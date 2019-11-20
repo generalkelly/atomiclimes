@@ -1,7 +1,9 @@
-import $ from 'jquery';
-import feather from 'feather-icons';
-import './atomiclimes-date-chooser.css';
-var Calendar = require('calendar').Calendar;
+import $ from 'jquery'
+import feather from 'feather-icons'
+import './atomiclimes-date-chooser.css'
+import AtomicLimesEvent from './atomiclimes-event.js'
+var Calendar = require('calendar').Calendar
+
 
 
 export default class AtomicLimesDateChooser {
@@ -146,7 +148,18 @@ export default class AtomicLimesDateChooser {
             $('.day-selected').removeClass('day-selected');
             $(this).addClass('day-selected');
 
-            self.day = $(this).text();
+            if (self.day !== $(this).text()) {
+              self.day = $(this).text()
+
+              var event = new AtomicLimesEvent('selectedDateEvent', {
+                detail: {
+                  day: self.day,
+                  month: self.month,
+                  year: self.year
+                }
+              })
+              event.dispatch()
+            }
 
             // self.plannedProduction.plannedProductionTime.day = self.day;
             // self.plannedProduction.plannedProductionTime.month = self.MONTH_NUMERIC[self.month];

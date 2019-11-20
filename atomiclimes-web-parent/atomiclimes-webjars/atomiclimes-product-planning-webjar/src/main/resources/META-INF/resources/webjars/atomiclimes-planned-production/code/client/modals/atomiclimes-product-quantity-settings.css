@@ -1,12 +1,12 @@
 .quantitySettings{
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  display: inline-block;
-  width : 50%;
-  border-radius: 5px 5px 5px 5px;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  /* display: inline-block; */
+  /* width : 50%; */
+  /* border-radius: 5px 5px 5px 5px; */
   overflow: hidden;
-  left: 50%;
-  transform: translate(-50%, 0);
-  max-width: 600px;
+  /* left: 50%;
+  transform: translate(-50%, 0); */
+  /* max-width: 600px; */
   position: inherit;
 }
 
@@ -64,7 +64,7 @@
 	align-items: center;
 	background-color: white;
 	z-index: 1;
-	height: 500px;
+	height: 390px;
   font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 	font-size: 40px;
 	font-weight: 200;

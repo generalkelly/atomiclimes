@@ -85,70 +85,10 @@ body {
   float: inline-end;
 }
 
-.modal {
-  position: absolute;
-}
-
-.modal-body {
-  position: relative;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  padding: 0px 0px 0px 0px;
-  overflow: hidden;
-}
-
 ul {
   list-style-type: none;
   margin-top: 0;
   margin-bottom: 0px;
-}
-
-.modal-content {
-  position: absolute;
-  top: 50%;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  width: 100%;
-  pointer-events: auto;
-  background-color: #fff;
-  background-clip: padding-box;
-  /* border: 1px solid rgba(0, 0, 0, .2); */
-  border-radius: 6px;
-  outline: 0;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
-  font-size: 20px;
-  font-weight: 300;
-  list-style-type: none;
-}
-
-.modal.fade {
-  -webkit-transition: opacity .3s linear, top .3s ease-out;
-  -moz-transition: opacity .3s linear, top .3s ease-out;
-  -ms-transition: opacity .3s linear, top .3s ease-out;
-  -o-transition: opacity .3s linear, top .3s ease-out;
-  transition: opacity .3s linear, top .3s ease-out;
-  top: -25%;
-}
-
-.modal-dialog {
-  /* top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  -webkit-transform: translateY(-50%); */
-  margin-top: 0px;
-  margin-right: auto;
-  margin-bottom: 0px;
-  margin-left: auto;
-}
-
-.modal-backdrop {
-  position: absolute !important;
-  background-color: #1b1b25;
 }
 
 .atomicLimesContainer {
@@ -165,17 +105,31 @@ ul {
 }
 
 .atomicLimesMenuBar {
-  height: 100px;
+  height: 110px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  border-bottom: beige;
+  border-bottom: 1px solid #80808029;
+  border-top: 1px solid #80808029;
+  stroke-width: 0.8px;
+  color: #0b2f24cc;
+}
+
+.currentDay {
+  margin: auto;
 }
 
 .cancelButton {
   stroke: red;
-  height: 40px;
-  width: 40px;
+  height: 60px;
+  width: 60px;
   position: relative;
+  margin-left: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: auto;
 }
 
 .cancelButton canvas {
@@ -189,7 +143,7 @@ ul {
   stroke: inherit;
   height: 100%;
   width: 100%;
-  stroke-width: 1.5px;
+  stroke-width: 0.8px;
   position: absolute;
   top: 0;
   left: 0;
@@ -197,9 +151,13 @@ ul {
 
 .saveButton {
   stroke: #46c307;
-  height: 40px;
-  width: 40px;
+  height: 60px;
+  width: 60px;
   position: relative;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 30px;
 }
 
 .saveButton canvas {
@@ -213,14 +171,22 @@ ul {
   stroke: inherit;
   height: 100%;
   width: 100%;
-  stroke-width: 1.5px;
+  stroke-width: 0.8px;
   position: absolute;
   top: 0;
   left: 0;
 }
 
+.nextDay{
+  margin-right: 30px;
+}
+
+.previousDay{
+  margin-left: 30px;
+}
+
 .changeDay {
-  stroke: black;
+  stroke: #0b2f24cc;
   height: 60px;
   width: 60px;
   position: relative;
@@ -237,7 +203,7 @@ ul {
   stroke: inherit;
   height: 100%;
   width: 100%;
-  stroke-width: 1px;
+  stroke-width: 0.8px;
   position: absolute;
   top: 0;
   left: 0;
@@ -248,6 +214,7 @@ ul {
   height: 500px;
   padding-top: 20px;
   padding-left: 10px;
+  width: min-content;
 }
 
 /* .nicescroll-rails {
@@ -259,27 +226,3 @@ ul {
   background-color: blue;
   border-radius: 0 !important;
 } */
-.addItemButton {
-  height: 40px;
-  width: 40px;
-  border-radius: 20px 20px 20px 20px;
-  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.2), 0px 0px 5px 0 rgba(0, 0, 0, 0.29);
-  background-color: white;
-}
-
-.addItemButton canvas {
-  display: block;
-  width: inherit;
-  height: inherit;
-  visibility: hidden;
-}
-
-.addItemButton svg {
-  stroke: #0fbb88;
-  height: 100%;
-  width: 100%;
-  stroke-width: 1px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}

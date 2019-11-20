@@ -1,25 +1,32 @@
 import $ from 'jquery'
-import './atomiclimes-product-quatity-settings.css'
+import './atomiclimes-product-quantity-settings.css'
 
 export default class AtomicLimesProductQuantitySettings {
 
   constructor(plannedProduction) {
+    const self = this
     this.plannedProduction = plannedProduction;
     this.plannedProduction.quantity = 0;
     this.currentUnit = 0;
     this.units = ['l', 'hl']
-    this.plannedProduction.unit = this.units[this.currentUnit];
+    this.unitsEnumName = ['LITERS', 'HECTO_LITERS']
+    this.plannedProduction.unit = this.unitsEnumName[this.currentUnit];
     this.numerals = 0;
     this.decimals = 0;
     this.hasDecimals = false;
     this.numberOfLeadingZeros = 0;
     this.print = this.print.bind(this);
     this.numberWithSpaces = this.numberWithSpaces.bind(this);
+    return self._show()
   }
 
-  show(node) {
+  _show() {
+    var productQuantitySettings = $('<div></div>')
+    productQuantitySettings.attr({
+      'class': 'quantitySettings'
+    })
     const self = this;
-    var header = $("<div class=\"header\">Produktionsmenge</div>");
+    // var header = $("<div class=\"header\">Produktionsmenge</div>");
     var display = $("<div class=\"display\"></div>");
     var numberWithDecimals = $("<div class=\"numberWithDecimals\">" + self.numerals + "</div>");
     var unit = $("<div class=\"unit\">" + self.units[self.currentUnit] + "</div>");
@@ -29,6 +36,20 @@ export default class AtomicLimesProductQuantitySettings {
     var row = $("<div class=\"row\"></div>");
     for (var i = 1; i <= 9; i++) {
       var number = $("<div class=\"number\">" + i + "</div>");
+
+      number.click(function() {
+        var currentNumber = +($(this).text());
+        if (self.hasDecimals) {
+          self.decimals = self.decimals * 10 + currentNumber;
+          if (self.decimals == 0 && currentNumber == 0) {
+            self.numberOfLeadingZeros++;
+          }
+        } else {
+          self.numerals = self.numerals * 10 + currentNumber;
+        }
+        self.print(numberWithDecimals);
+      });
+
       row.append(number);
       if (i % 3 == 0) {
         pad.prepend(row);
@@ -37,17 +58,7 @@ export default class AtomicLimesProductQuantitySettings {
     }
     var delimiter = $("<div class=\"delimiter\">.</div>");
     var zero = $("<div class=\"number\">0</div>");
-    var del = $("<div class=\"del\">del</div>");
-    row.append(delimiter);
-    row.append(zero);
-    row.append(del);
-    pad.append(row);
-
-    $(node).append(header);
-    $(node).append(display);
-    $(node).append(pad);
-
-    $('.number').click(function() {
+    zero.click(function() {
       var currentNumber = +($(this).text());
       if (self.hasDecimals) {
         self.decimals = self.decimals * 10 + currentNumber;
@@ -59,8 +70,14 @@ export default class AtomicLimesProductQuantitySettings {
       }
       self.print(numberWithDecimals);
     });
+    var del = $("<div class=\"del\">del</div>");
+    row.append(delimiter);
+    row.append(zero);
+    row.append(del);
+    pad.append(row);
 
-
+    $(productQuantitySettings).append(display);
+    $(productQuantitySettings).append(pad);
 
     delimiter.click(function() {
       self.hasDecimals = true;
@@ -82,10 +99,11 @@ export default class AtomicLimesProductQuantitySettings {
       self.print(numberWithDecimals);
     });
     unit.click(function() {
-      self.currentUnit = (self.currentUnit + 1) % (self.units.length);
-      unit.text(self.units[self.currentUnit]);
-      self.plannedProduction.unit = self.units[self.currentUnit];
+      self.currentUnit = (self.currentUnit + 1) % (self.units.length)
+      unit.text(self.units[self.currentUnit])
+      self.plannedProduction.unit = self.unitsEnumName[self.currentUnit]
     });
+    return productQuantitySettings
   }
 
   print(node) {
@@ -95,16 +113,16 @@ export default class AtomicLimesProductQuantitySettings {
     }
     if (this.hasDecimals) {
       if (this.numberOfLeadingZeros == 0 && this.decimals == 0) {
-        this.plannedProduction.quantity = this.numberWithSpaces(this.numerals + '.' + this.decimals);
+        this.plannedProduction.quantity = this.numerals + '.' + this.decimals;
       } else if (this.numberOfLeadingZeros != 0 && this.decimals == 0) {
-        this.plannedProduction.quantity = this.numberWithSpaces(this.numerals + '.' + leadingZeros);
+        this.plannedProduction.quantity = this.numerals + '.' + leadingZeros;
       } else {
-        this.plannedProduction.quantity = this.numberWithSpaces(this.numerals + '.' + leadingZeros + this.decimals);
+        this.plannedProduction.quantity = this.numerals + '.' + leadingZeros + this.decimals;
       }
     } else {
-      this.plannedProduction.quantity = this.numberWithSpaces(this.numerals);
+      this.plannedProduction.quantity = this.numerals;
     }
-    node.text(this.plannedProduction.quantity);
+    node.text(this.numberWithSpaces(this.plannedProduction.quantity));
   }
 
   numberWithSpaces(number) {
