@@ -6,7 +6,7 @@ export default class AtomicLimesPlusButton {
   constructor(config) {
     const self = this
     self._config = config
-    self.button = $('<div class="addItemButton" buttonId=' + self._config.id + '>' + '<canvas/>' + feather.icons['plus'].toSvg({
+    self.button = $('<div class=' + self._config.class + ' buttonId=' + self._config.id + '>' + '<canvas/>' + feather.icons['plus'].toSvg({
       'stroke-width': 2,
       fill: 'white'
     }) + '</div>')
@@ -14,7 +14,6 @@ export default class AtomicLimesPlusButton {
     if (Object.entries(self._config.style).length > 0) {
       self.button.css(self._config.style)
     }
-
     return self.button
   }
 

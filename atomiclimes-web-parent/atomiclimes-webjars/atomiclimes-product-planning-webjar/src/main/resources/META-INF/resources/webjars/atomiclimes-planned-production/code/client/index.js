@@ -23,99 +23,113 @@ window.calculate = function() {
 window.getProductionPlanningByDate = function(date) {
   return new Promise(
     function(resolve, reject) {
-      if (date === '2019-11-21') {
+      console.log(date);
+      if (date === '2019-11-25') {
         resolve(
           [{
-            "id": 7,
-            "productionItem": {
-              "id": 1,
-              "product": {
-                "name": "Dunkel"
-              },
-              "packaging": [{
-                  "name": "Flasche 0.3L",
-                  "capacity": 0.3,
-                  "unit": "LITERS",
-                  "duration": "2"
+              "id": 12,
+              "productionItem": {
+                "id": 1,
+                "product": {
+                  "name": "Dunkel"
                 },
-                {
-                  "name": "Kasten, 10er, blau",
-                  "capacity": 10,
-                  "unit": "UNITS",
-                  "duration": "2"
-                }
-              ]
-            },
-            "subsequentPlannedNonproductiveStages": [],
-            "updateTimestamp": {
-              "offset": {
-                "totalSeconds": 3600,
-                "id": "+01:00",
-                "rules": {
-                  "transitions": [],
-                  "transitionRules": [],
-                  "fixedOffset": true
-                }
+                "packaging": [{
+                    "name": "Flasche 0.3L",
+                    "capacity": 0.3,
+                    "unit": "LITERS",
+                    "duration": "2"
+                  },
+                  {
+                    "name": "Kasten, 10er, blau",
+                    "capacity": 10,
+                    "unit": "UNITS",
+                    "duration": "2"
+                  }
+                ]
               },
-              "dayOfMonth": 20,
-              "dayOfWeek": "WEDNESDAY",
-              "dayOfYear": 324,
-              "hour": 10,
-              "minute": 37,
-              "second": 46,
-              "nano": 0,
-              "year": 2019,
-              "month": "NOVEMBER",
-              "monthValue": 11
+              "subsequentPlannedNonproductiveStages": [],
+              "updateTimestamp": {
+                "offset": {
+                  "totalSeconds": 3600,
+                  "id": "+01:00",
+                  "rules": {
+                    "fixedOffset": true,
+                    "transitions": [],
+                    "transitionRules": []
+                  }
+                },
+                "year": 2019,
+                "month": "NOVEMBER",
+                "hour": 13,
+                "minute": 21,
+                "second": 24,
+                "nano": 0,
+                "dayOfMonth": 20,
+                "dayOfWeek": "WEDNESDAY",
+                "dayOfYear": 324,
+                "monthValue": 11
+              },
+              "plannedProductionDate": "2019-11-19",
+              "plannedProductionTime": "2019-11-20T05:00+01:00",
+              "quantity": 1,
+              "unit": "HECTO_LITERS",
+              "estimatedProductionDuration": "666",
+              "productionStageType": "PRODUCTIVE"
             },
-            "plannedProductionDate": "2019-11-20",
-            "plannedProductionTime": "2019-11-21T09:00+01:00",
-            "quantity": 8,
-            "unit": "LITERS",
-            "estimatedProductionDuration": "52",
-            "productionStageType": "PRODUCTIVE"
-          }]
-          //   {
-          //   items: [
-          //     {
-          //       name: 'Bier',
-          //       from: {
-          //         hour: 8,
-          //         minute: 30
-          //       },
-          //       till: {
-          //         hour: 9,
-          //         minute: 46
-          //       }
-          //     },
-          //     {
-          //       name: 'Eistee',
-          //       from: {
-          //         hour: 9,
-          //         minute: 50
-          //       },
-          //       till: {
-          //         hour: 10,
-          //         minute: 22
-          //       }
-          //     },
-          //     {
-          //       name: 'Schwanenbräu',
-          //       from: {
-          //         hour: 10,
-          //         minute: 45
-          //       },
-          //       till: {
-          //         hour: 11,
-          //         minute: 45
-          //       }
-          //     }
-          //   ]
-          // }
-
+            {
+              "id": 13,
+              "productionItem": {
+                "id": 2,
+                "product": {
+                  "name": "Eistee, Blaubeere"
+                },
+                "packaging": [{
+                    "name": "Flasche 0.3L",
+                    "capacity": 0.3,
+                    "unit": "LITERS",
+                    "duration": "2"
+                  },
+                  {
+                    "name": "Kasten, 10er, grün",
+                    "capacity": 10,
+                    "unit": "UNITS",
+                    "duration": "2"
+                  }
+                ]
+              },
+              "subsequentPlannedNonproductiveStages": [],
+              "updateTimestamp": {
+                "offset": {
+                  "totalSeconds": 3600,
+                  "id": "+01:00",
+                  "rules": {
+                    "fixedOffset": true,
+                    "transitions": [],
+                    "transitionRules": []
+                  }
+                },
+                "year": 2019,
+                "month": "NOVEMBER",
+                "hour": 13,
+                "minute": 21,
+                "second": 55,
+                "nano": 0,
+                "dayOfMonth": 20,
+                "dayOfWeek": "WEDNESDAY",
+                "dayOfYear": 324,
+                "monthValue": 11
+              },
+              "plannedProductionDate": "2019-11-19",
+              "plannedProductionTime": "2019-11-20T06:00+01:00",
+              "quantity": 5,
+              "unit": "HECTO_LITERS",
+              "estimatedProductionDuration": "3332",
+              "productionStageType": "PRODUCTIVE"
+            }
+          ]
         )
       } else {
-        resolve([])
+        resolve({})
       }
     })
 }

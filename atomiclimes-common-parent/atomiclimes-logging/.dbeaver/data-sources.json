@@ -14,6 +14,10 @@
 				"url": "jdbc:mysql://localhost:3306/test",
 				"home": "/usr",
 				"type": "dev",
+				"properties": {
+					"allowPublicKeyRetrieval": "TRUE",
+					"connectTimeout": "20000"
+				},
 				"handlers": {}
 			}
 		}

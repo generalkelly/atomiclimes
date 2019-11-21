@@ -17,12 +17,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.atomiclimes.common.dao.entities.NonProductionItem;
+import io.atomiclimes.common.dao.entities.Packaging;
 import io.atomiclimes.common.dao.entities.PlannedNonproductiveStage;
 import io.atomiclimes.common.dao.entities.PlannedProduction;
 import io.atomiclimes.common.dao.entities.Product;
 import io.atomiclimes.common.dao.entities.ProductionItem;
 import io.atomiclimes.common.dao.entities.ProductionStage;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
+import io.atomiclimes.common.dao.repositories.PackagingRepository;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
 import io.atomiclimes.common.dao.repositories.ProductRepository;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
@@ -44,6 +46,8 @@ public class AtomicLimesProductionPlanningCalculationTest {
 	private NonProductionItemRepository nonProductionItemRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private PackagingRepository packagingRepository;
 
 	private PlannedProduction preceedingPlannedProduction;
 	private PlannedProduction newPlannedProduction;
@@ -88,7 +92,7 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		lastPlannedProductionOfPreviousDays
 				.setSubsequentPlannedNonproductiveStages(subsequentPlannedNonproductiveStages);
 		plannedProductionRepository.save(lastPlannedProductionOfPreviousDays);
-		
+
 		nextPlannedProductionOnUpcommingDays = new PlannedProduction();
 		nextPlannedProductionOnUpcommingDays.setPlannedProductionTime(OffsetDateTime.now().plusDays(1));
 		nextPlannedProductionOnUpcommingDays.setProductionItem(fooItem);
@@ -123,8 +127,18 @@ public class AtomicLimesProductionPlanningCalculationTest {
 	private ProductionItem createProductionItem(String name) {
 		Product product = new Product();
 		product.setName(name);
+		Packaging packaging = new Packaging();
+		packaging.setName("Flasche");
+		packaging.setUnit(PackagingUnit.LITERS);
+		packaging.setCapacity(0.3);
+		packaging.setDuration(Duration.ofSeconds(2));
+		packaging.setPackagingOrder(0);
+		Set<Packaging> packagingSet = new HashSet<>();
+		packagingSet.add(packaging);
 		ProductionItem productionItem = new ProductionItem();
 		productionItem.setProduct(product);
+		productionItem.setPackaging(packagingSet);
+		packagingRepository.save(packaging);
 		productRepository.save(product);
 		return productionItemRepository.save(productionItem);
 	}
@@ -142,7 +156,7 @@ public class AtomicLimesProductionPlanningCalculationTest {
 				newPlannedProduction);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
-	
+
 	@Test
 	public void testWithoutPredecessor() {
 		List<ProductionStage> productionStages = calculation.calculate(null, lastPlannedProductionOfPreviousDays,
@@ -163,5 +177,5 @@ public class AtomicLimesProductionPlanningCalculationTest {
 				nextPlannedProductionOnUpcommingDays, null);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
-	
+
 }

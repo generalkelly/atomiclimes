@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import io.atomiclimes.common.dao.entities.json.JSONDurationToStringConverter;
+import io.atomiclimes.common.dao.entities.json.JSONDurationToLongConverter;
 import io.atomiclimes.common.dao.entities.json.JSONLocalDateToStringConverter;
 import io.atomiclimes.common.dao.entities.json.JSONOffsetDateTimeToStringConverter;
 import io.atomiclimes.common.dao.entities.json.JSONStringToLocalDateConverter;
@@ -64,7 +66,7 @@ public class PlannedProduction implements Serializable, ProductionStage {
 
 	@UpdateTimestamp
 	@Column(name = "updateTimestamp")
-	
+	@JsonIgnore
 	private OffsetDateTime updateTimestamp;
 
 	@DateTimeFormat(iso = ISO.DATE)
@@ -83,11 +85,13 @@ public class PlannedProduction implements Serializable, ProductionStage {
 	private double quantity;
 
 	@Column(name = "unit")
+	@Enumerated(EnumType.STRING)
 	private PackagingUnit unit;
 
 	@Column(name = "estimatedProductionDuration")
-	private Duration estimatedProductionDuration;
+	private Duration estimatedProductionDuration = null;
 
+	@Enumerated(EnumType.STRING)
 	private ProductionStageType productionStageType = ProductionStageType.PRODUCTIVE;
 
 	@Override
@@ -169,7 +173,7 @@ public class PlannedProduction implements Serializable, ProductionStage {
 		this.unit = unit;
 	}
 
-	@JsonSerialize(converter = JSONDurationToStringConverter.class)
+	@JsonSerialize(converter = JSONDurationToLongConverter.class)
 	public Duration getEstimatedProductionDuration() {
 		if (estimatedProductionDuration == null) {
 			new ProcessDurationCalculator().calculate(this);

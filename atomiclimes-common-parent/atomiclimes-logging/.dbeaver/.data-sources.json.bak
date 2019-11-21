@@ -1,10 +1,10 @@
 {
 	"folders": {},
 	"connections": {
-		"mysql5-16e85647f3a-6a9cf0e5951b4638": {
+		"mysql8-16e85688574-ef303ae147fcaff": {
 			"provider": "mysql",
-			"driver": "mysql5",
-			"name": "MySQL - test",
+			"driver": "mysql8",
+			"name": "MySQL 8+ - test",
 			"save-password": true,
 			"read-only": false,
 			"configuration": {

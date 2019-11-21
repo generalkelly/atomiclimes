@@ -1,35 +1,50 @@
-{
+[{
+  "id": 7,
   "productionItem": {
-    "id": 2,
+    "id": 1,
     "product": {
-      "name": "Eistee, Blaubeere"
+      "name": "Dunkel"
     },
     "packaging": [{
-      "name": "Flasche 0.3L",
-      "capacity": 0.3,
-      "unit": "LITERS",
-      "duration": {
-        "seconds": 2,
-        "units": ["SECONDS", "NANOS"],
-        "nano": 0,
-        "negative": false,
-        "zero": false
+        "name": "Flasche 0.3L",
+        "capacity": 0.3,
+        "unit": "LITERS",
+        "duration": "2"
+      },
+      {
+        "name": "Kasten, 10er, blau",
+        "capacity": 10,
+        "unit": "UNITS",
+        "duration": "2"
       }
-    }, {
-      "name": "Kasten, 10er, grün",
-      "capacity": 10,
-      "unit": "UNITS",
-      "duration": {
-        "seconds": 2,
-        "units": ["SECONDS", "NANOS"],
-        "nano": 0,
-        "negative": false,
-        "zero": false
-      }
-    }]
+    ]
   },
-  "plannedProductionDate": "2019-11-19",
-  "plannedProductionTime": null,
-  "quantity": 55,
-  "unit": "hl"
-}
+  "subsequentPlannedNonproductiveStages": [],
+  "updateTimestamp": {
+    "offset": {
+      "totalSeconds": 3600,
+      "id": "+01:00",
+      "rules": {
+        "transitions": [],
+        "transitionRules": [],
+        "fixedOffset": true
+      }
+    },
+    "dayOfMonth": 20,
+    "dayOfWeek": "WEDNESDAY",
+    "dayOfYear": 324,
+    "hour": 10,
+    "minute": 37,
+    "second": 46,
+    "nano": 0,
+    "year": 2019,
+    "month": "NOVEMBER",
+    "monthValue": 11
+  },
+  "plannedProductionDate": "2019-11-20",
+  "plannedProductionTime": "2019-11-21T09:00+01:00",
+  "quantity": 8,
+  "unit": "LITERS",
+  "estimatedProductionDuration": "52",
+  "productionStageType": "PRODUCTIVE"
+}]

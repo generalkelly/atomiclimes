@@ -1,6 +1,7 @@
 package io.atomiclimes.web.gui.wicket.pages;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,9 +19,12 @@ import com.github.openjson.JSONObject;
 
 import io.atomiclimes.common.dao.entities.PlannedProduction;
 import io.atomiclimes.common.dao.entities.ProductionItem;
+import io.atomiclimes.common.dao.entities.ProductionStage;
+import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
 import io.atomiclimes.common.dao.repositories.ProductRepository;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
+import io.atomiclimes.common.logic.AtomicLimesProductionPlanningCalculation;
 import io.atomiclimes.helper.jackson.AtomicLimesJacksonHelper;
 import io.atomiclimes.web.gui.wicket.ajax.BootstrapModalAjaxBehaviour;
 
@@ -40,6 +44,10 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 	private PlannedProductionRepository plannedProductionRepository;
 	@SpringBean
 	private ProductRepository productRepository;
+	@SpringBean
+	private NonProductionItemRepository nonProductionItemRepository;
+	@SpringBean
+	private AtomicLimesProductionPlanningCalculation productionPlanningCalculation;
 
 	public AtomicLimesPlannedProductionPage() {
 
@@ -50,23 +58,33 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
 
-				String jsonRequest = getRequest().getRequestParameters().getParameterValue("addedPlannedProduction")
-						.toString();
+				String preceedingPlannedProductionJson = getRequest().getRequestParameters()
+						.getParameterValue("preceedingPlannedProduction").toString();
+
+				String addedPlannedProductionJson = getRequest().getRequestParameters()
+						.getParameterValue("addedPlannedProduction").toString();
+
+				String subsequentPlannedProductionJson = getRequest().getRequestParameters()
+						.getParameterValue("subsequentPlannedProduction").toString();
 
 				AtomicLimesJacksonHelper plannedProductionJacksonHelper = new AtomicLimesJacksonHelper(
 						PlannedProduction.class);
-				PlannedProduction addedPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
-						.deserialize(jsonRequest);
 
+				PlannedProduction preceedingPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
+						.deserialize(preceedingPlannedProductionJson);
+				PlannedProduction addedPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
+						.deserialize(addedPlannedProductionJson);
+				PlannedProduction subsequentPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
+						.deserialize(subsequentPlannedProductionJson);
+
+				List<ProductionStage> productionStages = productionPlanningCalculation
+						.calculate(preceedingPlannedProduction, addedPlannedProduction, subsequentPlannedProduction);
+
+				// TODO: do not save immediatly, first send the result of the calculation and
+				// save only after request
 				plannedProductionRepository.save(addedPlannedProduction);
 
-				Optional<Set<PlannedProduction>> plannedProductions = plannedProductionRepository
-						.findPlannedProductionByDate(addedPlannedProduction.getPlannedProductionDate());
 				String jsonResponse = new JSONObject().toString();
-				if (plannedProductions.isPresent()) {
-					System.out.println(plannedProductions.get());
-					jsonResponse = plannedProductionJacksonHelper.serialize(plannedProductions.get());
-				}
 
 				requestCycle.scheduleRequestHandlerAfterCurrent(
 						new TextRequestHandler(RESPONSE_TYPE, RESPONSE_ENCODING, jsonResponse));

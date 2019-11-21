@@ -24,3 +24,30 @@
   top: 0;
   left: 0;
 }
+
+.addFirstItemPlusButton {
+  /* position: relative; */
+  height: 40px;
+  width: 40px;
+  border-radius: 20px 20px 20px 20px;
+  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.2), 0px 0px 5px 0 rgba(0, 0, 0, 0.29);
+  background-color: white;
+  margin: auto;
+}
+
+.addFirstItemPlusButton canvas {
+  display: block;
+  width: inherit;
+  height: inherit;
+  visibility: hidden;
+}
+
+.addFirstItemPlusButton svg {
+  stroke: #0fbb88;
+  height: 100%;
+  width: 100%;
+  stroke-width: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

@@ -6,119 +6,133 @@ import TimePrinter from './time-printer.js'
 import AtomicLimesItemSelectModal from './modals/atomiclimes-item-select-modal.js'
 import AtomicLimesPlusButton from './atomiclimes-plus-button.js'
 
-export default function AtomicLimesTimePlanner(node) {
-  const self = this
-  self.draw = null
-  self.date = null
-  self.id = new UUID().toString()
-  self.node = node
-  self.config = {
-    lineHeight: 90,
-    lineWidth: 700,
-    workingHours: {
-      from: '08:00',
-      till: '20:00'
-    }
-  }
-  self._draw()
-}
-
-AtomicLimesTimePlanner.prototype._draw = function() {
-  const self = this
-  var drawing = $('<div id="drawing"></div>')
-  drawing.empty()
-  self.node.append(drawing)
-  $(function() {
-    self.node.niceScroll('#drawing', {
-      cursorwidth: '2px',
-      scrollspeed: 5,
-      mousescrollstep: 2,
-      smoothscroll: true
-    })
-  })
-}
-
-AtomicLimesTimePlanner.prototype.drawPlannedProduction = function(plannedProductionByDate) {
-  const self = this
-  var outer = SVG('drawing').size(this.config.lineWidth, this.config.lineHeight * 24)
-  this.draw = outer.nested()
-  for (var i = 0; i <= 23; i++) {
-    var yLevel = i * this.config.lineHeight
-    var timePrinter = new TimePrinter()
-    this.draw.text(timePrinter.printTime(i, 0)).font({
-      size: 12
-    }).move(0, yLevel).font({
-      leading: '0.5em'
-    })
-    this.draw.line(35, yLevel, this.config.lineWidth - 10, yLevel).stroke({
-      width: 0.3
-    })
-    this.draw.text(timePrinter.printTime(i, 30)).font({
-      size: 12
-    }).move(0, +yLevel + this.config.lineHeight / 2).font({
-      leading: '0.5em'
-    })
-    this.draw.line(35, yLevel + this.config.lineHeight / 2, this.config.lineWidth - 10, yLevel + this.config.lineHeight / 2).stroke({
-      width: 0.1
-    })
-  }
-  plannedProductionByDate.then(function(plannedProduction) {
-    if (plannedProduction != null) {
-      console.log(plannedProduction)
-      for (var item in plannedProduction) {
-        var productionItem = plannedProduction[item]
-        var predecessor
-        var successor
-        if (item > 0) {
-          predecessor = plannedProduction[Number(item) - 1]
-        } else {
-          predecessor = null
-        }
-        if (item < plannedProduction.length - 1) {
-          successor = plannedProduction[Number(item) + 1]
-        } else {
-          successor = null
-        }
-        self._drawItem(productionItem, predecessor, successor)
+export default class AtomicLimesTimePlanner {
+  constructor(node) {
+    const self = this
+    self.draw = null
+    self.date = null
+    self.id = new UUID().toString()
+    self.node = node
+    self.config = {
+      lineHeight: 90,
+      lineWidth: 700,
+      workingHours: {
+        from: '08:00',
+        till: '20:00'
       }
-      if (Object.entries(plannedProduction).length === 0) {
-        $('.addItemButton').remove()
-        var plusButton = new AtomicLimesPlusButton({
-          style: {
-            position: 'absolute',
-            top: '' + self.node.height() / 2 - 45 + 'px',
-            left: '' + self.node.width() / 2 - 45 + 'px',
-            height: '90px',
-            width: '90px',
-            borderRadius: '45px'
+    }
+    self.node.append(self.plusButton)
+    self._draw()
+  }
+  // self._draw()
+
+  _draw() {
+    const self = this
+    self.drawing = $('<div id="drawing"></div>')
+    self.node.empty()
+    self.node.append(self.drawing)
+    $(function() {
+      self.node.niceScroll('#drawing', {
+        cursorwidth: '2px',
+        scrollspeed: 5,
+        mousescrollstep: 2,
+        smoothscroll: true
+      })
+    })
+  }
+
+  drawPlannedProduction(plannedProductionByDate) {
+    const self = this
+    self.drawing.empty()
+    self.node.append(self.plusButton)
+    var outer = SVG('drawing').size(this.config.lineWidth, this.config.lineHeight * 24)
+    this.draw = outer.nested()
+    for (var i = 0; i <= 23; i++) {
+      var yLevel = i * this.config.lineHeight
+      var timePrinter = new TimePrinter()
+      this.draw.text(timePrinter.printTime(i, 0)).font({
+        size: 12
+      }).move(0, yLevel).font({
+        leading: '0.5em'
+      })
+      this.draw.line(35, yLevel, this.config.lineWidth - 10, yLevel).stroke({
+        width: 0.3
+      })
+      this.draw.text(timePrinter.printTime(i, 30)).font({
+        size: 12
+      }).move(0, +yLevel + this.config.lineHeight / 2).font({
+        leading: '0.5em'
+      })
+      this.draw.line(35, yLevel + this.config.lineHeight / 2, this.config.lineWidth - 10, yLevel + this.config.lineHeight / 2).stroke({
+        width: 0.1
+      })
+    }
+    plannedProductionByDate.then(function(plannedProduction) {
+      if (plannedProduction != null) {
+        for (var item in plannedProduction) {
+          var productionItem = plannedProduction[item]
+          var predecessor
+          var successor
+          if (item > 0) {
+            predecessor = plannedProduction[Number(item) - 1]
+          } else {
+            predecessor = null
           }
-        })
-        plusButton.click(function() {
-          var modal = new AtomicLimesItemSelectModal(predecessor, productionItem, self.date)
-          modal.showSlideMenu()
-          $('.addItemButton').remove()
-        })
-        self.node.append(plusButton)
+          if (item < plannedProduction.length - 1) {
+            successor = plannedProduction[Number(item) + 1]
+          } else {
+            successor = null
+          }
+          self._drawItem(productionItem, predecessor, successor)
+        }
+        self._addPlusButtonIfPlannedProductionIsEmpty(plannedProduction)
       }
+      self.draw.move(0, 10)
+    })
+    if (self.node.getNiceScroll(0)) {
+      self.node.getNiceScroll(0).doScrollTop(0, 0)
     }
-    self.draw.move(0, 10)
-  })
-  if (self.node.getNiceScroll(0)) {
-    self.node.getNiceScroll(0).doScrollTop(0, 0)
   }
-}
 
-AtomicLimesTimePlanner.prototype._drawItem = function(productionItem, predecessor, successor) {
-  const self = this
-  new AtomicLimesProductionItem(this, productionItem, predecessor, successor)
-}
+  _addPlusButtonIfPlannedProductionIsEmpty(plannedProduction) {
+    const self = this
+    if (self.plusButton) {
+      self.plusButton.remove()
+    }
+    self.plusButton = new AtomicLimesPlusButton({
+      class: 'addFirstItemPlusButton',
+      style: {
+        position: 'absolute',
+        top: '' + self.node.height() / 2 - 45 + 'px',
+        left: '' + self.node.width() / 2 - 45 + 'px',
+        height: '90px',
+        width: '90px',
+        borderRadius: '45px'
+      }
+    })
+    self.plusButton.click(function() {
+      var modal = new AtomicLimesItemSelectModal(null, null, self.date)
+      modal.showSlideMenu()
+    })
+    if (Object.entries(plannedProduction).length === 0) {
+      self.node.append(self.plusButton)
+    } else {
+      self.plusButton.remove()
+    }
+  }
 
-AtomicLimesTimePlanner.prototype.configure = function(config) {
-  this.config = config
-}
+  _drawItem(productionItem, predecessor, successor) {
+    const self = this
+    var item = new AtomicLimesProductionItem(this, productionItem, predecessor, successor)
+  }
 
-AtomicLimesTimePlanner.prototype._getYOffsetByTime = function(hour, minute) {
-  return hour * this.config.lineHeight + minute / 60 * this.config.lineHeight
+  configure(config) {
+    this.config = config
+  }
+
+  _getYOffsetByTime(hour, minute) {
+    return hour * this.config.lineHeight + minute / 60 * this.config.lineHeight
+  }
 }
 
 function AtomicLimesProductionItem(atomiclimesTimePlanner, productionItem, predecessor, successor) {
@@ -154,6 +168,7 @@ function AtomicLimesProductionItem(atomiclimesTimePlanner, productionItem, prede
   var onlongtouch = function() {
     if (!$('.addItemButton').length > 0) {
       var upperButton = new AtomicLimesPlusButton({
+        class: 'addItemButton',
         style: {
           position: 'absolute',
           marginLeft: 0,
@@ -164,6 +179,7 @@ function AtomicLimesProductionItem(atomiclimesTimePlanner, productionItem, prede
         id: that.id
       })
       var lowerButton = new AtomicLimesPlusButton({
+        class: 'addItemButton',
         style: {
           position: 'absolute',
           marginLeft: 0,

@@ -37,8 +37,13 @@ public class AtomicLimesProductionPlanningCalculation {
 	private PlannedProductionRepository plannedProductionRepository;
 	private NonProductionItemRepository nonProductionItemRepository;
 
+	public AtomicLimesProductionPlanningCalculation() {
+
+	}
+
 	public AtomicLimesProductionPlanningCalculation(PlannedProductionRepository plannedProductionRepository,
 			NonProductionItemRepository nonProductionItemRepository) {
+		this();
 		this.plannedProductionRepository = plannedProductionRepository;
 		this.nonProductionItemRepository = nonProductionItemRepository;
 
@@ -107,6 +112,8 @@ public class AtomicLimesProductionPlanningCalculation {
 		productionStages.addAll(preceedingPlannedNonProductiveStagesFromRulesEngine);
 		productionStages.add(addedPlannedProduction);
 		productionStages.addAll(subsequentPlannedNonProductiveStagesFromRulesEngine);
+
+		productionStages.stream().forEach(p -> System.out.println(p.getEstimatedProductionDuration()));
 
 		return productionStages;
 	}

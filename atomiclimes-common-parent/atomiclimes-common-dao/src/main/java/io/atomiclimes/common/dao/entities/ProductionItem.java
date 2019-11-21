@@ -2,6 +2,7 @@ package io.atomiclimes.common.dao.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,10 +53,10 @@ public class ProductionItem implements Serializable {
 	@JoinTable(name = "Production_Item_Packaging", joinColumns = {
 			@JoinColumn(name = "productionItemId") }, inverseJoinColumns = { @JoinColumn(name = "packagingId") })
 	@AtomicLimesItemFormField(fieldName = "Packaging", fieldType = AtomicLimesFormInputType.MULTIPLE_CHOICE)
-	private List<Packaging> packaging;
+	private Set<Packaging> packaging;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productionItem")
-	private List<PlannedProduction> plannedProductions;
+	private Set<PlannedProduction> plannedProductions;
 
 	public Long getId() {
 		return id;
@@ -73,20 +74,20 @@ public class ProductionItem implements Serializable {
 		this.product = product;
 	}
 
-	public List<Packaging> getPackaging() {
+	public Set<Packaging> getPackaging() {
 		return packaging;
 	}
 
-	public void setPackaging(List<Packaging> packaging) {
+	public void setPackaging(Set<Packaging> packaging) {
 		this.packaging = packaging;
 	}
 
 	@JsonIgnore
-	public List<PlannedProduction> getPlannedProductions() {
+	public Set<PlannedProduction> getPlannedProductions() {
 		return plannedProductions;
 	}
 
-	public void setPlannedProductions(List<PlannedProduction> plannedProductions) {
+	public void setPlannedProductions(Set<PlannedProduction> plannedProductions) {
 		this.plannedProductions = plannedProductions;
 	}
 

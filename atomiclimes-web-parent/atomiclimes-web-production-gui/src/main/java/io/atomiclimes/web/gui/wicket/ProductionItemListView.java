@@ -2,6 +2,7 @@ package io.atomiclimes.web.gui.wicket;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -28,7 +29,7 @@ public class ProductionItemListView extends ListView<ProductionItem> {
 	protected void populateItem(ListItem<ProductionItem> item) {
 		final ProductionItem productionItem = item.getModelObject();
 		productionItem.getProduct();
-		List<Packaging> packagingList = productionItem.getPackaging();
+		Set<Packaging> packagingList = productionItem.getPackaging();
 		Iterator<Packaging> packagingIterator = packagingList.iterator();
 		while (packagingIterator.hasNext()) {
 			packagingIterator.next();

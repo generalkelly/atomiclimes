@@ -5,11 +5,11 @@ import java.time.temporal.ChronoUnit;
 
 import com.fasterxml.jackson.databind.util.StdConverter;
 
-public class JSONStringToDurationConverter extends StdConverter<String, Duration> {
+public class JSONDurationToLongConverter extends StdConverter<Duration, Long> {
 
 	@Override
-	public Duration convert(String value) {
-		return Duration.ofSeconds(Long.parseLong(value));
+	public Long convert(Duration value) {
+		return value.get(ChronoUnit.SECONDS);
 	}
 
 }

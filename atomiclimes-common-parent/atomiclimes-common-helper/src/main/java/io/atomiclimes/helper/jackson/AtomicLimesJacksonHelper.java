@@ -21,26 +21,28 @@ public class AtomicLimesJacksonHelper implements Serializable {
 
 	public String serialize(Object objectValue) {
 		String output = null;
-		try {
-			output = objectMapper.writeValueAsString(objectValue);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (objectValue != null) {
+			try {
+				output = objectMapper.writeValueAsString(objectValue);
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return output;
 	}
 
 	public Object deserialize(String jsonString) {
 		Object output = null;
-		try {
-			output = objectMapper.readValue(jsonString, classType);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (jsonString != null) {
+			try {
+				output = objectMapper.readValue(jsonString, classType);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return output;
 	}
-	
-	
 
 }

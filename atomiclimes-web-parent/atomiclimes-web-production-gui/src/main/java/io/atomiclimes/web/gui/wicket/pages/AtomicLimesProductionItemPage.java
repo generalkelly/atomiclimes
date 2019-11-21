@@ -2,6 +2,7 @@ package io.atomiclimes.web.gui.wicket.pages;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.wicket.markup.html.WebPage;
@@ -67,9 +68,8 @@ public class AtomicLimesProductionItemPage extends AtomicLimesItemPage<Productio
 		productionItem.setId(pageParameters.get("id").toLong());
 		Product product = productRepository.findByName(pageParameters.get("productName").toString());
 		productionItem.setProduct(product);
-		List<Packaging> packaging = pageParameters.getValues("packaging").stream()
-				.map(stringValue -> packagingRepository.findByName(stringValue.toString()))
-				.collect(Collectors.toList());
+		Set<Packaging> packaging = pageParameters.getValues("packaging").stream()
+				.map(stringValue -> packagingRepository.findByName(stringValue.toString())).collect(Collectors.toSet());
 		productionItem.setPackaging(packaging);
 		return Model.of(productionItem);
 	}

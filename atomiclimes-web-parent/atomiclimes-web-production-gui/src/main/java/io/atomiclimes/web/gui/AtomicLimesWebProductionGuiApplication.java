@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.context.request.RequestContextListener;
 
 @SpringBootApplication
-public class AtomicLimesWebGuiApplication {
+public class AtomicLimesWebProductionGuiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AtomicLimesWebGuiApplication.class, args);
+		SpringApplication.run(AtomicLimesWebProductionGuiApplication.class, args);
 	}
 
 
