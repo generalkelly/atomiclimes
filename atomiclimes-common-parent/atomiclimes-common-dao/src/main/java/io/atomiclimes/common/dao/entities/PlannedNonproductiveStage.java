@@ -3,6 +3,7 @@ package io.atomiclimes.common.dao.entities;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,9 +33,9 @@ public class PlannedNonproductiveStage implements Serializable, ProductionStage 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name = "id")
-	private Long id;
+	private UUID id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "nonProductionItemId")
@@ -62,11 +63,11 @@ public class PlannedNonproductiveStage implements Serializable, ProductionStage 
 	private ProductionStageType productionStageType = ProductionStageType.NON_PRODUCTIVE;
 
 	@Override
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

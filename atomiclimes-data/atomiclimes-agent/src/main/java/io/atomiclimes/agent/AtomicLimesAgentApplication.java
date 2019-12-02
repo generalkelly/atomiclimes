@@ -6,6 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import io.atomiclimes.client.annotations.EnableAtomicLimesClient;
 import io.atomiclimes.date.service.client.enums.ClientType;
 
+/**
+ * @author Mirko Pohland
+ *
+ */
 @SpringBootApplication
 @EnableAtomicLimesClient(type = ClientType.AGENT)
 public class AtomicLimesAgentApplication {

@@ -1,0 +1,97 @@
+.modal {
+  position: absolute;
+}
+
+.modal-body {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 0px 0px 0px 0px;
+  overflow: hidden;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  /* border: 1px solid rgba(0, 0, 0, .2); */
+  border-radius: 6px;
+  outline: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  list-style-type: none;
+}
+
+.modal.fade {
+  -webkit-transition: opacity .3s linear, top .3s ease-out;
+  -moz-transition: opacity .3s linear, top .3s ease-out;
+  -ms-transition: opacity .3s linear, top .3s ease-out;
+  -o-transition: opacity .3s linear, top .3s ease-out;
+  transition: opacity .3s linear, top .3s ease-out;
+  top: -25%;
+}
+
+.modal-dialog {
+  /* top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%); */
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+}
+
+.modal-backdrop {
+  position: absolute !important;
+  background-color: #1b1b25;
+}
+
+.modal-header{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+  text-align: center;
+  color: #0b2f24cc;
+  height: 80px;
+}
+
+.modal-footer{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  /* font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif; */
+  /* font-size: 30px; */
+  /* font-weight: 300; */
+  /* text-align: center; */
+  /* color: #0b2f24cc; */
+  height: 80px;
+}
+
+.modal-footer .cancelButton{
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
+  margin-right: auto;
+}
+
+.modal-footer .saveButton{
+  width: 50px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: 20px;
+}

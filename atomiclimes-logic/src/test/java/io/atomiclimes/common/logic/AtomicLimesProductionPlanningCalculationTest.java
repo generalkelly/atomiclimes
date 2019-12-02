@@ -2,8 +2,9 @@ package io.atomiclimes.common.logic;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,12 +17,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.atomiclimes.common.dao.entities.NonProductionItem;
+import io.atomiclimes.common.dao.entities.Packaging;
 import io.atomiclimes.common.dao.entities.PlannedNonproductiveStage;
 import io.atomiclimes.common.dao.entities.PlannedProduction;
 import io.atomiclimes.common.dao.entities.Product;
 import io.atomiclimes.common.dao.entities.ProductionItem;
 import io.atomiclimes.common.dao.entities.ProductionStage;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
+import io.atomiclimes.common.dao.repositories.PackagingRepository;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
 import io.atomiclimes.common.dao.repositories.ProductRepository;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
@@ -43,6 +46,8 @@ public class AtomicLimesProductionPlanningCalculationTest {
 	private NonProductionItemRepository nonProductionItemRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private PackagingRepository packagingRepository;
 
 	private PlannedProduction preceedingPlannedProduction;
 	private PlannedProduction newPlannedProduction;
@@ -75,7 +80,7 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		lastPlannedProductionOfPreviousDays.setProductionItem(barItem);
 		lastPlannedProductionOfPreviousDays.setQuantity(10);
 		lastPlannedProductionOfPreviousDays.setUnit(PackagingUnit.HECTO_LITERS);
-		List<PlannedNonproductiveStage> subsequentPlannedNonproductiveStages = new LinkedList<>();
+		Set<PlannedNonproductiveStage> subsequentPlannedNonproductiveStages = new HashSet<>();
 		PlannedNonproductiveStage nonProductiveStageFoo = new PlannedNonproductiveStage();
 		nonProductiveStageFoo.setPlannedProductionTime(OffsetDateTime.now().minusDays(1).plusMinutes(10));
 		nonProductiveStageFoo.setNonProductionItem(foo);
@@ -87,7 +92,7 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		lastPlannedProductionOfPreviousDays
 				.setSubsequentPlannedNonproductiveStages(subsequentPlannedNonproductiveStages);
 		plannedProductionRepository.save(lastPlannedProductionOfPreviousDays);
-		
+
 		nextPlannedProductionOnUpcommingDays = new PlannedProduction();
 		nextPlannedProductionOnUpcommingDays.setPlannedProductionTime(OffsetDateTime.now().plusDays(1));
 		nextPlannedProductionOnUpcommingDays.setProductionItem(fooItem);
@@ -122,45 +127,55 @@ public class AtomicLimesProductionPlanningCalculationTest {
 	private ProductionItem createProductionItem(String name) {
 		Product product = new Product();
 		product.setName(name);
+		Packaging packaging = new Packaging();
+		packaging.setName("Flasche");
+		packaging.setUnit(PackagingUnit.LITERS);
+		packaging.setCapacity(0.3);
+		packaging.setDuration(Duration.ofSeconds(2));
+		packaging.setPackagingOrder(0);
+		Set<Packaging> packagingSet = new HashSet<>();
+		packagingSet.add(packaging);
 		ProductionItem productionItem = new ProductionItem();
 		productionItem.setProduct(product);
+		productionItem.setPackaging(packagingSet);
+		packagingRepository.save(packaging);
 		productRepository.save(product);
 		return productionItemRepository.save(productionItem);
 	}
 
 	@Test
 	public void testNewPlannedProductionWithPredecessorAndSuccessor() {
-		List<ProductionStage> productionStages = calculation.calculate(preceedingPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(preceedingPlannedProduction,
 				newPlannedProduction, subsequentPlannedProduction);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
 
 	@Test
 	public void testPredecessorOnPreviousDay() {
-		List<ProductionStage> productionStages = calculation.calculate(null, preceedingPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(null, preceedingPlannedProduction,
 				newPlannedProduction);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
-	
+
 	@Test
 	public void testWithoutPredecessor() {
-		List<ProductionStage> productionStages = calculation.calculate(null, lastPlannedProductionOfPreviousDays,
+		List<ProductionStage> productionStages = calculation.calculateRules(null, lastPlannedProductionOfPreviousDays,
 				newPlannedProduction);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
 
 	@Test
 	public void testSuccessorOnUpcomingDay() {
-		List<ProductionStage> productionStages = calculation.calculate(newPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(newPlannedProduction,
 				subsequentPlannedProduction, null);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
 
 	@Test
 	public void testWithoutSuccessor() {
-		List<ProductionStage> productionStages = calculation.calculate(newPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(newPlannedProduction,
 				nextPlannedProductionOnUpcommingDays, null);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
-	
+
 }

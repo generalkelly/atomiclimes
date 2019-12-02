@@ -22,7 +22,7 @@ public class DurationSerializer extends StdDeserializer<Duration> {
 	@Override
 	public Duration deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 		Long durationInMinutes = p.getLongValue();
-		return Duration.ofMinutes(durationInMinutes);
+		return Duration.ofSeconds(durationInMinutes);
 	}
 
 }

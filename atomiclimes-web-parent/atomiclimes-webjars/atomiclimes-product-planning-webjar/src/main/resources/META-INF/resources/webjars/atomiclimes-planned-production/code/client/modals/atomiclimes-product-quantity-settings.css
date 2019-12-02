@@ -1,0 +1,102 @@
+.quantitySettings{
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  /* display: inline-block; */
+  /* width : 50%; */
+  /* border-radius: 5px 5px 5px 5px; */
+  overflow: hidden;
+  /* left: 50%;
+  transform: translate(-50%, 0); */
+  /* max-width: 600px; */
+  position: inherit;
+}
+
+.quantitySettings .header{
+  display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	/* background-color: var(--smartmeter-color); */
+	z-index: 1;
+	height: 80px;
+	width: 100%;
+	font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+	font-size: 30px;
+	font-weight: 300;
+  text-align: center;
+	color: #0b2f24cc;
+}
+
+.quantitySettings .display{
+	background-color: white;
+	height: 80px;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+	font-size: 40px;
+	font-weight: 300;
+  text-align: center;
+}
+
+.quantitySettings .display .numberWithDecimals{
+  justify-content: flex-end;
+	display: inline-flex;
+	background-color: white;
+	width: 80%;
+	height: 80px;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+	font-size: 60px;
+	font-weight: 250;
+  text-align: center;
+}
+
+
+.quantitySettings .display .unit{
+	justify-content: center;
+	display: inline-flex;
+	background-color: white;
+	width: 20%;
+	height: 80px;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+	font-size: 40px;
+	font-weight: 300;
+  text-align: center;
+}
+
+.quantitySettings .pad{
+  justify-content: center;
+	align-items: center;
+	background-color: white;
+	z-index: 1;
+	height: 390px;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+	font-size: 40px;
+	font-weight: 200;
+  text-align: center;
+}
+
+.quantitySettings .pad .row{
+		background-color: white;
+		width: 100%;
+	  height: 25%;
+}
+
+.quantitySettings .pad .row .number{
+	align-items: center;
+	justify-content: center;
+	display: inline-flex;
+	width: 33.33%;
+  height: 100%;
+}
+
+.quantitySettings .pad .row .delimiter{
+	align-items: center;
+	justify-content: center;
+	display: inline-flex;
+	width: 33.33%;
+  height: 100%;
+}
+
+.quantitySettings .pad .row .del{
+	align-items: center;
+	justify-content: center;
+	display: inline-flex;
+	width: 33.33%;
+  height: 100%;
+}

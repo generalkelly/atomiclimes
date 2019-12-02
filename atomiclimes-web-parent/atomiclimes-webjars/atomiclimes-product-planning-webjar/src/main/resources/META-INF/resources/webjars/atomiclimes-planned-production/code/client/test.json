@@ -1,0 +1,27 @@
+{
+  "id": 26,
+  "productionItem": {
+    "id": 1,
+    "product": {
+      "name": "Dunkel"
+    },
+    "packaging": [{
+      "name": "Flasche 0.3L",
+      "capacity": 0.3,
+      "unit": "LITERS",
+      "duration": "2"
+    }, {
+      "name": "Kasten, 10er, blau",
+      "capacity": 10,
+      "unit": "UNITS",
+      "duration": "2"
+    }]
+  },
+  "subsequentPlannedNonproductiveStages": [],
+  "plannedProductionDate": "2019-11-19",
+  "plannedProductionTime": "2019-11-20T09:00+01:00",
+  "quantity": 5,
+  "unit": "HECTO_LITERS",
+  "estimatedProductionDuration": "3332",
+  "productionStageType": "PRODUCTIVE"
+}

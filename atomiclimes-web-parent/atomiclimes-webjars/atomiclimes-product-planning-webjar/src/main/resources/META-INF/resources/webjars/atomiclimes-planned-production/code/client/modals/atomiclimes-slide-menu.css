@@ -1,0 +1,27 @@
+.menuHeader {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.menuTitle {
+  margin: auto;
+}
+
+.nextEntryButton {
+  height: 60px;
+  width: auto;
+  stroke-width: 0.8;
+}
+
+.previousEntryButton {
+  height: 60px;
+  width: auto;
+  stroke-width: 0.8;
+}
+
+.entryButtonContainer {
+  width: 60px;
+  height: 60px;
+}

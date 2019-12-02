@@ -2,8 +2,8 @@ package io.atomiclimes.common.dao.entities;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.atomiclimes.common.dao.entities.json.JSONDurationToLongConverter;
+import io.atomiclimes.common.dao.entities.json.JSONLongToDurationConverter;
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemForm;
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemFormField;
 import io.atomiclimes.common.helper.enums.AtomicLimesFormInputType;
@@ -48,6 +52,8 @@ public class Packaging implements Serializable {
 
 	@Column(name = "duration")
 	@AtomicLimesItemFormField(fieldName = "Packaging Duration", using = AtomicLimesDurationInSecondsConverter.class)
+	@JsonSerialize(converter = JSONDurationToLongConverter.class)
+	@JsonDeserialize(converter = JSONLongToDurationConverter.class)
 	private Duration duration;
 
 	@Column(name = "packagingOrder")
@@ -55,7 +61,8 @@ public class Packaging implements Serializable {
 	private Integer packagingOrder;
 
 	@ManyToMany(mappedBy = "packaging")
-	private List<ProductionItem> productionItems = new LinkedList<>();
+	@JsonIgnore
+	private Set<ProductionItem> productionItems = new HashSet<>();
 
 	public String getName() {
 		return name;
@@ -89,7 +96,6 @@ public class Packaging implements Serializable {
 		this.duration = duration;
 	}
 
-	@JsonIgnore
 	public Integer getPackagingOrder() {
 		return packagingOrder;
 	}
@@ -99,14 +105,14 @@ public class Packaging implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<ProductionItem> getProductionItems() {
+	public Set<ProductionItem> getProductionItems() {
 		return productionItems;
 	}
 
-	public void setProductionItems(List<ProductionItem> productionItems) {
+	public void setProductionItems(Set<ProductionItem> productionItems) {
 		this.productionItems = productionItems;
 	}
-	
+
 	public String toString() {
 		return getName();
 	}
