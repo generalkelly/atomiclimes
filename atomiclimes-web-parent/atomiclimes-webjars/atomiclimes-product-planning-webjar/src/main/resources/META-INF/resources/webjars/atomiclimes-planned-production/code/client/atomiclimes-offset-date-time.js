@@ -49,7 +49,7 @@ export default class AtomicLimesOffsetDateTime extends Date {
     var currentMinutes = self._printWithLeadingZero(self.getMinutes())
     var currentSeconds = self._printWithLeadingZero(self.getSeconds())
 
-    var offsetDateTime = self.currentYear + '-' + self.currentMonth + '-' + self.currentDay + 'T' + currentHours + ':' + currentMinutes + ':' + currentSeconds + self.offset
+    var offsetDateTime = self.currentYear + '-' + self._printWithLeadingZero(self.currentMonth) + '-' + self._printWithLeadingZero(self.currentDay) + 'T' + currentHours + ':' + currentMinutes + ':' + currentSeconds + self.offset
     return offsetDateTime
   }
 

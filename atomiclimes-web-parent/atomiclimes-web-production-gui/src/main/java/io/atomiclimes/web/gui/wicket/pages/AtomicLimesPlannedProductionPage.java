@@ -1,6 +1,8 @@
 package io.atomiclimes.web.gui.wicket.pages;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -15,17 +17,20 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.TextRequestHandler;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.openjson.JSONObject;
 
 import io.atomiclimes.common.dao.entities.PlannedProduction;
 import io.atomiclimes.common.dao.entities.ProductionItem;
-import io.atomiclimes.common.dao.entities.ProductionStage;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
 import io.atomiclimes.common.dao.repositories.ProductRepository;
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
+import io.atomiclimes.common.logging.AtomicLimesLogger;
 import io.atomiclimes.common.logic.AtomicLimesProductionPlanningCalculation;
 import io.atomiclimes.helper.jackson.AtomicLimesJacksonHelper;
+import io.atomiclimes.web.gui.log.AtomicLimesGuiLogMessages;
 import io.atomiclimes.web.gui.wicket.ajax.BootstrapModalAjaxBehaviour;
 
 public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage {
@@ -37,6 +42,8 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	private static final AtomicLimesLogger LOG = new AtomicLimesLogger(AtomicLimesPlannedProductionPage.class);
 
 	@SpringBean
 	private ProductionItemRepository productionItemRepository;
@@ -54,6 +61,7 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 		BootstrapModalAjaxBehaviour plannedProductionToCalculate = new BootstrapModalAjaxBehaviour("calculate") {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unchecked")
 			@Override
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
@@ -67,6 +75,10 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 				String subsequentPlannedProductionJson = getRequest().getRequestParameters()
 						.getParameterValue("subsequentPlannedProduction").toString();
 
+				String plannedProductionJson = getRequest().getRequestParameters()
+						.getParameterValue("plannedProduction").toString();
+				System.out.println(plannedProductionJson);
+
 				AtomicLimesJacksonHelper plannedProductionJacksonHelper = new AtomicLimesJacksonHelper(
 						PlannedProduction.class);
 
@@ -77,14 +89,31 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 				PlannedProduction subsequentPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
 						.deserialize(subsequentPlannedProductionJson);
 
-				List<ProductionStage> productionStages = productionPlanningCalculation
-						.calculate(preceedingPlannedProduction, addedPlannedProduction, subsequentPlannedProduction);
+				ObjectMapper plannedProductionListmapper = new ObjectMapper();
+				List<PlannedProduction> plannedProduction = new LinkedList<>();
+				if (!plannedProductionJson.equals("{}")) {
+					try {
+						plannedProduction = plannedProductionListmapper.readValue(plannedProductionJson,
+								new TypeReference<List<PlannedProduction>>() {
+								});
+					} catch (IOException e) {
+						LOG.debug(AtomicLimesGuiLogMessages.FAILED_TO_DESERIALIZE_JSON, e, plannedProductionJson);
+					}
+				}
 
-				// TODO: do not save immediatly, first send the result of the calculation and
-				// save only after request
-				plannedProductionRepository.save(addedPlannedProduction);
+//				TODO: use production stages to calculate new planned production before safing it after frontend user controlled the output
+				productionPlanningCalculation.calculateRules(preceedingPlannedProduction, addedPlannedProduction,
+						subsequentPlannedProduction);
 
+				plannedProduction = productionPlanningCalculation.addItemToPlannedProduction(
+						preceedingPlannedProduction, addedPlannedProduction, subsequentPlannedProduction,
+						plannedProduction);
+
+				AtomicLimesJacksonHelper jacksonHelper = new AtomicLimesJacksonHelper(Iterable.class);
 				String jsonResponse = new JSONObject().toString();
+				if (!plannedProduction.isEmpty()) {
+					jsonResponse = jacksonHelper.serialize(plannedProduction);
+				}
 
 				requestCycle.scheduleRequestHandlerAfterCurrent(
 						new TextRequestHandler(RESPONSE_TYPE, RESPONSE_ENCODING, jsonResponse));
@@ -94,6 +123,7 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 		plannedProductionToCalculate.addCallbackParameter("preceedingPlannedProduction");
 		plannedProductionToCalculate.addCallbackParameter("addedPlannedProduction");
 		plannedProductionToCalculate.addCallbackParameter("subsequentPlannedProduction");
+		plannedProductionToCalculate.addCallbackParameter("plannedProduction");
 
 		BootstrapModalAjaxBehaviour getProductionPlanningByDate = new BootstrapModalAjaxBehaviour(
 				"getProductionPlanningByDate") {
@@ -104,16 +134,12 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
 				String dateString = getRequest().getRequestParameters().getParameterValue("date").toString();
-				System.out.println("request date: " + dateString);
 				Optional<Set<PlannedProduction>> plannedProduction = plannedProductionRepository
 						.findPlannedProductionByDate(LocalDate.parse(dateString));
 				String jsonResponse = new JSONObject().toString();
 				if (plannedProduction.isPresent()) {
 					AtomicLimesJacksonHelper jacksonHelper = new AtomicLimesJacksonHelper(Iterable.class);
 					jsonResponse = jacksonHelper.serialize(plannedProduction.get());
-					System.out.println("response date: ");
-					plannedProduction.get().stream()
-							.forEach(p -> System.out.println(p.getPlannedProductionDate().toString()));
 				}
 				requestCycle.scheduleRequestHandlerAfterCurrent(
 						new TextRequestHandler(RESPONSE_TYPE, RESPONSE_ENCODING, jsonResponse));

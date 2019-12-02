@@ -2,6 +2,7 @@ package io.atomiclimes.common.dao.entities;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -13,7 +14,7 @@ import io.atomiclimes.common.helper.serializer.DurationSerializer;
 
 public interface ProductionStage {
 
-	public Long getId();
+	public UUID getId();
 	
 	public ProductionStageType getProductionStageType();
 

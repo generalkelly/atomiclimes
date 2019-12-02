@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,9 +20,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.SequenceGenerators;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -48,9 +54,9 @@ public class PlannedProduction implements Serializable, ProductionStage {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	@Column(name = "id")
-	private Long id;
+	private UUID id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productionItemId")
@@ -91,15 +97,21 @@ public class PlannedProduction implements Serializable, ProductionStage {
 	@Column(name = "estimatedProductionDuration")
 	private Duration estimatedProductionDuration = null;
 
+	@Column(name = "preceedingPlannedProductionId")
+	private UUID preceedingPlannedProductionId;
+
+	@Column(name = "subsequentPlannedProductionId")
+	private UUID subsequentPlannedProductionId;
+
 	@Enumerated(EnumType.STRING)
 	private ProductionStageType productionStageType = ProductionStageType.PRODUCTIVE;
 
 	@Override
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -184,6 +196,22 @@ public class PlannedProduction implements Serializable, ProductionStage {
 	@JsonDeserialize(using = DurationSerializer.class)
 	public void setEstimatedProductionDuration(Duration estimatedProductionDuration) {
 		this.estimatedProductionDuration = estimatedProductionDuration;
+	}
+
+	public UUID getPreceedingPlannedProductionId() {
+		return preceedingPlannedProductionId;
+	}
+
+	public void setPreceedingPlannedProductionId(UUID preceedingPlannedProductionId) {
+		this.preceedingPlannedProductionId = preceedingPlannedProductionId;
+	}
+
+	public UUID getSubsequentPlannedProductionId() {
+		return subsequentPlannedProductionId;
+	}
+
+	public void setSubsequentPlannedProductionId(UUID subsequentPlannedProductionId) {
+		this.subsequentPlannedProductionId = subsequentPlannedProductionId;
 	}
 
 	@Override

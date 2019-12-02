@@ -1,7 +1,6 @@
 package io.atomiclimes.common.dao.entities;
 
 import java.time.Duration;
-import java.util.Iterator;
 import java.util.Set;
 
 import io.atomiclimes.common.helper.enums.PackagingUnit;
@@ -12,7 +11,6 @@ public class ProcessDurationCalculator {
 		double quantity = plannedProduction.getQuantity();
 		PackagingUnit productionUnit = plannedProduction.getUnit();
 		Set<Packaging> packagingList = plannedProduction.getProductionItem().getPackaging();
-//		Iterator<Packaging> packagingIterator = packagingList.iterator();
 		Packaging packaging = null;
 		for (Packaging p : packagingList) {
 			if (p.getPackagingOrder() == 0) {
@@ -20,13 +18,8 @@ public class ProcessDurationCalculator {
 				break;
 			}
 		}
-//		while (packagingIterator.hasNext()) {
-//			packaging = packagingIterator.next();
-//			if (packaging.getPackagingOrder() == 0) {
-//				break;
-//			}
-//		}
 		Duration processDuration = calculateDuration(quantity, productionUnit, packaging);
+		
 		plannedProduction.setEstimatedProductionDuration(processDuration);
 	}
 

@@ -1,50 +1,27 @@
-[{
-  "id": 7,
+{
+  "id": 26,
   "productionItem": {
     "id": 1,
     "product": {
       "name": "Dunkel"
     },
     "packaging": [{
-        "name": "Flasche 0.3L",
-        "capacity": 0.3,
-        "unit": "LITERS",
-        "duration": "2"
-      },
-      {
-        "name": "Kasten, 10er, blau",
-        "capacity": 10,
-        "unit": "UNITS",
-        "duration": "2"
-      }
-    ]
+      "name": "Flasche 0.3L",
+      "capacity": 0.3,
+      "unit": "LITERS",
+      "duration": "2"
+    }, {
+      "name": "Kasten, 10er, blau",
+      "capacity": 10,
+      "unit": "UNITS",
+      "duration": "2"
+    }]
   },
   "subsequentPlannedNonproductiveStages": [],
-  "updateTimestamp": {
-    "offset": {
-      "totalSeconds": 3600,
-      "id": "+01:00",
-      "rules": {
-        "transitions": [],
-        "transitionRules": [],
-        "fixedOffset": true
-      }
-    },
-    "dayOfMonth": 20,
-    "dayOfWeek": "WEDNESDAY",
-    "dayOfYear": 324,
-    "hour": 10,
-    "minute": 37,
-    "second": 46,
-    "nano": 0,
-    "year": 2019,
-    "month": "NOVEMBER",
-    "monthValue": 11
-  },
-  "plannedProductionDate": "2019-11-20",
-  "plannedProductionTime": "2019-11-21T09:00+01:00",
-  "quantity": 8,
-  "unit": "LITERS",
-  "estimatedProductionDuration": "52",
+  "plannedProductionDate": "2019-11-19",
+  "plannedProductionTime": "2019-11-20T09:00+01:00",
+  "quantity": 5,
+  "unit": "HECTO_LITERS",
+  "estimatedProductionDuration": "3332",
   "productionStageType": "PRODUCTIVE"
-}]
+}

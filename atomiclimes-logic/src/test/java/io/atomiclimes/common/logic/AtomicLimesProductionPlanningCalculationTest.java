@@ -145,35 +145,35 @@ public class AtomicLimesProductionPlanningCalculationTest {
 
 	@Test
 	public void testNewPlannedProductionWithPredecessorAndSuccessor() {
-		List<ProductionStage> productionStages = calculation.calculate(preceedingPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(preceedingPlannedProduction,
 				newPlannedProduction, subsequentPlannedProduction);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
 
 	@Test
 	public void testPredecessorOnPreviousDay() {
-		List<ProductionStage> productionStages = calculation.calculate(null, preceedingPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(null, preceedingPlannedProduction,
 				newPlannedProduction);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
 
 	@Test
 	public void testWithoutPredecessor() {
-		List<ProductionStage> productionStages = calculation.calculate(null, lastPlannedProductionOfPreviousDays,
+		List<ProductionStage> productionStages = calculation.calculateRules(null, lastPlannedProductionOfPreviousDays,
 				newPlannedProduction);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
 
 	@Test
 	public void testSuccessorOnUpcomingDay() {
-		List<ProductionStage> productionStages = calculation.calculate(newPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(newPlannedProduction,
 				subsequentPlannedProduction, null);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
 
 	@Test
 	public void testWithoutSuccessor() {
-		List<ProductionStage> productionStages = calculation.calculate(newPlannedProduction,
+		List<ProductionStage> productionStages = calculation.calculateRules(newPlannedProduction,
 				nextPlannedProductionOnUpcommingDays, null);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}

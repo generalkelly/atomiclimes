@@ -115,6 +115,11 @@
 			<artifactId>atomiclimes-logic</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>io.atomiclimes</groupId>
+			<artifactId>atomiclimes-logging</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

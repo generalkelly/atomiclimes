@@ -6,9 +6,11 @@ import AtomicLimesProductQuantitySettings from './atomiclimes-product-quantity-s
 import AtomicLimesPlannedProduction from '../atomiclimes-planned-production.js'
 
 export default class AtomicLimesItemSelectModal extends AtomicLimesModal {
-  constructor(predecessor, successor) {
+  constructor(predecessor, successor, config) {
     super()
     const self = this
+    self.config = config
+    console.log(self.config.plannedProduction)
     self.addedPlannedProduction = {
       productionItem: null,
       plannedProductionDate: AtomicLimesPlannedProduction.date,
@@ -23,9 +25,7 @@ export default class AtomicLimesItemSelectModal extends AtomicLimesModal {
   submit() {
     const self = this
     if (window.calculate) {
-      window.calculate(JSON.stringify(this.predecessor), JSON.stringify(this.addedPlannedProduction), JSON.stringify(this.successor)).then(function(json) {
-        console.log('calculate: ' + json)
-      })
+      self.config.submit.drawPlannedProduction(window.calculate(JSON.stringify(this.predecessor), JSON.stringify(this.addedPlannedProduction), JSON.stringify(this.successor), JSON.stringify(self.config.plannedProduction)))
     } else {
       console.log('wicket function calculate was not defined')
     }

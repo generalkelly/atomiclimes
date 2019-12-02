@@ -20,6 +20,115 @@ window.calculate = function() {
   })
 }
 
+window.calculate = function() {
+  return new Promise(
+    function(resolve, reject) {
+      resolve(
+        [{
+            "id": 12,
+            "productionItem": {
+              "id": 1,
+              "product": {
+                "name": "Dunkel"
+              },
+              "packaging": [{
+                  "name": "Flasche 0.3L",
+                  "capacity": 0.3,
+                  "unit": "LITERS",
+                  "duration": "2"
+                },
+                {
+                  "name": "Kasten, 10er, blau",
+                  "capacity": 10,
+                  "unit": "UNITS",
+                  "duration": "2"
+                }
+              ]
+            },
+            "subsequentPlannedNonproductiveStages": [],
+            "updateTimestamp": {
+              "offset": {
+                "totalSeconds": 3600,
+                "id": "+01:00",
+                "rules": {
+                  "fixedOffset": true,
+                  "transitions": [],
+                  "transitionRules": []
+                }
+              },
+              "year": 2019,
+              "month": "NOVEMBER",
+              "hour": 13,
+              "minute": 21,
+              "second": 24,
+              "nano": 0,
+              "dayOfMonth": 20,
+              "dayOfWeek": "WEDNESDAY",
+              "dayOfYear": 324,
+              "monthValue": 11
+            },
+            "plannedProductionDate": "2019-11-19",
+            "plannedProductionTime": "2019-11-20T05:00+01:00",
+            "quantity": 1,
+            "unit": "HECTO_LITERS",
+            "estimatedProductionDuration": "666",
+            "productionStageType": "PRODUCTIVE"
+          },
+          {
+            "id": 13,
+            "productionItem": {
+              "id": 2,
+              "product": {
+                "name": "Eistee, Blaubeere"
+              },
+              "packaging": [{
+                  "name": "Flasche 0.3L",
+                  "capacity": 0.3,
+                  "unit": "LITERS",
+                  "duration": "2"
+                },
+                {
+                  "name": "Kasten, 10er, grün",
+                  "capacity": 10,
+                  "unit": "UNITS",
+                  "duration": "2"
+                }
+              ]
+            },
+            "subsequentPlannedNonproductiveStages": [],
+            "updateTimestamp": {
+              "offset": {
+                "totalSeconds": 3600,
+                "id": "+01:00",
+                "rules": {
+                  "fixedOffset": true,
+                  "transitions": [],
+                  "transitionRules": []
+                }
+              },
+              "year": 2019,
+              "month": "NOVEMBER",
+              "hour": 13,
+              "minute": 21,
+              "second": 55,
+              "nano": 0,
+              "dayOfMonth": 20,
+              "dayOfWeek": "WEDNESDAY",
+              "dayOfYear": 324,
+              "monthValue": 11
+            },
+            "plannedProductionDate": "2019-11-19",
+            "plannedProductionTime": "2019-11-20T06:00+01:00",
+            "quantity": 5,
+            "unit": "HECTO_LITERS",
+            "estimatedProductionDuration": "3332",
+            "productionStageType": "PRODUCTIVE"
+          }
+        ]
+      )
+    })
+}
+
 window.getProductionPlanningByDate = function(date) {
   return new Promise(
     function(resolve, reject) {

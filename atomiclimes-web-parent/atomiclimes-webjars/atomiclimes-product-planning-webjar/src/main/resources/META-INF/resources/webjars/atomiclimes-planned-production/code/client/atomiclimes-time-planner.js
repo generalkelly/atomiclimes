@@ -24,7 +24,6 @@ export default class AtomicLimesTimePlanner {
     self.node.append(self.plusButton)
     self._draw()
   }
-  // self._draw()
 
   _draw() {
     const self = this
@@ -83,7 +82,7 @@ export default class AtomicLimesTimePlanner {
           } else {
             successor = null
           }
-          self._drawItem(productionItem, predecessor, successor)
+          self._drawItem(productionItem, predecessor, successor, plannedProduction)
         }
         self._addPlusButtonIfPlannedProductionIsEmpty(plannedProduction)
       }
@@ -111,7 +110,10 @@ export default class AtomicLimesTimePlanner {
       }
     })
     self.plusButton.click(function() {
-      var modal = new AtomicLimesItemSelectModal(null, null, self.date)
+      var modal = new AtomicLimesItemSelectModal(null, null, {
+        submit: self,
+        plannedProduction: plannedProduction
+      })
       modal.showSlideMenu()
     })
     if (Object.entries(plannedProduction).length === 0) {
@@ -121,9 +123,9 @@ export default class AtomicLimesTimePlanner {
     }
   }
 
-  _drawItem(productionItem, predecessor, successor) {
+  _drawItem(productionItem, predecessor, successor, plannedProduction) {
     const self = this
-    var item = new AtomicLimesProductionItem(this, productionItem, predecessor, successor)
+    var item = new AtomicLimesProductionItem(this, productionItem, predecessor, successor, plannedProduction)
   }
 
   configure(config) {
@@ -135,8 +137,10 @@ export default class AtomicLimesTimePlanner {
   }
 }
 
-function AtomicLimesProductionItem(atomiclimesTimePlanner, productionItem, predecessor, successor) {
+function AtomicLimesProductionItem(atomiclimesTimePlanner, productionItem, predecessor, successor, plannedProduction) {
   const self = this
+  self.plannedProduction = plannedProduction
+  console.log(self.plannedProduction)
   this.atomiclimesTimePlanner = atomiclimesTimePlanner
   this.id = new UUID().toString()
   var date = new Date(productionItem.plannedProductionTime)
@@ -190,11 +194,17 @@ function AtomicLimesProductionItem(atomiclimesTimePlanner, productionItem, prede
         id: that.id
       })
       upperButton.click(function() {
-        var modal = new AtomicLimesItemSelectModal(predecessor, productionItem)
+        var modal = new AtomicLimesItemSelectModal(predecessor, productionItem, {
+          submit: self.atomiclimesTimePlanner,
+          plannedProduction: self.plannedProduction
+        })
         modal.showSlideMenu()
       })
       lowerButton.click(function() {
-        var modal = new AtomicLimesItemSelectModal(productionItem, successor)
+        var modal = new AtomicLimesItemSelectModal(productionItem, successor, {
+          submit: self.atomiclimesTimePlanner,
+          plannedProduction: self.plannedProduction
+        })
         modal.showSlideMenu()
       })
       upperButton.hide()

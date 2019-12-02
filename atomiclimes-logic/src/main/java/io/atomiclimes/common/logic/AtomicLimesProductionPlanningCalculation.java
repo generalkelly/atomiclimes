@@ -1,10 +1,17 @@
 package io.atomiclimes.common.logic;
 
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -57,7 +64,7 @@ public class AtomicLimesProductionPlanningCalculation {
 		this.kieContainer = kieServices.newKieContainer(krDefaultReleaseId);
 	}
 
-	public List<ProductionStage> calculate(PlannedProduction preceedingPlannedProduction,
+	public List<ProductionStage> calculateRules(PlannedProduction preceedingPlannedProduction,
 			PlannedProduction addedPlannedProduction, PlannedProduction subsequentPlannedProduction) {
 
 		Optional<PlannedProduction> preceeding = Optional.ofNullable(preceedingPlannedProduction);
@@ -108,14 +115,130 @@ public class AtomicLimesProductionPlanningCalculation {
 		removeOverlappingNonProductiveStages(preceedingPlannedNonProductiveStages,
 				preceedingPlannedNonProductiveStagesFromRulesEngine);
 
+		preceedingPlannedProduction
+				.setSubsequentPlannedNonproductiveStages(preceedingPlannedNonProductiveStagesFromRulesEngine);
+		addedPlannedProduction
+				.setSubsequentPlannedNonproductiveStages(subsequentPlannedNonProductiveStagesFromRulesEngine);
+
 		final List<ProductionStage> productionStages = new LinkedList<>();
 		productionStages.addAll(preceedingPlannedNonProductiveStagesFromRulesEngine);
 		productionStages.add(addedPlannedProduction);
 		productionStages.addAll(subsequentPlannedNonProductiveStagesFromRulesEngine);
-
-		productionStages.stream().forEach(p -> System.out.println(p.getEstimatedProductionDuration()));
-
 		return productionStages;
+	}
+
+	public List<PlannedProduction> addItemToPlannedProduction(PlannedProduction preceedingPlannedProduction,
+			PlannedProduction addedPlannedProduction, PlannedProduction subsequentPlannedProduction,
+			List<PlannedProduction> plannedProduction) {
+
+		// first add new planned production item addedPlannedProduction
+		if (plannedProduction == null) {
+			plannedProduction = new LinkedList<>();
+		}
+		plannedProduction.add(addedPlannedProduction);
+
+		reorderPlannedProduction(preceedingPlannedProduction, addedPlannedProduction, subsequentPlannedProduction,
+				plannedProduction);
+
+		OffsetDateTime lastUnchangedPlannedProduction = null;
+
+		if ((preceedingPlannedProduction != null)
+				&& (preceedingPlannedProduction.getPreceedingPlannedProductionId() != null)) {
+			Optional<PlannedProduction> preceedingPreceedingPlannedProduction = plannedProductionRepository
+					.findById(preceedingPlannedProduction.getPreceedingPlannedProductionId());
+
+			if (preceedingPreceedingPlannedProduction.isPresent()) {
+				lastUnchangedPlannedProduction = preceedingPreceedingPlannedProduction.get().getPlannedProductionTime();
+			}
+		}
+
+		List<PlannedProduction> sortedPlannedProductionList = new LinkedList<>();
+		List<PlannedProduction> plannedProductionWithProductionTimeChange = sortAndFilterAlteredPlannedProductions(
+				plannedProduction, lastUnchangedPlannedProduction, sortedPlannedProductionList);
+
+		plannedProductionWithProductionTimeChange = recalculateProductionPlanningTimes(
+				plannedProductionWithProductionTimeChange);
+		sortedPlannedProductionList.addAll(plannedProductionWithProductionTimeChange);
+
+		return sortedPlannedProductionList;
+
+	}
+
+	private List<PlannedProduction> sortAndFilterAlteredPlannedProductions(
+			List<PlannedProduction> plannedProductionByDateSet, OffsetDateTime lastUnchangedPlannedProduction,
+			List<PlannedProduction> sortedPlannedProductionList) {
+
+		Comparator<? super PlannedProduction> comparator = (plannedProduction, plannedProductionToCompareWith) -> {
+			if (plannedProduction.getPlannedProductionTime()
+					.isAfter(plannedProductionToCompareWith.getPlannedProductionTime())) {
+				return 1;
+			} else if (plannedProduction.getPlannedProductionTime()
+					.isBefore(plannedProductionToCompareWith.getPlannedProductionTime())) {
+				return -1;
+			} else {
+				return 0;
+			}
+		};
+		return plannedProductionByDateSet.stream().sorted(comparator).filter(p -> {
+			boolean isAfter = true;
+			if (lastUnchangedPlannedProduction != null) {
+				isAfter = p.getPlannedProductionTime().isAfter(lastUnchangedPlannedProduction);
+			}
+			if (!isAfter) {
+				sortedPlannedProductionList.add(p);
+			}
+			return isAfter;
+		}).collect(Collectors.toList());
+	}
+
+	private void reorderPlannedProduction(PlannedProduction preceedingPlannedProduction,
+			PlannedProduction addedPlannedProduction, PlannedProduction subsequentPlannedProduction,
+			List<PlannedProduction> plannedProduction) {
+		addedPlannedProduction.setId(UUID.randomUUID());
+		if (preceedingPlannedProduction != null) {
+			preceedingPlannedProduction.setSubsequentPlannedProductionId(addedPlannedProduction.getId());
+			addedPlannedProduction.setPreceedingPlannedProductionId(preceedingPlannedProduction.getId());
+		}
+		if (subsequentPlannedProduction != null) {
+			subsequentPlannedProduction.setPreceedingPlannedProductionId(addedPlannedProduction.getId());
+			addedPlannedProduction.setSubsequentPlannedProductionId(subsequentPlannedProduction.getId());
+		}
+		// replace preceedingPlannedProduction und subsequentPlannedProduction in the
+		// set by the method parameters of the identical name
+		plannedProduction.stream().forEach(p -> {
+//			in case p is addedPlannedProduction the id is null, so this case has to be sorted out
+			if (p.getId() != null) {
+				if ((preceedingPlannedProduction != null) && (p.getId().equals(preceedingPlannedProduction.getId()))) {
+					p = preceedingPlannedProduction;
+				} else if ((subsequentPlannedProduction != null)
+						&& (p.getId().equals(subsequentPlannedProduction.getId()))) {
+					p = subsequentPlannedProduction;
+				}
+			}
+		});
+	}
+
+	private List<PlannedProduction> recalculateProductionPlanningTimes(List<PlannedProduction> plannedProduction) {
+		Map<UUID, PlannedProduction> idToPlannedProductionMap = plannedProduction.stream()
+				.collect(Collectors.toMap(PlannedProduction::getId, p -> p));
+
+		plannedProduction.stream().map(PlannedProduction::getId).forEach(id -> {
+			PlannedProduction p = idToPlannedProductionMap.get(id);
+			OffsetDateTime plannedProductionTime = p.getPlannedProductionTime();
+			Duration processDuration = p.getEstimatedProductionDuration();
+			OffsetDateTime endOfProcess = plannedProductionTime.plus(processDuration);
+			for (PlannedNonproductiveStage nonProductiveStage : p.getSubsequentPlannedNonproductiveStages()) {
+				nonProductiveStage.setPlannedProductionTime(endOfProcess);
+				endOfProcess = endOfProcess.plus(nonProductiveStage.getEstimatedProductionDuration());
+			}
+			if (p.getSubsequentPlannedProductionId() != null) {
+				idToPlannedProductionMap.get(p.getSubsequentPlannedProductionId())
+						.setPlannedProductionTime(endOfProcess);
+			}
+		});
+
+		return idToPlannedProductionMap.entrySet().stream().map(Entry::getValue).collect(Collectors.toList());
+
 	}
 
 	private PlannedProduction newEmptyPlannedProduction() {
@@ -155,8 +278,8 @@ public class AtomicLimesProductionPlanningCalculation {
 		if (!preceedingPlannedNonProductiveStages.isEmpty()) {
 			for (PlannedNonproductiveStage nonproductiveStage : preceedingPlannedNonProductiveStages) {
 				for (PlannedNonproductiveStage nonproductiveStageFromRulesEngine : preceedingPlannedNonProductiveStagesFromRulesEngine) {
-					if (nonproductiveStage.getNonProductionItem().getName() == nonproductiveStageFromRulesEngine
-							.getNonProductionItem().getName()) {
+					if (nonproductiveStage.getNonProductionItem().getName()
+							.equals(nonproductiveStageFromRulesEngine.getNonProductionItem().getName())) {
 						preceedingPlannedNonProductiveStagesFromRulesEngine.remove(nonproductiveStageFromRulesEngine);
 						break;
 					}
