@@ -140,7 +140,6 @@ export default class AtomicLimesTimePlanner {
 function AtomicLimesProductionItem(atomiclimesTimePlanner, productionItem, predecessor, successor, plannedProduction) {
   const self = this
   self.plannedProduction = plannedProduction
-  console.log(self.plannedProduction)
   this.atomiclimesTimePlanner = atomiclimesTimePlanner
   this.id = new UUID().toString()
   var date = new Date(productionItem.plannedProductionTime)
