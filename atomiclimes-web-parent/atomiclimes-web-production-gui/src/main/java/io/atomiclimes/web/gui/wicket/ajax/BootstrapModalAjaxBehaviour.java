@@ -1,5 +1,7 @@
 package io.atomiclimes.web.gui.wicket.ajax;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,11 +16,19 @@ import org.apache.wicket.ajax.attributes.CallbackParameter;
 import org.apache.wicket.ajax.json.JSONFunction;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
+import org.apache.wicket.request.cycle.RequestCycle;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.openjson.JSONArray;
 import com.github.openjson.JSONException;
 import com.github.openjson.JSONObject;
+
+import io.atomiclimes.common.dao.entities.PlannedProduction;
+import io.atomiclimes.common.logging.AtomicLimesLogger;
+import io.atomiclimes.web.gui.log.AtomicLimesGuiLogMessages;
+import io.atomiclimes.web.gui.wicket.pages.AtomicLimesPlannedProductionPage;
 
 /**
  * @author Mirko Pohland
@@ -28,11 +38,18 @@ public abstract class BootstrapModalAjaxBehaviour extends AbstractDefaultAjaxBeh
 
 	private static final long serialVersionUID = 1L;
 
+	private static final AtomicLimesLogger LOG = new AtomicLimesLogger(BootstrapModalAjaxBehaviour.class);
+
 	private String ajaxFunctionName;
 	private List<String> callbackParametersList = new LinkedList<>();
 
 	public BootstrapModalAjaxBehaviour(String ajaxFunctionName) {
 		this.ajaxFunctionName = ajaxFunctionName;
+	}
+
+	public BootstrapModalAjaxBehaviour(String ajaxFunctionName, String... callbackParameterNames) {
+		this(ajaxFunctionName);
+		this.callbackParametersList.addAll(Arrays.asList(callbackParameterNames));
 	}
 
 	@Override
@@ -60,24 +77,36 @@ public abstract class BootstrapModalAjaxBehaviour extends AbstractDefaultAjaxBeh
 		sb.append("var attrs = ");
 		sb.append(attrsJson);
 		sb.append(";\n");
-//		JSONArray jsonArray = new JSONArray();
 		for (CallbackParameter curExtraParameter : extraParameters) {
 			if (curExtraParameter.getAjaxParameterName() != null) {
 				try {
 					sb.append("attrs.").append(curExtraParameter.getAjaxParameterName()).append(" = ")
 							.append(curExtraParameter.getAjaxParameterCode()).append(";\n");
-//					JSONObject object = new JSONObject();
-//					object.put(curExtraParameter.getAjaxParameterName(),
-//							new JSONFunction(curExtraParameter.getAjaxParameterCode()));
-//					jsonArray.put(object);
 				} catch (JSONException e) {
 					throw new WicketRuntimeException(e);
 				}
 			}
 		}
-//		sb.append("var params = ").append(jsonArray).append(";\n");
-//		sb.append("attrs").append(" = params.concat(attrs").append(" || []);\n");
 		sb.append("return AtomicLimes.Ajax.ajax(attrs);\n");
 		return sb;
+	}
+
+	protected <T> T getParameterValue(String parameterName, TypeReference<T> typeReference) {
+		String jsonString = RequestCycle.get().getRequest().getRequestParameters().getParameterValue(parameterName)
+				.toString();
+		T parameterValue = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		if (!jsonString.equals("{}")) {
+			try {
+				parameterValue = objectMapper.readValue(jsonString, typeReference);
+			} catch (IOException e) {
+				LOG.debug(AtomicLimesGuiLogMessages.FAILED_TO_DESERIALIZE_JSON, e, jsonString);
+			}
+		}
+		return parameterValue;
+	}
+
+	protected String getParameterValue(String parameterName) {
+		return RequestCycle.get().getRequest().getRequestParameters().getParameterValue(parameterName).toString();
 	}
 }
