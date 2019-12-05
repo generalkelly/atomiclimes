@@ -2,7 +2,7 @@ package io.atomiclimes.date.service.client.enums;
 
 public enum ClientType {
 
-	DEFAULT("DEFAULT"), AGENT("AGENT"), COLLECTOR("COLLECTOR"), GUI("GUI");
+	DEFAULT("DEFAULT"), AGENT("AGENT"), COLLECTOR("COLLECTOR"), GUI("GUI"), PROXY("PROXY");
 
 	private String type;
 

@@ -34,7 +34,7 @@
 	<repositories>
 		<repository>
 			<id>nexus</id>
-			<url>https://nexus.mpohland.de/repository/maven-public/</url>
+			<url>https://nexus.atomiclimes.io/repository/maven-public/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -47,7 +47,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>nexus</id>
-			<url>https://nexus.mpohland.de/repository/maven-public/</url>
+			<url>https://nexus.atomiclimes.io/repository/maven-public/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -227,7 +227,7 @@
 				</executions>
 				<configuration>
 					<serverId>nexus</serverId>
-					<nexusUrl>https://nexus.mpohland.de/repository/custom-build/</nexusUrl>
+					<nexusUrl>https://nexus.atomiclimes.io/repository/custom-build/</nexusUrl>
 					<skipStaging>true</skipStaging>
 				</configuration>
 			</plugin>

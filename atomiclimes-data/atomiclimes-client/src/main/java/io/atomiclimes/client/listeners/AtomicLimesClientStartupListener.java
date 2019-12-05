@@ -41,8 +41,6 @@ public class AtomicLimesClientStartupListener implements ApplicationListener<App
 		setClientProperties(this.client);
 		AtomicLimesMasterRegistration registration = new AtomicLimesMasterRegistration(this.properties);
 		AtomicLimesRegistrationResponse registrationResponse = registration.register(this.client);
-//		this.properties.getSharedProperties().put("topic.name",
-//				registrationResponse.getClientConfiguration().get("topic.name"));
 		this.startHeartbeat(this.client, registrationResponse);
 		applicationEventPublisher.publishEvent(new ClientConnectedToMasterEvent(this, registrationResponse));
 	}

@@ -157,24 +157,9 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 
 			private static final long serialVersionUID = 1L;
 
-//			@Override
-//			public void renderHead(Component component, IHeaderResponse response) {
-//				super.renderHead(component, response);
-//				response.render(
-//						OnDomReadyHeaderItem.forScript("window.callbackUrl = '" + this.getCallbackUrl() + "';"));
-//			}
-//
-//			@Override
-//			protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
-//				super.updateAjaxAttributes(attributes);
-//				attributes.setChannel(new AjaxChannel("json"));
-//				attributes.setWicketAjaxResponse(false);
-//			}
-
 			@Override
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
-
 				AtomicLimesJacksonHelper jacksonHelper = new AtomicLimesJacksonHelper(Iterable.class);
 				Iterable<ProductionItem> productionItems = productionItemRepository.findAll();
 				String jsonResponse = jacksonHelper.serialize(productionItems);

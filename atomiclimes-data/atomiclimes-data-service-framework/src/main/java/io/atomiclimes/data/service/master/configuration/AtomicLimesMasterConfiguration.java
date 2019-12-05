@@ -1,6 +1,5 @@
 package io.atomiclimes.data.service.master.configuration;
 
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,10 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 import io.atomiclimes.data.service.master.controller.AtomicLimesKafkaAdministration;
 import io.atomiclimes.data.service.master.controller.AtomicLimesMasterController;
-import io.atomiclimes.data.service.master.filters.AtomicLimesClientFilter;
 import io.atomiclimes.data.service.master.filters.DefaultClientFilter;
 import io.atomiclimes.data.service.master.filters.FilterEntry;
-import io.atomiclimes.date.service.client.enums.ClientType;
 
 @Configuration
 @EnableConfigurationProperties(value = AtomicLimesMasterProperties.class)
