@@ -35,6 +35,8 @@ public class AtomicLimesClientProperties {
 	private List<ClientType> authorizedClientTypes = new LinkedList<>();
 
 	private Map<String, Object> sharedProperties = new HashMap<>();
+	
+	private List<String> paths = new LinkedList<>();
 
 	@NotNull
 	private int pollingInterval = 1000;
@@ -102,6 +104,14 @@ public class AtomicLimesClientProperties {
 
 	public void setPollingInterval(int pollingInterval) {
 		this.pollingInterval = pollingInterval;
+	}
+
+	public List<String> getPaths() {
+		return paths;
+	}
+
+	public void setPaths(List<String> paths) {
+		this.paths = paths;
 	}
 
 	interface SimpleConnection {

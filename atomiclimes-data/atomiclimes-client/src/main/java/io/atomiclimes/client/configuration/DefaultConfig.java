@@ -14,6 +14,7 @@ public class DefaultConfig {
 		AtomicLimesClient client = new AtomicLimesClient();
 		client.setType(ClientType.DEFAULT);
 		client.setPort(properties.getPort());
+		client.setPaths(properties.getPaths());
 		return client;
 	}
 

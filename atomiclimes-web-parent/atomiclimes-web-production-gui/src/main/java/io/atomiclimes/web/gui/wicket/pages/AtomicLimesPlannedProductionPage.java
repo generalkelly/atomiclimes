@@ -58,50 +58,28 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 
 	public AtomicLimesPlannedProductionPage() {
 
-		BootstrapModalAjaxBehaviour plannedProductionToCalculate = new BootstrapModalAjaxBehaviour("calculate") {
+		BootstrapModalAjaxBehaviour plannedProductionToCalculate = new BootstrapModalAjaxBehaviour("calculate",
+				"preceedingPlannedProduction", "addedPlannedProduction", "subsequentPlannedProduction",
+				"plannedProduction") {
 			private static final long serialVersionUID = 1L;
 
-			@SuppressWarnings("unchecked")
 			@Override
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
 
-				String preceedingPlannedProductionJson = getRequest().getRequestParameters()
-						.getParameterValue("preceedingPlannedProduction").toString();
+				PlannedProduction preceedingPlannedProduction = getParameterValue("preceedingPlannedProduction",
+						new TypeReference<PlannedProduction>() {
+						});
+				PlannedProduction addedPlannedProduction = getParameterValue("addedPlannedProduction",
+						new TypeReference<PlannedProduction>() {
+						});
+				PlannedProduction subsequentPlannedProduction = getParameterValue("subsequentPlannedProduction",
+						new TypeReference<PlannedProduction>() {
+						});
+				List<PlannedProduction> plannedProduction = getParameterValue("plannedProduction",
+						new TypeReference<List<PlannedProduction>>() {
+						});
 
-				String addedPlannedProductionJson = getRequest().getRequestParameters()
-						.getParameterValue("addedPlannedProduction").toString();
-
-				String subsequentPlannedProductionJson = getRequest().getRequestParameters()
-						.getParameterValue("subsequentPlannedProduction").toString();
-
-				String plannedProductionJson = getRequest().getRequestParameters()
-						.getParameterValue("plannedProduction").toString();
-				System.out.println(plannedProductionJson);
-
-				AtomicLimesJacksonHelper plannedProductionJacksonHelper = new AtomicLimesJacksonHelper(
-						PlannedProduction.class);
-
-				PlannedProduction preceedingPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
-						.deserialize(preceedingPlannedProductionJson);
-				PlannedProduction addedPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
-						.deserialize(addedPlannedProductionJson);
-				PlannedProduction subsequentPlannedProduction = (PlannedProduction) plannedProductionJacksonHelper
-						.deserialize(subsequentPlannedProductionJson);
-
-				ObjectMapper plannedProductionListmapper = new ObjectMapper();
-				List<PlannedProduction> plannedProduction = new LinkedList<>();
-				if (!plannedProductionJson.equals("{}")) {
-					try {
-						plannedProduction = plannedProductionListmapper.readValue(plannedProductionJson,
-								new TypeReference<List<PlannedProduction>>() {
-								});
-					} catch (IOException e) {
-						LOG.debug(AtomicLimesGuiLogMessages.FAILED_TO_DESERIALIZE_JSON, e, plannedProductionJson);
-					}
-				}
-
-//				TODO: use production stages to calculate new planned production before safing it after frontend user controlled the output
 				productionPlanningCalculation.calculateRules(preceedingPlannedProduction, addedPlannedProduction,
 						subsequentPlannedProduction);
 
@@ -120,22 +98,50 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 			}
 
 		};
-		plannedProductionToCalculate.addCallbackParameter("preceedingPlannedProduction");
-		plannedProductionToCalculate.addCallbackParameter("addedPlannedProduction");
-		plannedProductionToCalculate.addCallbackParameter("subsequentPlannedProduction");
-		plannedProductionToCalculate.addCallbackParameter("plannedProduction");
+
+		BootstrapModalAjaxBehaviour saveOrUpdateProductionPlanning = new BootstrapModalAjaxBehaviour(
+				"saveOrUpdateProductionPlanning", "plannedProduction") {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void respond(AjaxRequestTarget target) {
+				List<PlannedProduction> plannedProduction = getParameterValue("plannedProduction",
+						new TypeReference<List<PlannedProduction>>() {
+						});
+				plannedProductionRepository.saveAll(plannedProduction);
+			}
+
+		};
+
+		BootstrapModalAjaxBehaviour deletePlannedProductionItem = new BootstrapModalAjaxBehaviour(
+				"deletePlannedProductionItem", "plannedProductionItem") {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void respond(AjaxRequestTarget target) {
+				PlannedProduction plannedProductionItem = getParameterValue("plannedProductionItem",
+						new TypeReference<PlannedProduction>() {
+						});
+				plannedProductionRepository.delete(plannedProductionItem);
+			}
+
+		};
 
 		BootstrapModalAjaxBehaviour getProductionPlanningByDate = new BootstrapModalAjaxBehaviour(
-				"getProductionPlanningByDate") {
+				"getProductionPlanningByDate", "date") {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
-				String dateString = getRequest().getRequestParameters().getParameterValue("date").toString();
+				String dateString = getParameterValue("date");
+
 				Optional<Set<PlannedProduction>> plannedProduction = plannedProductionRepository
 						.findPlannedProductionByDate(LocalDate.parse(dateString));
+
 				String jsonResponse = new JSONObject().toString();
 				if (plannedProduction.isPresent()) {
 					AtomicLimesJacksonHelper jacksonHelper = new AtomicLimesJacksonHelper(Iterable.class);
@@ -147,30 +153,27 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 			}
 		};
 
-		getProductionPlanningByDate.addCallbackParameter("date");
-
 		BootstrapModalAjaxBehaviour getProductionItems = new BootstrapModalAjaxBehaviour("getProductionItems") {
 
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void renderHead(Component component, IHeaderResponse response) {
-				super.renderHead(component, response);
-				response.render(
-						OnDomReadyHeaderItem.forScript("window.callbackUrl = '" + this.getCallbackUrl() + "';"));
-			}
-
-			@Override
-			protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
-				super.updateAjaxAttributes(attributes);
-				attributes.setChannel(new AjaxChannel("json"));
-				attributes.setWicketAjaxResponse(false);
-			}
+			
+//			@Override
+//			public void renderHead(Component component, IHeaderResponse response) {
+//				super.renderHead(component, response);
+//				response.render(
+//						OnDomReadyHeaderItem.forScript("window.callbackUrl = '" + this.getCallbackUrl() + "';"));
+//			}
+//
+//			@Override
+//			protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+//				super.updateAjaxAttributes(attributes);
+//				attributes.setChannel(new AjaxChannel("json"));
+//				attributes.setWicketAjaxResponse(false);
+//			}
 
 			@Override
 			protected void respond(AjaxRequestTarget target) {
 				RequestCycle requestCycle = RequestCycle.get();
-
 				AtomicLimesJacksonHelper jacksonHelper = new AtomicLimesJacksonHelper(Iterable.class);
 				Iterable<ProductionItem> productionItems = productionItemRepository.findAll();
 				String jsonResponse = jacksonHelper.serialize(productionItems);
@@ -184,6 +187,9 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 		this.add(plannedProductionToCalculate);
 		this.add(getProductionPlanningByDate);
 		this.add(getProductionItems);
+		this.add(saveOrUpdateProductionPlanning);
+		this.add(deletePlannedProductionItem);
+
 	}
 
 }

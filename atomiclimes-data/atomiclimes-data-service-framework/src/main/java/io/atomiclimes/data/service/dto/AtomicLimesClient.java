@@ -1,9 +1,8 @@
 package io.atomiclimes.data.service.dto;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import io.atomiclimes.date.service.client.enums.ClientType;
@@ -18,6 +17,7 @@ public class AtomicLimesClient {
 	private OffsetDateTime lastKeepAlive;
 	private boolean isAlive;
 	private UUID uuid = UUID.randomUUID();
+	private List<String> paths = new LinkedList<>();
 
 	public String getName() {
 		return name;
@@ -83,5 +83,12 @@ public class AtomicLimesClient {
 		this.uuid = uuid;
 	}
 
+	public List<String> getPaths() {
+		return paths;
+	}
+
+	public void setPaths(List<String> paths) {
+		this.paths = paths;
+	}
 
 }
