@@ -21,13 +21,13 @@ public class AtomicLimesMasterKafkaConfiguration {
 	}
 
 	@Bean
-	FilterEntry proxyClientFilterEntry() {
-		return new FilterEntry(new ProxyClientFilter());
+	FilterEntry proxyClientFilterEntry(AtomicLimesClientRegistry clientRegistry, AtomicLimesMasterProperties properties) {
+		return new FilterEntry(new ProxyClientFilter(clientRegistry, properties));
 	}
 
 	@Bean
-	FilterEntry guiClientFilterEntry() {
-		return new FilterEntry(new GuiClientFilter());
+	FilterEntry guiClientFilterEntry(AtomicLimesClientRegistry clientRegistry, AtomicLimesMasterProperties properties) {
+		return new FilterEntry(new GuiClientFilter(clientRegistry, properties));
 	}
 
 }

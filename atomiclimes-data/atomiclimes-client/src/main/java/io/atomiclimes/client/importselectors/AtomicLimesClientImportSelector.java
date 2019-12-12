@@ -19,6 +19,14 @@ public class AtomicLimesClientImportSelector implements ImportSelector {
 			return new String[] { "io.atomiclimes.client.configuration.AtomicLimesClientConfiguration",
 					"io.atomiclimes.client.configuration.DefaultConfig" };
 		}
+		if (type == ClientType.GUI) {
+			return new String[] { "io.atomiclimes.client.configuration.AtomicLimesClientConfiguration",
+					"io.atomiclimes.client.configuration.GuiConfig" };
+		}
+		if (type == ClientType.PROXY) {
+			return new String[] { "io.atomiclimes.client.configuration.AtomicLimesClientConfiguration",
+					"io.atomiclimes.client.configuration.ProxyConfig" };
+		}
 		if (type == ClientType.AGENT) {
 			return new String[] { "io.atomiclimes.client.configuration.AtomicLimesClientConfiguration",
 					"io.atomiclimes.client.configuration.AgentConfig" };

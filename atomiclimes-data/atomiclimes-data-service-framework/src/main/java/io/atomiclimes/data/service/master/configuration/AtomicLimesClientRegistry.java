@@ -12,16 +12,19 @@ import java.util.Map;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
 
+import io.atomiclimes.common.logging.AtomicLimesLogger;
 import io.atomiclimes.data.service.dto.AtomicLimesClient;
 import io.atomiclimes.data.service.dto.AtomicLimesClientHeartbeat;
 import io.atomiclimes.data.service.dto.AtomicLimesClientNotification;
 import io.atomiclimes.data.service.master.events.ClientNotificationType;
+import io.atomiclimes.data.service.master.logging.AtomicLimesMasterLogMessage;
 import io.atomiclimes.date.service.client.enums.ClientType;
 
 public class AtomicLimesClientRegistry {
 
 	private Map<String, AtomicLimesClient> registeredClients = new HashMap<>();
 	private EnumMap<ClientType, List<AtomicLimesClient>> clientTypeSubsriptions = new EnumMap<>(ClientType.class);
+	private static final AtomicLimesLogger LOG = new AtomicLimesLogger(AtomicLimesClientRegistry.class);
 
 	public void register(AtomicLimesClient client) {
 		String key = client.getName().toUpperCase();
@@ -41,12 +44,14 @@ public class AtomicLimesClientRegistry {
 			for (AtomicLimesClient subscriber : subscribers) {
 				URI url;
 				try {
-					url = new URI("http", null, subscriber.getIp(), subscriber.getPort(), "clientNotification", null,
+					url = new URI("http", null, subscriber.getIp(), subscriber.getPort(), "/clientNotification", null,
 							null);
 					restTemplate.postForLocation(url, request);
+					LOG.info(AtomicLimesMasterLogMessage.SENT_NOTIFICATION_TO_SUBSCRIBER_LOG_MESSAGE, client.getName(),
+							client.getType().toString(), subscriber.getName(), url.toString());
+
 				} catch (URISyntaxException e) {
-					// TODO add logger
-					e.printStackTrace();
+					LOG.error(AtomicLimesMasterLogMessage.NOTIFICATION_OF_SUBSCRIBER_FAILED, e, subscriber.getName());
 				}
 			}
 		}
@@ -67,9 +72,11 @@ public class AtomicLimesClientRegistry {
 	public void agentUp(AtomicLimesClientHeartbeat heartbeat) {
 		String key = heartbeat.getName().toUpperCase();
 		AtomicLimesClient client = registeredClients.get(key);
-		client.setAlive(true);
+		if (!client.isAlive()) {
+			client.setAlive(true);
+			notifySubscribers(client, ClientNotificationType.AGENT_UP);
+		}
 		client.setLastKeepAlive(OffsetDateTime.now());
-		notifySubscribers(client, ClientNotificationType.AGENT_UP);
 	}
 
 	public Map<String, AtomicLimesClient> getRegisteredClients() {
@@ -82,6 +89,8 @@ public class AtomicLimesClientRegistry {
 			subscribers = new LinkedList<>();
 		}
 		subscribers.add(subscriber);
+		LOG.info(AtomicLimesMasterLogMessage.ADDED_SUBSCRIBER_TO_TOPIC_LOG_MESSAGE, subscriber.getName(),
+				topic.toString());
 		clientTypeSubsriptions.put(topic, subscribers);
 	}
 

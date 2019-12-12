@@ -13,9 +13,9 @@ public class AtomicLimesAgentHealthMonitor {
 
 	private static final AtomicLimesLogger LOG = new AtomicLimesLogger(AtomicLimesAgentHealthMonitor.class);
 
-	public AtomicLimesAgentHealthMonitor(AtomicLimesClientRegistry agentRegistry,
+	public AtomicLimesAgentHealthMonitor(AtomicLimesClientRegistry clientRegistry,
 			AtomicLimesMasterProperties properties) {
-		this.clientRegistry = agentRegistry;
+		this.clientRegistry = clientRegistry;
 		this.properties = properties;
 	}
 

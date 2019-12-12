@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -33,7 +34,7 @@ public class AtomicLimesAuthorisationServerConfiguration extends WebSecurityConf
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.requestMatchers().antMatchers("/login", "/oauth/authorize").and().authorizeRequests().anyRequest()
+		http.requestMatchers().antMatchers("/login", "/oauth/authorize", "/oauth/token").and().authorizeRequests().anyRequest()
 				.authenticated().and().formLogin().loginPage("/login").permitAll().and().csrf().disable();
 		;
 	}
@@ -61,10 +62,18 @@ public class AtomicLimesAuthorisationServerConfiguration extends WebSecurityConf
 		return super.userDetailsServiceBean();
 	}
 
+	@Override
+	@Bean(name = "authenticationManager")
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManager();
+	}
+
 	@Bean
 	AuthorizationServerConfigurerAdapter authorizationServerConfigurerAdapter(BCryptPasswordEncoder passwordEncoder,
-			AtomicLimesAuthorisationServerProperties properties, UserDetailsService userDetailsService) {
-		return new AtomicLimesAuthorizationServerConfigurerAdapter(passwordEncoder, properties, userDetailsService);
+			AtomicLimesAuthorisationServerProperties properties, UserDetailsService userDetailsService,
+			AuthenticationManager authenticationManager) {
+		return new AtomicLimesAuthorizationServerConfigurerAdapter(passwordEncoder, properties, userDetailsService,
+				authenticationManager);
 	}
 
 	@Bean

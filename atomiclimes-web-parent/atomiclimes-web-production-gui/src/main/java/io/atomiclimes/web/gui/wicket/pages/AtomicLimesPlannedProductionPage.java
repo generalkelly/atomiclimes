@@ -1,24 +1,18 @@
 package io.atomiclimes.web.gui.wicket.pages;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.wicket.Component;
-import org.apache.wicket.ajax.AjaxChannel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.TextRequestHandler;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.wicketstuff.annotation.mount.MountPath;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 import com.github.openjson.JSONObject;
 
 import io.atomiclimes.common.dao.entities.PlannedProduction;
@@ -30,9 +24,9 @@ import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
 import io.atomiclimes.common.logging.AtomicLimesLogger;
 import io.atomiclimes.common.logic.AtomicLimesProductionPlanningCalculation;
 import io.atomiclimes.helper.jackson.AtomicLimesJacksonHelper;
-import io.atomiclimes.web.gui.log.AtomicLimesGuiLogMessages;
 import io.atomiclimes.web.gui.wicket.ajax.BootstrapModalAjaxBehaviour;
 
+@MountPath("plannedProductions")
 public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage {
 
 	private static final String RESPONSE_TYPE = "application/json";
@@ -57,7 +51,6 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 	private AtomicLimesProductionPlanningCalculation productionPlanningCalculation;
 
 	public AtomicLimesPlannedProductionPage() {
-
 		BootstrapModalAjaxBehaviour plannedProductionToCalculate = new BootstrapModalAjaxBehaviour("calculate",
 				"preceedingPlannedProduction", "addedPlannedProduction", "subsequentPlannedProduction",
 				"plannedProduction") {

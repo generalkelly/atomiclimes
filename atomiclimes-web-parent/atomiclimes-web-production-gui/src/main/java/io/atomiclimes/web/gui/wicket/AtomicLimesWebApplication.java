@@ -1,53 +1,62 @@
 package io.atomiclimes.web.gui.wicket;
 
-import org.apache.wicket.Page;
-import org.apache.wicket.RuntimeConfigurationType;
-import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.ResourceAggregator;
+import org.apache.wicket.markup.head.filter.FilteringHeaderResponse;
 import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
-import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.IHeaderResponseDecorator;
 import org.apache.wicket.resource.CssUrlReplacer;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.crypt.CharEncoding;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
-import com.giffing.wicket.spring.boot.context.extensions.ApplicationInitExtension;
-import com.giffing.wicket.spring.boot.starter.app.WicketBootSecuredWebApplication;
+import com.giffing.wicket.spring.boot.starter.app.WicketBootStandardWebApplication;
 
 import de.agilecoders.wicket.webjars.WicketWebjars;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesMainPage;
 import io.atomiclimes.web.gui.wicket.pages.AtomicLimesPlannedProductionPage;
 
-@ApplicationInitExtension
-public class AtomicLimesWebApplication extends WicketBootSecuredWebApplication {
+@Component
+public class AtomicLimesWebApplication extends WicketBootStandardWebApplication {
 
-	private ApplicationContext applicationContext;
+//	private ApplicationContext applicationContext;
+//
+//	public AtomicLimesWebApplication(ApplicationContext applicationContext) {
+//		this.applicationContext = applicationContext;
+//	}
 
-	public AtomicLimesWebApplication(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
+//	@Override
+//	public RuntimeConfigurationType getConfigurationType() {
+//		return RuntimeConfigurationType.DEPLOYMENT;
+//	}
 
-	@Override
-	public RuntimeConfigurationType getConfigurationType() {
-		return RuntimeConfigurationType.DEPLOYMENT;
-	}
+//	@Override
+//	public void init() {
+//		super.init();
+//		getRequestCycleSettings().setResponseRequestEncoding(CharEncoding.UTF_8);
+//		getMarkupSettings().setDefaultMarkupEncoding(CharEncoding.UTF_8);
+//		getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext));
+//		getResourceSettings().setCssCompressor(new CssUrlReplacer());
+//		setHeaderResponseDecorator(response -> new ResourceAggregator(
+//				new JavaScriptFilteredIntoFooterHeaderResponse(response, "footer-container")));
+//
+//		WicketWebjars.install(this);
+//	}
 
-	@Override
-	public Class<? extends Page> getHomePage() {
-		return AtomicLimesMainPage.class;
-	}
+//	@Override
+//	public Class<? extends Page> getHomePage() {
+//		return AtomicLimesMainPage.class;
+//	}
 
 	@Override
 	public void init() {
-		super.init();
-
-		getRequestCycleSettings().setResponseRequestEncoding(CharEncoding.UTF_8);
-		getMarkupSettings().setDefaultMarkupEncoding(CharEncoding.UTF_8);
-		getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext));
-		getResourceSettings().setCssCompressor(new CssUrlReplacer());
-		setHeaderResponseDecorator(response -> {
-			return new ResourceAggregator(new JavaScriptFilteredIntoFooterHeaderResponse(response, "footer-container"));
-		});
+		this.getRequestCycleSettings().setResponseRequestEncoding(CharEncoding.UTF_8);
+		this.getMarkupSettings().setDefaultMarkupEncoding(CharEncoding.UTF_8);
+		this.getResourceSettings().setCssCompressor(new CssUrlReplacer());
+		this.setHeaderResponseDecorator(new FilteringHeaderResponseDecorator());
+		this.setHeaderResponseDecorator(response -> new ResourceAggregator(
+				new JavaScriptFilteredIntoFooterHeaderResponse(response, "footer-container")));
 
 		WicketWebjars.install(this);
 
@@ -55,14 +64,13 @@ public class AtomicLimesWebApplication extends WicketBootSecuredWebApplication {
 		mountPage("/plannedProductions", AtomicLimesPlannedProductionPage.class);
 	}
 
-	@Override
-	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
-		return AtomicLimesAuthenitcatedWebSession.class;
-	}
+	
+	public final class FilteringHeaderResponseDecorator implements IHeaderResponseDecorator {
+		@Override
+		public IHeaderResponse decorate(IHeaderResponse response) {
+			return new FilteringHeaderResponse(response);
+		}
 
-	@Override
-	protected Class<? extends WebPage> getSignInPageClass() {
-		return AtomicLimesMainPage.class;
 	}
 
 }

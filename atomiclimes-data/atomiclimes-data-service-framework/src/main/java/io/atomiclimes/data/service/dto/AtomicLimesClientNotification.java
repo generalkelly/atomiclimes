@@ -4,6 +4,9 @@ import io.atomiclimes.data.service.master.events.ClientNotificationType;
 
 public class AtomicLimesClientNotification {
 
+	public AtomicLimesClientNotification() {
+	}
+
 	private AtomicLimesClient client;
 	private ClientNotificationType clientNotificationType;
 

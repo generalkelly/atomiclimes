@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "io.atomiclimes.agent.master-url",
+  "type": "java.lang.String",
+  "description": "A description for 'io.atomiclimes.agent.master-url'"
+}]}

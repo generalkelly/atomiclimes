@@ -14,7 +14,6 @@ import io.atomiclimes.common.dao.repositories.PackagingRepository;
 import io.atomiclimes.common.helper.enums.PackagingUnit;
 import io.atomiclimes.common.helper.wicket.converter.impl.AtomicLimesDurationInSecondsConverter;
 
-@WicketHomePage
 @MountPath("admin/packaging/type")
 public class AtomicLimesPackagingPage extends AtomicLimesItemPage<Packaging> {
 
