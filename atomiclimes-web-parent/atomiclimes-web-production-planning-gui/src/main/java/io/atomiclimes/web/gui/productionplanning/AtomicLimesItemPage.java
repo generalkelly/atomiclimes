@@ -5,30 +5,33 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import com.giffing.wicket.spring.boot.starter.app.WicketBootSecuredWebApplication;
+import com.giffing.wicket.spring.boot.starter.app.WicketBootStandardWebApplication;
+
 import io.atomiclimes.common.helper.annotations.processor.AtomicLimesItemFormProcessor;
 import io.atomiclimes.common.helper.wicket.ItemPanel;
-import io.atomiclimes.web.gui.wicket.AtomicLimesWebApplication;
-
 
 @Service
 public abstract class AtomicLimesItemPage<T> extends AtomicLimesDefaultWebPage {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public AtomicLimesItemPage(PageParameters pageParameters) {
 		IModel<T> model = mapPageParametersToModel(pageParameters);
 		setResponsePage(generateResponsePage(model));
 	}
 
 	public AtomicLimesItemPage(IModel<T> model) {
-		ApplicationContext applicationContext = ((AtomicLimesWebApplication) getApplication()).getApplicationContext();
-		
+		ApplicationContext applicationContext = ((WicketBootSecuredWebApplication) getApplication())
+				.getApplicationContext();
+
 		Form<T> form = new Form<>("form");
-		AtomicLimesItemFormProcessor<T> itemFormProcessor = new AtomicLimesItemFormProcessor<>(model, applicationContext);
+		AtomicLimesItemFormProcessor<T> itemFormProcessor = new AtomicLimesItemFormProcessor<>(model,
+				applicationContext);
 		ItemPanel<T> itemPanel = itemFormProcessor.getItemPanel("item");
 
 		form.add(itemPanel);
@@ -61,8 +64,7 @@ public abstract class AtomicLimesItemPage<T> extends AtomicLimesDefaultWebPage {
 	protected abstract void mapModelToItemForUpdate(IModel<T> model, T item);
 
 	protected abstract WebPage generateResponsePage(IModel<T> model);
-	
-	protected abstract WebPage generateAdministrationResponsePage();
 
+	protected abstract WebPage generateAdministrationResponsePage();
 
 }

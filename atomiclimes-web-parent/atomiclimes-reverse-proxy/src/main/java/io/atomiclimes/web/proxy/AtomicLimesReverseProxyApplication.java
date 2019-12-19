@@ -9,8 +9,6 @@ import io.atomiclimes.client.annotations.EnableAtomicLimesClient;
 import io.atomiclimes.date.service.client.enums.ClientType;
 
 @SpringBootApplication
-@EnableZuulProxy
-@EnableOAuth2Sso
 @EnableAtomicLimesClient(type = ClientType.PROXY)
 public class AtomicLimesReverseProxyApplication {
 

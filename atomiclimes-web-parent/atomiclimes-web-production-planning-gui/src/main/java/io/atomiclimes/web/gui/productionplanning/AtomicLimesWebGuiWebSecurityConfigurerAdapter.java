@@ -15,9 +15,8 @@ public class AtomicLimesWebGuiWebSecurityConfigurerAdapter extends WebSecurityCo
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/oauth/**").permitAll().anyRequest().authenticated();
-//		http.authorizeRequests().antMatchers("/oauth/**").permitAll().anyRequest().permitAll();
-
+		http.authorizeRequests().antMatchers("/oauth/**").permitAll().anyRequest().authenticated().and().csrf()
+				.disable();
 	}
 
 	@Override
