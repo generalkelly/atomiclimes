@@ -1,4 +1,4 @@
-package io.atomiclimes.web.gui.wicket.pages;
+package io.atomiclimes.web.gui.productionplanning;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.head.IHeaderResponse;

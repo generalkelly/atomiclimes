@@ -16,6 +16,7 @@ import com.giffing.wicket.spring.boot.context.extensions.WicketApplicationInitCo
 import de.agilecoders.wicket.webjars.WicketWebjars;
 import de.agilecoders.wicket.webjars.collectors.AssetPathCollector;
 import de.agilecoders.wicket.webjars.collectors.ClasspathAssetPathCollector;
+import de.agilecoders.wicket.webjars.settings.IWebjarsSettings;
 import de.agilecoders.wicket.webjars.settings.WebjarsSettings;
 
 @ApplicationInitExtension
@@ -25,9 +26,8 @@ public class AtomicLimesGuiInitConfiguration implements WicketApplicationInitCon
 		webApplication.getRequestCycleSettings().setResponseRequestEncoding(CharEncoding.UTF_8);
 		webApplication.getMarkupSettings().setDefaultMarkupEncoding(CharEncoding.UTF_8);
 		webApplication.getResourceSettings().setCssCompressor(new CssUrlReplacer());
-		webApplication.setHeaderResponseDecorator(response -> {
-			return new ResourceAggregator(new JavaScriptFilteredIntoFooterHeaderResponse(response, "footer-container"));
-		});
+		webApplication.setHeaderResponseDecorator(response -> new ResourceAggregator(
+				new JavaScriptFilteredIntoFooterHeaderResponse(response, "footer-container")));
 		WicketWebjars.install(webApplication);
 	}
 

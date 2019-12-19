@@ -7,10 +7,9 @@ import org.wicketstuff.annotation.mount.MountPath;
 import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
-import io.atomiclimes.web.gui.wicket.pages.AtomicLimesDefaultWebPage;
 
 @WicketHomePage
-@MountPath("plannedProductions")
+@MountPath("home")
 public class AtomicLimesMainPage extends AtomicLimesDefaultWebPage {
 
 	/**

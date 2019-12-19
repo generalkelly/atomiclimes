@@ -1,10 +1,13 @@
 package io.atomiclimes.web.proxy;
 
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.cloud.commons.httpclient.ApacheHttpClientFactory;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import io.atomiclimes.client.notification.filter.ClientNotificationFilter;
 import io.atomiclimes.data.service.master.events.ClientNotificationType;
@@ -22,40 +25,34 @@ public class AtomicLimesReverseProxyConfiguration extends WebSecurityConfigurerA
 				.antMatchers("/clientNotification/**").permitAll().antMatchers("/**").authenticated();
 	}
 
+	@Bean
+	public ForwardedHeaderFilter forwardedHeaderFilter() {
+		return new ForwardedHeaderFilter();
+	}
+
 //	@Bean
-//	public RestTemplate restTemplate(OAuth2AuthorizedClientService clientService) {
-//		RestTemplate restTemplate = new RestTemplate();
-//		List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
-//		if (CollectionUtils.isEmpty(interceptors)) {
-//			interceptors = new ArrayList<>();
-//		}
-//		interceptors.add(new AuthorizationHeaderInterceptor(clientService));
-//		restTemplate.setInterceptors(interceptors);
-//		return restTemplate;
+//	ClientNotificationFilter clientRegisteredFilter(AtomicLimesZuulRoutesAdministration zuulRoutesAdministration) {
+//		return clientNotification -> {
+//			if (clientNotification.getClientNotificationType().equals(ClientNotificationType.CLIENT_REGISTERED)) {
+//				zuulRoutesAdministration.add(clientNotification.getClient());
+//			}
+//		};
+//	}
+//
+//	@Bean
+//	ClientNotificationFilter clientDeregisteredFilter(AtomicLimesZuulRoutesAdministration zuulRoutesAdministration) {
+//		return clientNotification -> {
+//			if (clientNotification.getClientNotificationType().equals(ClientNotificationType.CLIENT_DEREGISTERED)) {
+//				zuulRoutesAdministration.remove(clientNotification.getClient());
+//			}
+//		};
 //	}
 
-	@Bean
-	ClientNotificationFilter clientRegisteredFilter(AtomicLimesZuulRoutesAdministration zuulRoutesAdministration) {
-		return clientNotification -> {
-			if (clientNotification.getClientNotificationType().equals(ClientNotificationType.CLIENT_REGISTERED)) {
-				zuulRoutesAdministration.add(clientNotification.getClient());
-			}
-		};
-	}
+//	@Bean
+//	AtomicLimesZuulRoutesAdministration zuulRoutesAdministration(ZuulProperties zuulProperties,
+//			ZuulHandlerMapping zuulHandlerMapping) {
+//		return new AtomicLimesZuulRoutesAdministration(zuulProperties, zuulHandlerMapping);
+//	}
 
-	@Bean
-	ClientNotificationFilter clientDeregisteredFilter(AtomicLimesZuulRoutesAdministration zuulRoutesAdministration) {
-		return clientNotification -> {
-			if (clientNotification.getClientNotificationType().equals(ClientNotificationType.CLIENT_DEREGISTERED)) {
-				zuulRoutesAdministration.remove(clientNotification.getClient());
-			}
-		};
-	}
-
-	@Bean
-	AtomicLimesZuulRoutesAdministration zuulRoutesAdministration(ZuulProperties zuulProperties,
-			ZuulHandlerMapping zuulHandlerMapping) {
-		return new AtomicLimesZuulRoutesAdministration(zuulProperties, zuulHandlerMapping);
-	}
 
 }

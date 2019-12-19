@@ -36,12 +36,13 @@ public abstract class BootstrapModalAjaxBehaviour extends AbstractDefaultAjaxBeh
 	private String ajaxFunctionName;
 	private List<String> callbackParametersList = new LinkedList<>();
 
-	public BootstrapModalAjaxBehaviour(String ajaxFunctionName) {
-		this.ajaxFunctionName = ajaxFunctionName;
-	}
+//	public BootstrapModalAjaxBehaviour(String ajaxFunctionName) {
+//		this.ajaxFunctionName = ajaxFunctionName;
+//	}
 
 	public BootstrapModalAjaxBehaviour(String ajaxFunctionName, String... callbackParameterNames) {
-		this(ajaxFunctionName);
+//		this(ajaxFunctionName);
+		this.ajaxFunctionName = ajaxFunctionName;
 		this.callbackParametersList.addAll(Arrays.asList(callbackParameterNames));
 	}
 
