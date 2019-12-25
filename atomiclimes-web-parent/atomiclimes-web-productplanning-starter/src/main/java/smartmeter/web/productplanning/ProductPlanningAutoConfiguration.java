@@ -33,7 +33,9 @@ public class ProductPlanningAutoConfiguration {
 	}
 
 	@Bean
-	public AtomicLimesProductionPlanningCalculation productionPlanningCalculation(PlannedProductionRepository plannedProductionRepository, NonProductionItemRepository nonProductionItemRepository) {
+	public AtomicLimesProductionPlanningCalculation productionPlanningCalculation(
+			PlannedProductionRepository plannedProductionRepository,
+			NonProductionItemRepository nonProductionItemRepository) {
 		return new AtomicLimesProductionPlanningCalculation(plannedProductionRepository, nonProductionItemRepository);
 	}
 

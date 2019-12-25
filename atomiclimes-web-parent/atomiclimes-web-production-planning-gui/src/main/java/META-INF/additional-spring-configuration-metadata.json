@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "io.atomiclimes.web.gui.keystore-password",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.web.gui.keystore-password'"
+  },
+  {
+    "name": "io.atomiclimes.web.gui.key-password",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.web.gui.key-password'"
+  },
+  {
+    "name": "io.atomiclimes.web.gui.key-alias",
+    "type": "java.lang.String",
+    "description": "A description for 'io.atomiclimes.web.gui.key-alias'"
+  }
+]}

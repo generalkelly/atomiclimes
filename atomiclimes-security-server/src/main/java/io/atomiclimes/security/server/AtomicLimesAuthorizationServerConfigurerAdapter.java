@@ -3,18 +3,20 @@ package io.atomiclimes.security.server;
 import java.security.KeyPair;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-//@Configuration
-//@EnableAuthorizationServer
-//@EnableConfigurationProperties(ServerProperties.class)
 public class AtomicLimesAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
 	private BCryptPasswordEncoder passwordEncoder;
@@ -22,11 +24,16 @@ public class AtomicLimesAuthorizationServerConfigurerAdapter extends Authorizati
 	private AtomicLimesAuthorisationServerProperties properties;
 
 	private UserDetailsService userDetailsService;
-	
-	public AtomicLimesAuthorizationServerConfigurerAdapter(BCryptPasswordEncoder passwordEncoder, AtomicLimesAuthorisationServerProperties properties, UserDetailsService userDetailsService) {
+
+	private AuthenticationManager authenticationManager;
+
+	public AtomicLimesAuthorizationServerConfigurerAdapter(BCryptPasswordEncoder passwordEncoder,
+			AtomicLimesAuthorisationServerProperties properties, UserDetailsService userDetailsService,
+			AuthenticationManager authenticationManager) {
 		this.passwordEncoder = passwordEncoder;
 		this.properties = properties;
 		this.userDetailsService = userDetailsService;
+		this.authenticationManager = authenticationManager;
 	}
 
 	@Override
@@ -37,10 +44,12 @@ public class AtomicLimesAuthorizationServerConfigurerAdapter extends Authorizati
 	@Override
 	public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory().withClient("authserver").secret(passwordEncoder.encode("passwordforauthserver"))
-				.authorizedGrantTypes("authorization_code").scopes("user_info").autoApprove(true)
-				.redirectUris("http://localhost:8080/login");
+				.authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code", "client_credentials").scopes("read", "write", "user_info").autoApprove(true);
+		clients.inMemory().withClient("zuul").secret(passwordEncoder.encode("zuul"))
+				.authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code", "client_credentials").scopes("read", "write", "user_info").autoApprove(true)
+				.redirectUris("http://localhost:8813/login");
 	}
-
+	
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.accessTokenConverter(jwtAccessTokenConverter()).userDetailsService(userDetailsService);
@@ -56,4 +65,5 @@ public class AtomicLimesAuthorizationServerConfigurerAdapter extends Authorizati
 		converter.setKeyPair(keyPair);
 		return converter;
 	}
+
 }

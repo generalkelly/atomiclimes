@@ -2,9 +2,14 @@ package io.atomiclimes.web.gui.wicket.pages;
 
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.wicketstuff.annotation.mount.MountPath;
+
+import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 
 import io.atomiclimes.common.dao.repositories.ProductionItemRepository;
 
+@WicketHomePage
+@MountPath("home")
 public class AtomicLimesMainPage extends AtomicLimesDefaultWebPage {
 
 	/**

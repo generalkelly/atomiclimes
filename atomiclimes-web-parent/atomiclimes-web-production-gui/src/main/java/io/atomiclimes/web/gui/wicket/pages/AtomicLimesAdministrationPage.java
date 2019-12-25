@@ -5,7 +5,6 @@ import org.wicketstuff.annotation.mount.MountPath;
 
 import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 
-@WicketHomePage
 @MountPath("admin")
 public class AtomicLimesAdministrationPage extends AtomicLimesDefaultWebPage {
 

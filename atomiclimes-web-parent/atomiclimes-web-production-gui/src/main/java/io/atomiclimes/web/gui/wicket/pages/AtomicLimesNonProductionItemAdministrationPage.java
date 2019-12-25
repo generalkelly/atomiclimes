@@ -18,7 +18,6 @@ import io.atomiclimes.common.dao.entities.NonProductionItem;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
 import io.atomiclimes.web.gui.panels.EditItemPanel;
 
-@WicketHomePage
 @MountPath("admin/nonProductionItem")
 public class AtomicLimesNonProductionItemAdministrationPage extends AtomicLimesDefaultWebPage {
 

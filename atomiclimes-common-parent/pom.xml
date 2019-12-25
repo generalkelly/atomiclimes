@@ -13,7 +13,6 @@
 	<modules>
 		<module>atomiclimes-common-dao</module>
 		<module>atomiclimes-common-helper</module>
-		<module>atomiclimes-security-client-starter</module>
 		<module>atomiclimes-logging</module>
 		<module>atomiclimes-common-exception</module>
 	</modules>

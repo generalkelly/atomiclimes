@@ -5,7 +5,6 @@ import java.util.Map;
 import io.atomiclimes.common.logging.AtomicLimesLogger;
 import io.atomiclimes.data.service.dto.AtomicLimesClient;
 import io.atomiclimes.data.service.dto.AtomicLimesRegistrationResponse;
-import io.atomiclimes.data.service.dto.KafkaConfiguration;
 import io.atomiclimes.data.service.master.configuration.AtomicLimesClientRegistry;
 import io.atomiclimes.data.service.master.configuration.AtomicLimesMasterProperties;
 import io.atomiclimes.data.service.master.controller.AtomicLimesKafkaAdministration;
@@ -34,7 +33,8 @@ public class AgentClientFilter implements AtomicLimesClientFilter {
 
 		Map<String, Object> kafkaConfiguration;
 		registry.register(client);
-		LOG.info(AtomicLimesMasterLogMessage.AGENT_REGISTERED_LOG_MESSAGE, client.getName().toUpperCase());
+		LOG.info(AtomicLimesMasterLogMessage.CLIENT_REGISTERED_LOG_MESSAGE, client.getName().toUpperCase(),
+				client.getType().toString());
 
 		kafkaConfiguration = kafkaAdministration.getKafkaConfigurationIfExistentForAgent(client);
 		if (kafkaConfiguration != null) {

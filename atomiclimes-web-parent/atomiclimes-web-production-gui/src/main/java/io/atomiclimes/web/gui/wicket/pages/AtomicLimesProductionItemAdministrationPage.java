@@ -8,6 +8,8 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
+import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
+
 import io.atomiclimes.common.dao.entities.Packaging;
 import io.atomiclimes.common.dao.entities.Product;
 import io.atomiclimes.common.dao.entities.ProductionItem;

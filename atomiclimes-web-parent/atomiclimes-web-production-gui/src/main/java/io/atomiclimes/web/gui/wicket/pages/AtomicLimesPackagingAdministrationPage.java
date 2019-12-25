@@ -18,7 +18,6 @@ import io.atomiclimes.common.dao.entities.Packaging;
 import io.atomiclimes.common.dao.repositories.PackagingRepository;
 import io.atomiclimes.web.gui.panels.EditItemPanel;
 
-@WicketHomePage
 @MountPath("admin/packaging")
 public class AtomicLimesPackagingAdministrationPage extends AtomicLimesDefaultWebPage {
 

@@ -13,7 +13,6 @@ import io.atomiclimes.common.dao.entities.NonProductionItem;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
 import io.atomiclimes.common.helper.wicket.converter.impl.AtomicLimesDurationInSecondsConverter;
 
-@WicketHomePage
 @MountPath("admin/nonProductionItem/type")
 public class AtomicLimesNonProductionItemPage extends AtomicLimesItemPage<NonProductionItem> {
 

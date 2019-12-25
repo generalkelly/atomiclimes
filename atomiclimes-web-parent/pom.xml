@@ -17,6 +17,8 @@
 		<module>atomiclimes-web-data</module>
 		<module>atomiclimes-web-gui-starter</module>
 		<module>atomiclimes-web-wicket-common</module>
+		<module>atomiclimes-reverse-proxy</module>
+		<module>atomiclimes-web-production-planning-gui</module>
 	</modules>
 
 	<properties>

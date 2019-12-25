@@ -16,8 +16,13 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.session</groupId> -->
+		<!-- <artifactId>spring-session</artifactId> -->
+		<!-- <version>1.3.5.RELEASE</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
 		<!-- <groupId>org.springframework.boot</groupId> -->
-		<!-- <artifactId>spring-boot-starter</artifactId> -->
+		<!-- <artifactId>spring-boot-starter-data-redis</artifactId> -->
 		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -49,11 +54,11 @@
 			<artifactId>wicket-core</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-auth-roles</artifactId>
-			<version>${org.apache.wicket.version}</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.wicket</groupId> -->
+		<!-- <artifactId>wicket-auth-roles</artifactId> -->
+		<!-- <version>${org.apache.wicket.version}</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-spring</artifactId>
@@ -74,7 +79,6 @@
 			<artifactId>atomiclimes-common-helper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.atomiclimes</groupId>
 			<artifactId>atomiclimes-web-productplanning-starter</artifactId>
@@ -105,10 +109,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>io.atomiclimes</groupId> -->
+		<!-- <artifactId>atomiclimes-web-gui-starter</artifactId> -->
+		<!-- <version>0.0.1-SNAPSHOT</version> -->
+		<!-- </dependency> -->
 		<dependency>
-			<groupId>io.atomiclimes</groupId>
-			<artifactId>atomiclimes-web-gui-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.atomiclimes</groupId>
@@ -119,6 +127,21 @@
 			<groupId>io.atomiclimes</groupId>
 			<artifactId>atomiclimes-logging</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atomiclimes</groupId>
+			<artifactId>atomiclimes-data-service-framework</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atomiclimes</groupId>
+			<artifactId>atomiclimes-client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 	<build>

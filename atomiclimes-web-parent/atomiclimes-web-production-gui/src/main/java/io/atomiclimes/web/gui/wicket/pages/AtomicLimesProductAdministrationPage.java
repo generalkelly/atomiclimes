@@ -13,7 +13,6 @@ import com.giffing.wicket.spring.boot.context.scan.WicketHomePage;
 import io.atomiclimes.common.dao.entities.Product;
 import io.atomiclimes.common.dao.repositories.ProductRepository;
 
-@WicketHomePage
 @MountPath("admin/products")
 public class AtomicLimesProductAdministrationPage extends AtomicLimesItemAdministrationPage<Product> {
 

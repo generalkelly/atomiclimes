@@ -7,7 +7,8 @@ public enum AtomicLimesClientLogMessage implements AtomicLimesLogMessage {
 	FAILED_TO_CLOSE_SOCKET_LOG_MESSAGE("Failed to close socket."),
 	SENDING_HEARTBEAT_LOG_MESSAGE("Sending heartbeat for agent {} with a heartbeat waiting time of {} seconds."),
 	REGISTERED_CLIENT_LOG_MESSAGE("Registered client {} at Master."),
-	REGISTERING_CLIENT_FAILED_LOG_MESSAGE("Registration of client {} failed.");
+	REGISTERING_CLIENT_FAILED_LOG_MESSAGE("Registration of client {} failed."),
+	RECEIVED_CLIENT_NOTIFICATION_LOG_MESSAGE("Received client notification about client {}.");
 
 	private String message;
 
