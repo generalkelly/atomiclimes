@@ -1,13 +1,15 @@
-FROM opensuse/tumbleweed
+FROM nexus.atomiclimes.io/atomiclimes-baseimage
+
+ARG JAR_FILE
 
 WORKDIR /opt
 
 RUN mkdir config
 
-COPY resources/* ./
+COPY src/main/docker/resources/* ./
 
 RUN zypper --non-interactive in java-1_8_0-openjdk iputils emacs-nox curl nmap
 
-ADD /maven/${project.name}-${project.version}.jar app.jar
+ADD /target/${JAR_FILE} app.jar
 
 ENTRYPOINT ./run.sh

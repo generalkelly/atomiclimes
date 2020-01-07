@@ -44,10 +44,5 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>com.google.common</groupId>
-			<artifactId>google-collect</artifactId>
-		</dependency>
 	</dependencies>
 </project>

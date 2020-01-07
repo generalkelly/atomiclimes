@@ -29,6 +29,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
@@ -42,15 +46,21 @@
 			<artifactId>atomiclimes-data-service-framework</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- was added due to [java.lang.ClassNotFoundException: com.sun.xml.internal.bind.v2.ContextFactory] -->
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.boot</groupId> -->
-<!-- 			<artifactId>spring-boot-starter-data-redis</artifactId> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.session</groupId> -->
-<!-- 			<artifactId>spring-session-data-redis</artifactId> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.boot</groupId> -->
+		<!-- <artifactId>spring-boot-starter-data-redis</artifactId> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.session</groupId> -->
+		<!-- <artifactId>spring-session-data-redis</artifactId> -->
+		<!-- </dependency> -->
 	</dependencies>
 
 
@@ -69,20 +79,26 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<images>
-						<image>
-							<name>${project.name}:${project.version}</name>
-							<build>
-								<dockerFile>./Dockerfile</dockerFile>
-								<assembly>
-									<descriptorRef>artifact</descriptorRef>
-								</assembly>
-							</build>
-						</image>
-					</images>
+					<repository>nexus.atomiclimes.io/${project.name}</repository>
+					<tag>${project.version}</tag>
+					<tag>latest</tag>
+					<buildArgs>
+						<JAR_FILE>${project.name}-${project.version}.jar</JAR_FILE>
+					</buildArgs>
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -13,6 +13,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -32,6 +35,7 @@ import io.atomiclimes.common.dao.entities.ProductionStage;
 import io.atomiclimes.common.dao.repositories.NonProductionItemRepository;
 import io.atomiclimes.common.dao.repositories.PlannedProductionRepository;
 
+@Transactional
 public class AtomicLimesProductionPlanningCalculation {
 
 	private KieServices kieServices;
@@ -43,17 +47,18 @@ public class AtomicLimesProductionPlanningCalculation {
 	private KieContainer kieContainer;
 	private PlannedProductionRepository plannedProductionRepository;
 	private NonProductionItemRepository nonProductionItemRepository;
+	private EntityManager entityManager;
 
 	public AtomicLimesProductionPlanningCalculation() {
 
 	}
 
 	public AtomicLimesProductionPlanningCalculation(PlannedProductionRepository plannedProductionRepository,
-			NonProductionItemRepository nonProductionItemRepository) {
+			NonProductionItemRepository nonProductionItemRepository, EntityManager entityManager) {
 		this();
 		this.plannedProductionRepository = plannedProductionRepository;
 		this.nonProductionItemRepository = nonProductionItemRepository;
-
+		this.entityManager = entityManager;
 		this.kieServices = KieServices.Factory.get();
 		this.resource = ResourceFactory.newClassPathResource("Productmatrix.xls", getClass());
 		this.kieFileSystem = kieServices.newKieFileSystem().write(resource);
@@ -74,24 +79,11 @@ public class AtomicLimesProductionPlanningCalculation {
 		if (preceeding.isPresent()) {
 			preceedingPlannedNonProductiveStages = preceeding.get().getSubsequentPlannedNonproductiveStages();
 		} else {
-			preceeding = this.plannedProductionRepository
-					.findPreceedingPlannedProductionOf(addedPlannedProduction.getPlannedProductionTime());
-			if (preceeding.isPresent()) {
-				preceedingPlannedProduction = preceeding.get();
-				preceedingPlannedNonProductiveStages = preceeding.get().getSubsequentPlannedNonproductiveStages();
-			} else {
-				preceedingPlannedProduction = newEmptyPlannedProduction();
-			}
+			preceedingPlannedProduction = newEmptyPlannedProduction();
 		}
 
 		if (!subsequent.isPresent()) {
-			subsequent = this.plannedProductionRepository
-					.findSubsequentPlannedProductionOf(addedPlannedProduction.getPlannedProductionTime());
-			if (subsequent.isPresent()) {
-				subsequentPlannedProduction = subsequent.get();
-			} else {
-				subsequentPlannedProduction = newEmptyPlannedProduction();
-			}
+			subsequentPlannedProduction = newEmptyPlannedProduction();
 		}
 
 		final List<String> preceedingPlannedNonProductiveStageTypes = new LinkedList<>();
@@ -103,7 +95,6 @@ public class AtomicLimesProductionPlanningCalculation {
 		ProductionItem subsequentProductionItem = subsequentPlannedProduction.getProductionItem();
 
 		runRulesEngine(preceedingPlannedNonProductiveStageTypes, preceedingProductionItem, newProductionItem);
-
 		runRulesEngine(subsequentPlannedNonProductiveStageTypes, newProductionItem, subsequentProductionItem);
 
 		final Set<PlannedNonproductiveStage> preceedingPlannedNonProductiveStagesFromRulesEngine = extractNonProductiveStages(
@@ -130,6 +121,8 @@ public class AtomicLimesProductionPlanningCalculation {
 	public List<PlannedProduction> addItemToPlannedProduction(PlannedProduction preceedingPlannedProduction,
 			PlannedProduction addedPlannedProduction, PlannedProduction subsequentPlannedProduction,
 			List<PlannedProduction> plannedProduction) {
+
+		entityManager.persist(addedPlannedProduction);
 
 		// first add new planned production item addedPlannedProduction
 		if (plannedProduction == null) {
@@ -165,24 +158,24 @@ public class AtomicLimesProductionPlanningCalculation {
 	}
 
 	private List<PlannedProduction> sortAndFilterAlteredPlannedProductions(
-			List<PlannedProduction> plannedProductionByDateSet, OffsetDateTime lastUnchangedPlannedProduction,
+			List<PlannedProduction> plannedProductionByDateSet, OffsetDateTime lastUnchangedPlannedProductionTime,
 			List<PlannedProduction> sortedPlannedProductionList) {
 
 		Comparator<? super PlannedProduction> comparator = (plannedProduction, plannedProductionToCompareWith) -> {
 			if (plannedProduction.getPlannedProductionTime()
 					.isAfter(plannedProductionToCompareWith.getPlannedProductionTime())) {
-				return 1;
+				return -1;
 			} else if (plannedProduction.getPlannedProductionTime()
 					.isBefore(plannedProductionToCompareWith.getPlannedProductionTime())) {
-				return -1;
+				return 1;
 			} else {
 				return 0;
 			}
 		};
 		return plannedProductionByDateSet.stream().sorted(comparator).filter(p -> {
 			boolean isAfter = true;
-			if (lastUnchangedPlannedProduction != null) {
-				isAfter = p.getPlannedProductionTime().isAfter(lastUnchangedPlannedProduction);
+			if (lastUnchangedPlannedProductionTime != null) {
+				isAfter = p.getPlannedProductionTime().isAfter(lastUnchangedPlannedProductionTime);
 			}
 			if (!isAfter) {
 				sortedPlannedProductionList.add(p);
@@ -194,26 +187,17 @@ public class AtomicLimesProductionPlanningCalculation {
 	private void reorderPlannedProduction(PlannedProduction preceedingPlannedProduction,
 			PlannedProduction addedPlannedProduction, PlannedProduction subsequentPlannedProduction,
 			List<PlannedProduction> plannedProduction) {
-		addedPlannedProduction.setId(UUID.randomUUID());
-		if (preceedingPlannedProduction != null) {
-			preceedingPlannedProduction.setSubsequentPlannedProductionId(addedPlannedProduction.getId());
-			addedPlannedProduction.setPreceedingPlannedProductionId(preceedingPlannedProduction.getId());
-		}
-		if (subsequentPlannedProduction != null) {
-			subsequentPlannedProduction.setPreceedingPlannedProductionId(addedPlannedProduction.getId());
-			addedPlannedProduction.setSubsequentPlannedProductionId(subsequentPlannedProduction.getId());
-		}
 		// replace preceedingPlannedProduction und subsequentPlannedProduction in the
-		// set by the method parameters of the identical name
+		// set by the method parameters of the identical id
 		plannedProduction.stream().forEach(p -> {
 //			in case p is addedPlannedProduction the id is null, so this case has to be sorted out
-			if (p.getId() != null) {
-				if ((preceedingPlannedProduction != null) && (p.getId().equals(preceedingPlannedProduction.getId()))) {
-					p = preceedingPlannedProduction;
-				} else if ((subsequentPlannedProduction != null)
-						&& (p.getId().equals(subsequentPlannedProduction.getId()))) {
-					p = subsequentPlannedProduction;
-				}
+			if ((preceedingPlannedProduction != null) && (p.getId().equals(preceedingPlannedProduction.getId()))) {
+				p.setSubsequentPlannedProductionId(addedPlannedProduction.getId());
+				addedPlannedProduction.setPreceedingPlannedProductionId(preceedingPlannedProduction.getId());
+			} else if ((subsequentPlannedProduction != null)
+					&& (p.getId().equals(subsequentPlannedProduction.getId()))) {
+				p.setPreceedingPlannedProductionId(addedPlannedProduction.getId());
+				addedPlannedProduction.setSubsequentPlannedProductionId(subsequentPlannedProduction.getId());
 			}
 		});
 	}
@@ -226,6 +210,7 @@ public class AtomicLimesProductionPlanningCalculation {
 			PlannedProduction p = idToPlannedProductionMap.get(id);
 			OffsetDateTime plannedProductionTime = p.getPlannedProductionTime();
 			Duration processDuration = p.getEstimatedProductionDuration();
+//			TODO: add warning if no packaging order zero exists
 			OffsetDateTime endOfProcess = plannedProductionTime.plus(processDuration);
 			for (PlannedNonproductiveStage nonProductiveStage : p.getSubsequentPlannedNonproductiveStages()) {
 				nonProductiveStage.setPlannedProductionTime(endOfProcess);

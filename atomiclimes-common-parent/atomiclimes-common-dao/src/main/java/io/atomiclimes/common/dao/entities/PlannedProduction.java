@@ -8,25 +8,24 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.SequenceGenerators;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -35,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import io.atomiclimes.common.dao.entities.converters.UUIDConverter;
 import io.atomiclimes.common.dao.entities.json.JSONDurationToLongConverter;
 import io.atomiclimes.common.dao.entities.json.JSONLocalDateToStringConverter;
 import io.atomiclimes.common.dao.entities.json.JSONOffsetDateTimeToStringConverter;
@@ -46,6 +46,7 @@ import io.atomiclimes.common.helper.serializer.DurationSerializer;
 
 @Entity
 @Table(name = "Planned_Productions")
+@Transactional
 public class PlannedProduction implements Serializable, ProductionStage {
 
 	/**
@@ -54,9 +55,14 @@ public class PlannedProduction implements Serializable, ProductionStage {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
+	@GenericGenerator(name = "plannedProductionId", strategy = "io.atomiclimes.common.dao.generators.AtomicLimesUUIDGenerator")
+	@GeneratedValue(generator = "plannedProductionId")
+	@Type(type = "uuid-char")
 	@Column(name = "id")
 	private UUID id;
+
+	@Version
+	private Integer version;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productionItemId")
@@ -67,12 +73,10 @@ public class PlannedProduction implements Serializable, ProductionStage {
 
 	@CreationTimestamp
 	@Column(name = "creationTimestamp")
-	@JsonIgnore
 	private OffsetDateTime creationTimestamp;
 
 	@UpdateTimestamp
 	@Column(name = "updateTimestamp")
-	@JsonIgnore
 	private OffsetDateTime updateTimestamp;
 
 	@DateTimeFormat(iso = ISO.DATE)
@@ -98,9 +102,11 @@ public class PlannedProduction implements Serializable, ProductionStage {
 	private Duration estimatedProductionDuration = null;
 
 	@Column(name = "preceedingPlannedProductionId")
+	@Type(type = "uuid-char")
 	private UUID preceedingPlannedProductionId;
 
 	@Column(name = "subsequentPlannedProductionId")
+	@Type(type = "uuid-char")
 	private UUID subsequentPlannedProductionId;
 
 	@Enumerated(EnumType.STRING)

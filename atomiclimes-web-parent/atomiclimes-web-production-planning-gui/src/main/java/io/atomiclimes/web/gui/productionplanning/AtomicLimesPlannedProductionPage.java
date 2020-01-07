@@ -6,11 +6,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.TextRequestHandler;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-//import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -52,7 +50,7 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 	private AtomicLimesProductionPlanningCalculation productionPlanningCalculation;
 
 	public AtomicLimesPlannedProductionPage() {
-		BootstrapModalAjaxBehaviour plannedProductionToCalculate = new BootstrapModalAjaxBehaviour("calculate",
+		BootstrapModalAjaxBehaviour calculate = new BootstrapModalAjaxBehaviour("calculate",
 				"preceedingPlannedProduction", "addedPlannedProduction", "subsequentPlannedProduction",
 				"plannedProduction") {
 			private static final long serialVersionUID = 1L;
@@ -101,10 +99,30 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 
 			@Override
 			protected void respond(AjaxRequestTarget target) {
+
+				RequestCycle requestCycle = RequestCycle.get();
+
 				List<PlannedProduction> plannedProduction = getParameterValue("plannedProduction",
 						new TypeReference<List<PlannedProduction>>() {
 						});
-				plannedProductionRepository.saveAll(plannedProduction);
+//				plannedProductionRepository.saveAll(plannedProduction);
+				plannedProduction.stream().forEach(p -> {
+					Optional<PlannedProduction> optPlannedProductionFromDb = plannedProductionRepository
+							.findById(p.getId());
+					if (optPlannedProductionFromDb.isPresent()) {
+						PlannedProduction pFromDb = optPlannedProductionFromDb.get();
+						System.out.println("Id found in db: " + pFromDb.getId());
+						System.out.println("subsequentPlannedProductionId: " + p.getSubsequentPlannedProductionId());
+						pFromDb.setSubsequentPlannedProductionId(p.getSubsequentPlannedProductionId());
+						plannedProductionRepository.save(pFromDb);
+					} else {
+						System.out.println("Id to save: " + p.getId());
+						plannedProductionRepository.save(p);
+					}
+				});
+
+				requestCycle.scheduleRequestHandlerAfterCurrent(
+						new TextRequestHandler(RESPONSE_TYPE, RESPONSE_ENCODING, new JSONObject().toString()));
 			}
 
 		};
@@ -165,7 +183,7 @@ public class AtomicLimesPlannedProductionPage extends AtomicLimesDefaultWebPage 
 
 		};
 
-		this.add(plannedProductionToCalculate);
+		this.add(calculate);
 		this.add(getProductionPlanningByDate);
 		this.add(getProductionItems);
 		this.add(saveOrUpdateProductionPlanning);

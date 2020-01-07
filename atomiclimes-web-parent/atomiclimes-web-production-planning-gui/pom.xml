@@ -10,6 +10,12 @@
 	<artifactId>atomiclimes-web-production-planning-gui</artifactId>
 	<name>atomiclimes-web-production-planning-gui</name>
 	<dependencies>
+		<!-- was added due to [java.lang.ClassNotFoundException: com.sun.xml.internal.bind.v2.ContextFactory] -->
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -158,45 +164,28 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.26.0</version>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<images>
-						<image>
-							<name>${project.name}:${project.version}</name>
-							<build>
-								<dockerFile>./Dockerfile</dockerFile>
-								<assembly>
-									<descriptorRef>artifact</descriptorRef>
-								</assembly>
-							</build>
-						</image>
-					</images>
+					<repository>nexus.atomiclimes.io/${project.name}</repository>
+					<tag>${project.version}</tag>
+					<tag>latest</tag>
+					<buildArgs>
+						<JAR_FILE>${project.name}-${project.version}.jar</JAR_FILE>
+					</buildArgs>
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 				</configuration>
 			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>org.codehaus.mojo</groupId> -->
-			<!-- <artifactId>exec-maven-plugin</artifactId> -->
-			<!-- <version>1.6.0</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>exec-npm-install</id> -->
-			<!-- <phase>generate-sources</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>exec</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <executable>npm</executable> -->
-			<!-- <arguments> -->
-			<!-- <argument>run</argument> -->
-			<!-- <argument>build</argument> -->
-			<!-- </arguments> -->
-			<!-- <workingDirectory>${basedir}/src/main/resources/static/js/atomiclimesProductionPlanning</workingDirectory> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
 		</plugins>
 	</build>
 </project>

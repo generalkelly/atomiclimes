@@ -94,7 +94,7 @@ public abstract class BootstrapModalAjaxBehaviour extends AbstractDefaultAjaxBeh
 			try {
 				parameterValue = objectMapper.readValue(jsonString, typeReference);
 			} catch (IOException e) {
-				LOG.debug(AtomicLimesGuiLogMessages.FAILED_TO_DESERIALIZE_JSON, e, jsonString);
+				LOG.error(AtomicLimesGuiLogMessages.FAILED_TO_DESERIALIZE_JSON, e, jsonString);
 			}
 		}
 		return parameterValue;

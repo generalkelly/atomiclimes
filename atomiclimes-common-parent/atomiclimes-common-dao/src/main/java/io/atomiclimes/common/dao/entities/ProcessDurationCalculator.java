@@ -15,12 +15,11 @@ public class ProcessDurationCalculator {
 		for (Packaging p : packagingList) {
 			if (p.getPackagingOrder() == 0) {
 				packaging = p;
+				Duration processDuration = calculateDuration(quantity, productionUnit, packaging);
+				plannedProduction.setEstimatedProductionDuration(processDuration);
 				break;
 			}
 		}
-		Duration processDuration = calculateDuration(quantity, productionUnit, packaging);
-		
-		plannedProduction.setEstimatedProductionDuration(processDuration);
 	}
 
 	private Duration calculateDuration(double quantity, PackagingUnit productionUnit, Packaging packaging) {

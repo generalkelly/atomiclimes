@@ -14,6 +14,7 @@
 		<module>atomiclimes-security-server</module>
 		<module>atomiclimes-web-parent</module>
 		<module>atomiclimes-data</module>
+		<module>atomiclimes-calculation</module>
 	</modules>
 
 	<properties>
@@ -22,7 +23,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
-		<spring-cloud-security.version>2.1.0.RELEASE</spring-cloud-security.version>
+		<spring-cloud-security.version>2.2.0.RELEASE</spring-cloud-security.version>
 		<org.thymeleaf.version>3.0.11.RELEASE</org.thymeleaf.version>
 		<org.thymeleaf.extras.version>3.0.2.RELEASE</org.thymeleaf.extras.version>
 		<org.openl.version>5.22.1</org.openl.version>
@@ -175,7 +176,7 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus</id>
-			<url>https://nexus.mpohland.de/repository/custom-build/</url>
+			<url>https://nexus.atomiclimes.io/repository/custom-build/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
