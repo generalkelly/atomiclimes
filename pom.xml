@@ -14,7 +14,6 @@
 		<module>atomiclimes-security-server</module>
 		<module>atomiclimes-web-parent</module>
 		<module>atomiclimes-data</module>
-		<module>atomiclimes-calculation</module>
 	</modules>
 
 	<properties>
@@ -30,6 +29,8 @@
 		<org.mockito.version>2.27.0</org.mockito.version>
 		<com.h2database.version>1.4.199</com.h2database.version>
 		<org.apache.wicket.version>8.4.0</org.apache.wicket.version>
+	<!-- Encoding format -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>

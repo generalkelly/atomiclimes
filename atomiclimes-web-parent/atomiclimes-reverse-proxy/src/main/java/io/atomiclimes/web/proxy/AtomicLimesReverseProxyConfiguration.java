@@ -21,7 +21,7 @@ public class AtomicLimesReverseProxyConfiguration extends WebSecurityConfigurerA
 
 	@Override
 	public void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login**").permitAll().antMatchers("/clientNotification/**").permitAll()
+		http.authorizeRequests().antMatchers("/login/**").permitAll().antMatchers("/authserver/**").permitAll().antMatchers("/clientNotification/**").permitAll()
 				.antMatchers("/**").authenticated().and().formLogin().disable().logout().logoutSuccessUrl("/")
 				.permitAll().and().csrf().disable();
 
