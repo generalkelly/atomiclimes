@@ -1,10 +1,19 @@
 package io.atomiclimes.common.logic;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,6 +57,8 @@ public class AtomicLimesProductionPlanningCalculationTest {
 	private ProductRepository productRepository;
 	@Autowired
 	private PackagingRepository packagingRepository;
+	@Autowired
+	private EntityManager entityManager;
 
 	private PlannedProduction preceedingPlannedProduction;
 	private PlannedProduction newPlannedProduction;
@@ -56,10 +67,12 @@ public class AtomicLimesProductionPlanningCalculationTest {
 
 	private PlannedProduction nextPlannedProductionOnUpcommingDays;
 
+	private LinkedList<PlannedProduction> plannedProductionList;
+
 	@Before
 	public void setup() {
 		calculation = new AtomicLimesProductionPlanningCalculation(plannedProductionRepository,
-				nonProductionItemRepository);
+				nonProductionItemRepository, entityManager);
 		NonProductionItem foo = new NonProductionItem();
 		foo.setName("FOO");
 		foo.setDuration(Duration.ofMinutes(30));
@@ -80,6 +93,7 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		lastPlannedProductionOfPreviousDays.setProductionItem(barItem);
 		lastPlannedProductionOfPreviousDays.setQuantity(10);
 		lastPlannedProductionOfPreviousDays.setUnit(PackagingUnit.HECTO_LITERS);
+		lastPlannedProductionOfPreviousDays.setId(UUID.randomUUID());
 		Set<PlannedNonproductiveStage> subsequentPlannedNonproductiveStages = new HashSet<>();
 		PlannedNonproductiveStage nonProductiveStageFoo = new PlannedNonproductiveStage();
 		nonProductiveStageFoo.setPlannedProductionTime(OffsetDateTime.now().minusDays(1).plusMinutes(10));
@@ -98,30 +112,41 @@ public class AtomicLimesProductionPlanningCalculationTest {
 		nextPlannedProductionOnUpcommingDays.setProductionItem(fooItem);
 		nextPlannedProductionOnUpcommingDays.setQuantity(10);
 		nextPlannedProductionOnUpcommingDays.setUnit(PackagingUnit.HECTO_LITERS);
+		nextPlannedProductionOnUpcommingDays.setId(UUID.randomUUID());
 		nextPlannedProductionOnUpcommingDays
 				.setSubsequentPlannedNonproductiveStages(subsequentPlannedNonproductiveStages);
 		plannedProductionRepository.save(nextPlannedProductionOnUpcommingDays);
 
 		preceedingPlannedProduction = new PlannedProduction();
+		preceedingPlannedProduction.setPlannedProductionDate(LocalDate.now());
 		preceedingPlannedProduction.setPlannedProductionTime(OffsetDateTime.now().plusMinutes(10));
 		preceedingPlannedProduction.setProductionItem(fooItem);
 		preceedingPlannedProduction.setQuantity(10);
 		preceedingPlannedProduction.setUnit(PackagingUnit.HECTO_LITERS);
+		preceedingPlannedProduction.setId(UUID.randomUUID());
 		plannedProductionRepository.save(preceedingPlannedProduction);
 
 		newPlannedProduction = new PlannedProduction();
+		newPlannedProduction.setPlannedProductionDate(LocalDate.now());
 		newPlannedProduction.setPlannedProductionTime(OffsetDateTime.now().plusMinutes(20));
 		newPlannedProduction.setProductionItem(barItem);
 		newPlannedProduction.setQuantity(10);
 		newPlannedProduction.setUnit(PackagingUnit.HECTO_LITERS);
+		newPlannedProduction.setId(UUID.randomUUID());
 		plannedProductionRepository.save(newPlannedProduction);
 
 		subsequentPlannedProduction = new PlannedProduction();
+		subsequentPlannedProduction.setPlannedProductionDate(LocalDate.now());
 		subsequentPlannedProduction.setPlannedProductionTime(OffsetDateTime.now().plusMinutes(30));
 		subsequentPlannedProduction.setProductionItem(bazItem);
 		subsequentPlannedProduction.setQuantity(10);
 		subsequentPlannedProduction.setUnit(PackagingUnit.HECTO_LITERS);
+		subsequentPlannedProduction.setId(UUID.randomUUID());
 		plannedProductionRepository.save(subsequentPlannedProduction);
+
+		plannedProductionList = new LinkedList<>();
+		plannedProductionList.add(preceedingPlannedProduction);
+		plannedProductionList.add(subsequentPlannedProduction);
 	}
 
 	private ProductionItem createProductionItem(String name) {
@@ -177,5 +202,73 @@ public class AtomicLimesProductionPlanningCalculationTest {
 				nextPlannedProductionOnUpcommingDays, null);
 		Assert.assertEquals(false, productionStages.isEmpty());
 	}
+
+	@Test
+	public void testPrivateSortAndFilterAlteredPlannedProductions() throws NoSuchMethodException, SecurityException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		List<PlannedProduction> sortedPlannedProductionList = new LinkedList<>();
+		Optional<Set<PlannedProduction>> plannedProduction = plannedProductionRepository
+				.findPlannedProductionByDate(LocalDate.now());
+		LinkedList<PlannedProduction> plannedProductionList = new LinkedList<>();
+		plannedProductionList.addAll(plannedProduction.get());
+		Method sortAndFilterAlteredPlannedProductions = AtomicLimesProductionPlanningCalculation.class
+				.getDeclaredMethod("sortAndFilterAlteredPlannedProductions", List.class, OffsetDateTime.class,
+						List.class);
+		sortAndFilterAlteredPlannedProductions.setAccessible(true);
+		sortAndFilterAlteredPlannedProductions.invoke(calculation, plannedProductionList,
+				newPlannedProduction.getPlannedProductionTime(), sortedPlannedProductionList);
+
+		Assert.assertEquals(2, sortedPlannedProductionList.size());
+	}
+
+	@Test
+	public void testPrivateUnorderedSortAndFilterAlteredPlannedProductions() throws NoSuchMethodException,
+			SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		List<PlannedProduction> sortedPlannedProductionList = new LinkedList<>();
+		Optional<Set<PlannedProduction>> plannedProduction = plannedProductionRepository
+				.findPlannedProductionByDate(LocalDate.now());
+		LinkedList<PlannedProduction> plannedProductionList = new LinkedList<>();
+		plannedProductionList.addAll(plannedProduction.get());
+		Collections.reverse(plannedProductionList);
+		Method sortAndFilterAlteredPlannedProductions = AtomicLimesProductionPlanningCalculation.class
+				.getDeclaredMethod("sortAndFilterAlteredPlannedProductions", List.class, OffsetDateTime.class,
+						List.class);
+		sortAndFilterAlteredPlannedProductions.setAccessible(true);
+		sortAndFilterAlteredPlannedProductions.invoke(calculation, plannedProductionList,
+				newPlannedProduction.getPlannedProductionTime(), sortedPlannedProductionList);
+
+		Assert.assertEquals(2, sortedPlannedProductionList.size());
+	}
+
+	@Test
+	public void testPrivateSortWWithEqualTimesAndFilterAlteredPlannedProductions() throws NoSuchMethodException,
+			SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		List<PlannedProduction> sortedPlannedProductionList = new LinkedList<>();
+		Optional<Set<PlannedProduction>> plannedProduction = plannedProductionRepository
+				.findPlannedProductionByDate(LocalDate.now());
+		LinkedList<PlannedProduction> plannedProductionList = new LinkedList<>();
+		plannedProductionList.addAll(plannedProduction.get());
+		plannedProductionList.add(plannedProductionList.get(plannedProductionList.size() - 1));
+		Method sortAndFilterAlteredPlannedProductions = AtomicLimesProductionPlanningCalculation.class
+				.getDeclaredMethod("sortAndFilterAlteredPlannedProductions", List.class, OffsetDateTime.class,
+						List.class);
+		sortAndFilterAlteredPlannedProductions.setAccessible(true);
+		sortAndFilterAlteredPlannedProductions.invoke(calculation, plannedProductionList,
+				newPlannedProduction.getPlannedProductionTime(), sortedPlannedProductionList);
+
+		Assert.assertEquals(2, sortedPlannedProductionList.size());
+	}
+
+	@Test
+	public void testAddItemToPlannedProduction() throws NoSuchMethodException, SecurityException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		List<PlannedProduction> plannedProduction = calculation.addItemToPlannedProduction(preceedingPlannedProduction,
+				newPlannedProduction, subsequentPlannedProduction, plannedProductionList);
+
+		Assert.assertEquals(3, plannedProductionList.size());
+	}
+	
+
 
 }

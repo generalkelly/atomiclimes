@@ -1,9 +1,5 @@
 package io.atomiclimes.web.gui.productionplanning;
 
-import java.net.URL;
-import java.util.Collection;
-import java.util.regex.Pattern;
-
 import org.apache.commons.codec.CharEncoding;
 import org.apache.wicket.markup.head.ResourceAggregator;
 import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
@@ -14,10 +10,6 @@ import com.giffing.wicket.spring.boot.context.extensions.ApplicationInitExtensio
 import com.giffing.wicket.spring.boot.context.extensions.WicketApplicationInitConfiguration;
 
 import de.agilecoders.wicket.webjars.WicketWebjars;
-import de.agilecoders.wicket.webjars.collectors.AssetPathCollector;
-import de.agilecoders.wicket.webjars.collectors.ClasspathAssetPathCollector;
-import de.agilecoders.wicket.webjars.settings.IWebjarsSettings;
-import de.agilecoders.wicket.webjars.settings.WebjarsSettings;
 
 @ApplicationInitExtension
 public class AtomicLimesGuiInitConfiguration implements WicketApplicationInitConfiguration {

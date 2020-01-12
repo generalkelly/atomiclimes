@@ -44,11 +44,6 @@
 			<artifactId>atomiclimes-common-helper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- atomiclimes webjars -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>io.atomiclimes</groupId>
 			<artifactId>atomiclimes-logging</artifactId>
@@ -60,14 +55,14 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.boot</groupId> -->
-<!-- 			<artifactId>spring-boot-starter-data-redis</artifactId> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.session</groupId> -->
-<!-- 			<artifactId>spring-session-data-redis</artifactId> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.boot</groupId> -->
+		<!-- <artifactId>spring-boot-starter-data-redis</artifactId> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework.session</groupId> -->
+		<!-- <artifactId>spring-session-data-redis</artifactId> -->
+		<!-- </dependency> -->
 	</dependencies>
 	<build>
 		<plugins>
@@ -84,44 +79,28 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<images>
-						<image>
-							<name>${project.name}:${project.version}</name>
-							<build>
-								<dockerFile>./Dockerfile</dockerFile>
-								<assembly>
-									<descriptorRef>artifact</descriptorRef>
-								</assembly>
-							</build>
-						</image>
-					</images>
+					<repository>nexus.atomiclimes.io/${project.name}</repository>
+					<tag>${project.version}</tag>
+					<tag>latest</tag>
+					<buildArgs>
+						<JAR_FILE>${project.name}-${project.version}.jar</JAR_FILE>
+					</buildArgs>
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 				</configuration>
 			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>org.codehaus.mojo</groupId> -->
-			<!-- <artifactId>exec-maven-plugin</artifactId> -->
-			<!-- <version>1.6.0</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>exec-npm-install</id> -->
-			<!-- <phase>generate-sources</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>exec</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <executable>npm</executable> -->
-			<!-- <arguments> -->
-			<!-- <argument>run</argument> -->
-			<!-- <argument>build</argument> -->
-			<!-- </arguments> -->
-			<!-- <workingDirectory>${basedir}/src/main/resources/static/js/atomiclimesProductionPlanning</workingDirectory> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
 		</plugins>
 	</build>
 </project>

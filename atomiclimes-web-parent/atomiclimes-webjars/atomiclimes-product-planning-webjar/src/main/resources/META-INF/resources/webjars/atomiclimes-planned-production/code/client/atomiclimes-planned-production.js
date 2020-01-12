@@ -5,7 +5,12 @@ import feather from 'feather-icons'
 import AtomicLimesTimePlanner from './atomiclimes-time-planner.js'
 import AtomicLimesCalendarModal from './modals/atomiclimes-calendar-modal.js'
 import AtomicLimesEventListenerHolder from './atomiclimes-eventlistenerholder.js'
+import AtomicLimesEvent from './atomiclimes-event.js'
 import AtomicLimesOffsetDateTime from './atomiclimes-offset-date-time.js'
+import AtomicLimesButton, {
+  CancelButton,
+  CheckButton
+} from './atomiclimes-buttons.js'
 
 export default class AtomicLimesPlannedProduction {
   constructor(node) {
@@ -47,16 +52,45 @@ export default class AtomicLimesPlannedProduction {
 
     self.plannedProductionContainer = $('<div class="plannedProductionContentContainer"></div>')
     var menuFooter = $('<div class="menuFooter atomicLimesMenuBar"></div>')
-    var cancelButton = $('<div class = "cancelButton"></div>')
-    cancelButton.append('<canvas></canvas>')
-    cancelButton.append(feather.icons['x'].toSvg())
+    // var cancelButton = $('<div class = "cancelButton"></div>')
+    // cancelButton.append('<canvas></canvas>')
+    // cancelButton.append(feather.icons['x'].toSvg())
+    var cancelButton = new CancelButton()
 
-    var saveButton = $('<div class = "saveButton"></div>')
-    saveButton.append('<canvas></canvas>')
-    saveButton.append(feather.icons['check'].toSvg())
+    // var saveButton = $('<div class = "saveButton"></div>')
+    // saveButton.append('<canvas></canvas>')
+    // saveButton.append(feather.icons['check'].toSvg())
 
-    menuFooter.append(cancelButton)
-    menuFooter.append(saveButton)
+    var saveButton = new CheckButton()
+
+    menuFooter.append(cancelButton.node)
+    cancelButton.hide()
+    menuFooter.append(saveButton.node)
+    saveButton.hide()
+
+    AtomicLimesEventListenerHolder.addEventListener('changedPlannedProductionEvent', function(event) {
+      self.plannedProductionOnDisplay = event.detail.plannedProduction
+      cancelButton.show()
+      saveButton.show()
+    })
+
+    AtomicLimesEventListenerHolder.addEventListener('acknowledgedPlannedProductionEvent', function(event) {
+      cancelButton.hide()
+      saveButton.hide()
+    })
+
+    cancelButton.click(function() {
+      var acknowledgedPlannedProductionEvent = new AtomicLimesEvent('acknowledgedPlannedProductionEvent', {})
+      acknowledgedPlannedProductionEvent.dispatch()
+    })
+
+    saveButton.click(function() {
+      var acknowledgedPlannedProductionEvent = new AtomicLimesEvent('acknowledgedPlannedProductionEvent', {})
+      acknowledgedPlannedProductionEvent.dispatch()
+      if (window.saveOrUpdateProductionPlanning) {
+        window.saveOrUpdateProductionPlanning(JSON.stringify(self.plannedProductionOnDisplay))
+      }
+    })
 
     this.container.append(header)
     this.container.append(self.plannedProductionContainer)

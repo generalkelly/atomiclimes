@@ -4,7 +4,7 @@ window.AtomicLimes = {
       return new Promise(function(resolve, reject) {
         $.ajax({
           url: attrs.u,
-          type: 'GET',
+          type: 'POST',
           cache: false,
           data: attrs,
           dataType: 'json',

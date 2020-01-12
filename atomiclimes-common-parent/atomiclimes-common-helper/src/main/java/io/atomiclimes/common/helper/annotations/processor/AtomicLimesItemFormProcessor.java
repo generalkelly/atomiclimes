@@ -1,6 +1,7 @@
 package io.atomiclimes.common.helper.annotations.processor;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -108,8 +109,9 @@ public class AtomicLimesItemFormProcessor<I> {
 		AtomicLimesConverter<?> converter = null;
 		if (!formFieldAnnotation.using().equals(AtomicLimesConverter.None.class)) {
 			try {
-				converter = formFieldAnnotation.using().newInstance();
-			} catch (InstantiationException | IllegalAccessException e) {
+				converter = formFieldAnnotation.using().getDeclaredConstructor().newInstance();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				throw new AtomicLimesItemFormProcessingException("Could not create an instance of Deserializer");
 			}
 		}

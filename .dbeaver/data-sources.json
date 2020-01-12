@@ -1,23 +1,18 @@
 {
 	"folders": {},
 	"connections": {
-		"mysql8-16e85688574-ef303ae147fcaff": {
+		"mysql8-16b64799de6-399ed3482337268d": {
 			"provider": "mysql",
 			"driver": "mysql8",
-			"name": "MySQL 8+ - test",
+			"name": "MySQL 8+ - localhost",
 			"save-password": true,
 			"read-only": false,
 			"configuration": {
 				"host": "localhost",
 				"port": "3306",
-				"database": "test",
-				"url": "jdbc:mysql://localhost:3306/test",
+				"url": "jdbc:mysql://localhost:3306/",
 				"home": "/usr",
-				"type": "dev",
-				"properties": {
-					"connectTimeout": "20000",
-					"allowPublicKeyRetrieval": "TRUE"
-				}
+				"type": "dev"
 			}
 		}
 	},

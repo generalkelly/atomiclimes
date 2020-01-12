@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.atomiclimes.common.dao.entities.json.JSONDurationToLongConverter;
 import io.atomiclimes.common.dao.entities.json.JSONLongToDurationConverter;
+import io.atomiclimes.common.dao.entities.json.JSONPackagingUnitToStringConverter;
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemForm;
 import io.atomiclimes.common.helper.annotations.AtomicLimesItemFormField;
 import io.atomiclimes.common.helper.enums.AtomicLimesFormInputType;
@@ -48,6 +49,8 @@ public class Packaging implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "unit")
 	@AtomicLimesItemFormField(fieldName = "Unit", using = AtomicLimesUnitConverter.class, fieldType = AtomicLimesFormInputType.DROPDOWN_CHOICE)
+	@JsonSerialize(converter = JSONPackagingUnitToStringConverter.class)
+	@JsonDeserialize(converter = JSONStringToPackagingUnitConverter.class)
 	private PackagingUnit unit;
 
 	@Column(name = "duration")
