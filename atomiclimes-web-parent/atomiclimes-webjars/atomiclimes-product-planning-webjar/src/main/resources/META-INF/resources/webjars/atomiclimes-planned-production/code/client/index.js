@@ -1,12 +1,12 @@
 import $ from 'jquery'
-import 'popper.js'
+// import 'popper.js'
 import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 import './main.css'
 import limesLogo from './atomiclimes.svg'
 import AtomicLimesPlannedProduction from './atomiclimes-planned-production'
 import './atomiclimes-ajax'
-import 'animate.css/animate.min.css'
+// import 'animate.css/animate.min.css'
 
 
 $(window).on('load', function() {
