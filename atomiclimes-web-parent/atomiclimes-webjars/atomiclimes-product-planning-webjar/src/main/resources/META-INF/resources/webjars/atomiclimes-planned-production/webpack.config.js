@@ -6,11 +6,11 @@ const outputDirectory = '0.1/src';
 
 module.exports = {
   entry: {
-    AtomiclimesProductionPlanning: ['babel-polyfill', './code/client/index.js']
+    AtomiclimesProductionPlanning: ['./code/client/index.js']
   },
   output: {
     path: path.join(__dirname, outputDirectory),
-    filename: '[name].js'
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [{
@@ -30,6 +30,10 @@ module.exports = {
       }
     ]
   },
+  externals: {
+    jquery: 'jQuery',
+    bootstrap: 'bootstrap'
+  },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
@@ -44,6 +48,6 @@ module.exports = {
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
       template: './public/index.html'
-    })
+    }),
   ]
 }
